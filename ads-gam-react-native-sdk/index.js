@@ -2354,8 +2354,6 @@ const HopprAdWrapper = ({
       setAdSize(adSizes);
     } else if (Array.isArray(adSizes === null || adSizes === void 0 ? void 0 : adSizes.sizes)) {
       setAdSize(adSizes === null || adSizes === void 0 ? void 0 : adSizes.sizes);
-    } else {
-      console.debug('Ad size not received', data.nativeEvent.data);
     }
   };
   const targetPropertiesStringified = targetProperties ? `${JSON.stringify(targetProperties)}` : '{}';
