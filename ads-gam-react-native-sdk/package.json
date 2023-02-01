@@ -15,8 +15,12 @@
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2",
+    "@hoppr/analyticsSdk": "0.0.1",
     "@hoppr/hopprSdkCommon": "0.0.1",
-    "react": "18.2.0"
+    "react": "18.2.0",
+    "react-native-get-random-values": "1.8.0",
+    "@hoppr/servicesClient": "0.0.1",
+    "react-native-webview": "11.26.0"
   },
   "module": "./index.js",
   "type": "module",
