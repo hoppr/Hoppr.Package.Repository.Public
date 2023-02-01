@@ -15,6 +15,7 @@ export declare enum HopprInternalEvents {
     HopprInternalGptResponseReceived = "HopprInternalGptResponseReceived",
     HopprInternalGptVisibilityChange = "HopprInternalGptVisibilityChange",
     HopprInternalDisplayBanner = "HopprInternalDisplayBanner",
+    HopprInternalConstructorBanner = "HopprInternalConstructorBanner",
     HopprInternalImaPlay = "HopprInternalImaPlay",
     HopprInternalImaInit = "HopprInternalImaInit",
     HopprInternalImaManuallyClose = "HopprInternalImaManuallyClose",
@@ -38,7 +39,9 @@ export declare enum HopprInternalEvents {
     HopprInternalImaSkippableStateChanged = "HopprInternalImaSkippableStateChanged",
     HopprInternalImaUserClose = "HopprInternalImaUserClose",
     HopprInternalImaAdsManagerLoaded = "HopprInternalImaAdsManagerLoaded",
-    HopprInternalImaUnknownError = "HopprInternalImaUnknownError"
+    HopprInternalImaUnknownError = "HopprInternalImaUnknownError",
+    HopprInternalDeeplinkClicked = "HopprInternalDeeplinkClicked",
+    HopprInternalDeeplinkError = "HopprInternalDeeplinkError"
 }
 export declare enum ScreenTypes {
     Home = "Home",

@@ -42,4 +42,4 @@
 // }
 // export type HopprAnalyticsDetails = Record<string, any> &
 //   Partial<IAnalyticsDetails>;
-//# sourceMappingURL=eventPayloadDetails.js.map
+//# sourceMappingURL=EventPayloadDetails.js.map

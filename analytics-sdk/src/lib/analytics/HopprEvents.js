@@ -22,6 +22,7 @@ var HopprInternalEvents;
     HopprInternalEvents["HopprInternalGptResponseReceived"] = "HopprInternalGptResponseReceived";
     HopprInternalEvents["HopprInternalGptVisibilityChange"] = "HopprInternalGptVisibilityChange";
     HopprInternalEvents["HopprInternalDisplayBanner"] = "HopprInternalDisplayBanner";
+    HopprInternalEvents["HopprInternalConstructorBanner"] = "HopprInternalConstructorBanner";
     HopprInternalEvents["HopprInternalImaPlay"] = "HopprInternalImaPlay";
     HopprInternalEvents["HopprInternalImaInit"] = "HopprInternalImaInit";
     HopprInternalEvents["HopprInternalImaManuallyClose"] = "HopprInternalImaManuallyClose";
@@ -46,6 +47,8 @@ var HopprInternalEvents;
     HopprInternalEvents["HopprInternalImaUserClose"] = "HopprInternalImaUserClose";
     HopprInternalEvents["HopprInternalImaAdsManagerLoaded"] = "HopprInternalImaAdsManagerLoaded";
     HopprInternalEvents["HopprInternalImaUnknownError"] = "HopprInternalImaUnknownError";
+    HopprInternalEvents["HopprInternalDeeplinkClicked"] = "HopprInternalDeeplinkClicked";
+    HopprInternalEvents["HopprInternalDeeplinkError"] = "HopprInternalDeeplinkError";
 })(HopprInternalEvents = exports.HopprInternalEvents || (exports.HopprInternalEvents = {}));
 var ScreenTypes;
 (function (ScreenTypes) {
