@@ -2076,7 +2076,111 @@ var InteractiveBehavior;
   InteractiveBehavior["Deeplink"] = "Deeplink";
 })(InteractiveBehavior || (InteractiveBehavior = {}));
 
-const HOPPR_AD_TEMPLATE = require('./assets/template2').default;
+const stringTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <base href="/" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+
+  <script type="text/javascript">
+    var adUnit = '%AD_UNIT_ID%';
+    var adSize = "%AD_SIZES%";
+    var kvPairs = "%TARGETING_PROPERTIES%";
+    var ppid = '%USER_ID%';
+
+    window.googletag = window.googletag || { cmd: [] };
+    googletag.cmd.push(function () {
+      //googletag.pubads().setCentering(true);
+      googletag.pubads().enableSingleRequest();
+      googletag.pubads().setPublisherProvidedId(ppid);
+
+      var eventId = Date.now() + Math.random();
+
+      listenToGptEvent(eventId, googletag, 'impressionViewable');
+      listenToGptEvent(eventId, googletag, 'slotOnload');
+      listenToGptEvent(eventId, googletag, 'slotRenderEnded');
+      listenToGptEvent(eventId, googletag, 'slotRequested');
+      listenToGptEvent(eventId, googletag, 'slotResponseReceived');
+      listenToGptEvent(eventId, googletag, 'slotVisibilityChanged');
+
+      var adObj = googletag.defineSlot(adUnit, adSize, "hoppr-div");
+
+      if (kvPairs) {
+        Object.keys(kvPairs).forEach(function (key) {
+          adObj.setTargeting(key, kvPairs[key]);
+        });
+      }
+
+      adObj.addService(googletag.pubads());
+
+      googletag.enableServices();
+    });
+
+    function listenToGptEvent(eventId, googletag, name) {
+      googletag.pubads().addEventListener(name, function (event) {
+        //sendGptEvent(eventId, "GPT_" + name, event)
+        console.log(name, event);
+        console.log('stringify', JSON.stringify(event));
+
+        if (
+          window.ReactNativeWebView &&
+          window.ReactNativeWebView.postMessage
+        ) {
+          var responseInfo = event.slot.getResponseInformation();
+          var adPath = event.slot.getAdUnitPath();
+          var targeting = {};
+
+          event.slot.getTargetingKeys().forEach((key) => {
+            //targeting.set(key, event.slot.getTargeting(key));
+            targeting[key] = event.slot.getTargeting(key);
+          });
+
+          const message = {
+            type: 'GptEvent',
+            gptEvent: {
+              name: name,
+              event: event,
+              responseInfo: responseInfo,
+              adPath: adPath,
+              targeting: JSON.stringify(targeting)
+            },
+          };
+
+          window.ReactNativeWebView.postMessage(
+            \`\${JSON.stringify(message)}\`
+          );
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="hoppr-div">
+    <script>
+      googletag.cmd.push(function () {
+        googletag.display("hoppr-div");
+      });
+    </script>
+  </div>
+</body>
+
+</html>
+`;
+
 class HopprBannerAd extends React.Component {
   constructor(props) {
     super(props);
@@ -2188,7 +2292,7 @@ class HopprBannerAd extends React.Component {
     if (this.typedContext && this.typedContext.adSlots) {
       this.matchingAdSlots = (_a = JSON.parse(this.typedContext.adSlots)) === null || _a === void 0 ? void 0 : _a.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0) {
-        template = HOPPR_AD_TEMPLATE
+        template = stringTemplate
         // .replace(
         //   /(%APP_ID%)/g,
         //   this.typedContext.config?.appId
