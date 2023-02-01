@@ -1,13 +1,11 @@
 {
-  "name": "@hoppr/hopprReactNativeSdk",
+  "name": "@hoppr/adsGamReactNativeSdk",
   "version": "0.0.1",
   "main": "./index.js",
-  "module": "./index.js",
-  "react-native": "src/index.ts",
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md",
-    "displayName": "Hoppr React Native SDK Package",
+    "displayName": "Hoppr Ads GAM React Native SDK Package",
     "tsconfig": "./tsconfig.lib.json"
   },
   "keywords": [
@@ -18,19 +16,9 @@
   "peerDependencies": {
     "react-native": "^0.41.2",
     "@hoppr/hopprSdkCommon": "0.0.1",
-    "react": "18.2.0",
-    "@hoppr/adConfigSdk": "0.0.1",
-    "@hoppr/servicesClient": "0.0.1"
+    "react": "18.2.0"
   },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "dist",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
-  },
+  "module": "./index.js",
   "type": "module",
   "types": "./index.d.ts",
   "dependencies": {}
