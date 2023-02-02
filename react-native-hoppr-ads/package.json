@@ -1,0 +1,29 @@
+{
+  "name": "@hoppr/react-native-hoppr-ads",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Hoppr Ads GAM React Native SDK Package",
+    "tsconfig": "./tsconfig.lib.json"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": "hemant.kashniyal@hoppr.com.au",
+  "license": "",
+  "peerDependencies": {
+    "react-native": "^0.41.2",
+    "@hoppr/hoppr-analytics": "0.0.1",
+    "@hoppr/hoppr-common": "0.0.1",
+    "react": "18.2.0",
+    "react-native-get-random-values": "1.8.0",
+    "@hoppr/hoppr-services": "0.0.1",
+    "react-native-webview": "11.26.0"
+  },
+  "module": "./index.js",
+  "type": "module",
+  "types": "./index.d.ts",
+  "dependencies": {}
+}

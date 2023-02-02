@@ -1,0 +1,20 @@
+{
+  "name": "@hoppr/hoppr-common",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "Hoppr SDK Common Package",
+    "tsconfig": "./tsconfig.lib.json"
+  },
+  "dependencies": {
+    "@types/uuid": "^9.0.0",
+    "uuid": "^9.0.0"
+  },
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "peerDependencies": {
+    "tslib": "2.4.0"
+  }
+}
