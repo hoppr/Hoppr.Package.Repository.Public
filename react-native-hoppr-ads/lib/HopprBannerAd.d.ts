@@ -13,6 +13,7 @@ export declare class HopprBannerAd extends React.Component<HopprBannerAdProps, H
     private getStringifiedSizes;
     private getStringifiedTargetProperties;
     private generateTemplate;
+    private isAppleTV;
     private setAdSize;
     private onMessage;
     private triggerInteractivity;
