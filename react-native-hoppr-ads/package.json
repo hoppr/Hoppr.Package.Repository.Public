@@ -1,6 +1,6 @@
 {
   "name": "@hoppr/react-native-hoppr-ads",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./index.js",
   "typedoc": {
     "entryPoint": "./src/index.ts",
@@ -15,11 +15,11 @@
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2",
-    "@hoppr/hoppr-analytics": "0.0.1",
-    "@hoppr/hoppr-common": "0.0.1",
+    "@hoppr/hoppr-analytics": "0.0.2",
+    "@hoppr/hoppr-common": "0.0.2",
     "react": "18.2.0",
     "react-native-get-random-values": "1.8.0",
-    "@hoppr/hoppr-services": "0.0.1",
+    "@hoppr/hoppr-services": "0.0.2",
     "react-native-webview": "11.26.0"
   },
   "module": "./index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@hoppr/hoppr-analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "commonjs",
   "typedoc": {
     "entryPoint": "./src/index.ts",
@@ -12,9 +12,9 @@
   "types": "./src/index.d.ts",
   "dependencies": {},
   "peerDependencies": {
-    "@hoppr/hoppr-common": "0.0.1",
+    "@hoppr/hoppr-common": "0.0.2",
     "uuid": "8.3.2",
-    "@hoppr/hoppr-services": "0.0.1",
+    "@hoppr/hoppr-services": "0.0.2",
     "axios": "0.27.2",
     "follow-redirects": "1.15.2",
     "form-data": "4.0.0",

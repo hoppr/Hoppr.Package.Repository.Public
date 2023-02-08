@@ -1,6 +1,6 @@
 {
   "name": "@hoppr/hoppr-common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "commonjs",
   "typedoc": {
     "entryPoint": "./src/index.ts",

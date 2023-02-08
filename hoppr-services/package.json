@@ -1,6 +1,6 @@
 {
   "name": "@hoppr/hoppr-services",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "commonjs",
   "typedoc": {
     "entryPoint": "./src/index.ts",
@@ -20,7 +20,7 @@
     "delayed-stream": "1.0.0",
     "mime-types": "2.1.35",
     "mime-db": "1.52.0",
-    "@hoppr/hoppr-common": "0.0.1",
+    "@hoppr/hoppr-common": "0.0.2",
     "uuid": "8.3.2",
     "tslib": "2.4.0"
   }
