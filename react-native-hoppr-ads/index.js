@@ -2289,7 +2289,7 @@ class HopprBannerAd extends React.Component {
     this.triggerInteractivity();
   }
   getStringifiedSizes() {
-    if (this.props.adUnitSizes) {
+    if (this.props.adUnitSizes && this.props.adUnitSizes.length > 0) {
       return `${JSON.stringify(this.props.adUnitSizes)}`;
     } else {
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0) {
