@@ -13,7 +13,7 @@ const defaultServiceClientConfig = {
  */
 class ServicesClient {
     constructor(config, logger) {
-        this.baseURL = 'https://us-central1-hoppr-androidtv-dev.cloudfunctions.net/sdkapi';
+        this.baseURL = 'https://us-central1-hoppr-androidtv-test.cloudfunctions.net/sdkapi';
         this.updateURL = `${this.baseURL}/update`;
         this.analyticsURL = `${this.baseURL}/analytics`;
         this._logger = logger;
