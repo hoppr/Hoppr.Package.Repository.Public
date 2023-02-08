@@ -17,6 +17,7 @@ export declare class HopprBannerAd extends React.Component<HopprBannerAdProps, H
     private setAdSize;
     private onMessage;
     private triggerInteractivity;
+    private postMessageTest;
     private logDeeplinkError;
     private logDeeplinkClicked;
     private logGptEvent;

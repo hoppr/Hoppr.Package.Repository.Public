@@ -979,6 +979,8 @@ class HopprAdProvider extends React.Component {
             advertSlots.push(advertSlot);
           });
           this.setAdSlots(JSON.stringify(advertSlots));
+        } else {
+          console.error('Error initializing Hoppr SDK', value.error);
         }
       } catch (err) {
         console.error('Error initializing Hoppr SDK', err);
@@ -2092,7 +2094,8 @@ const stringTemplate = `
   <meta charset="utf-8" />
   <base href="/" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
   <style>
     html,
     body {
@@ -2190,6 +2193,7 @@ const stringTemplate = `
 `;
 
 class HopprBannerAd extends React.Component {
+  // private webView: RefObject<WebView> = createRef();
   constructor(props) {
     super(props);
     this.instanceUUID = UUIDUtils.getID();
@@ -2257,9 +2261,11 @@ class HopprBannerAd extends React.Component {
         },
         children: /*#__PURE__*/jsx(WebView, {
           style: {
-            backgroundColor: 'transparent'
+            width: width,
+            height: height
           }
-          // ref={(c) => (webViewRef = c)}
+          // automaticallyAdjustContentInsets={true}
+          // ref={this.webView}
           ,
           accessible: false,
           scrollEnabled: false,
@@ -2348,14 +2354,14 @@ class HopprBannerAd extends React.Component {
         case InteractiveBehavior.Deeplink:
           {
             Linking.canOpenURL(url).then(canOpenUrl => {
-              if (canOpenUrl) {
-                this.logDeeplinkClicked(url, behavior);
-                Linking.openURL(url);
-              } else {
-                this.logDeeplinkError('This URL is not supported');
-              }
+              // if (canOpenUrl) {
+              this.logDeeplinkClicked(url, behavior);
+              Linking.openURL(url);
+              // }else{
+              //   Linking.openURL(url);
+              // }
             }).catch(err => {
-              this.logDeeplinkError('Error', err);
+              this.logDeeplinkError('Erro opening', err);
             });
             break;
           }
@@ -2364,6 +2370,10 @@ class HopprBannerAd extends React.Component {
       this.logDeeplinkError('Interactivity not initalized correctly - empty URL or behavior');
     }
   }
+  postMessageTest() {
+    // this.webView?.current?.injectJavaScript(js);
+  }
+
   logDeeplinkError(error, errorObject) {
     console.error(error, errorObject);
     if (errorObject) error += JSON.stringify(errorObject);
@@ -2390,14 +2400,11 @@ HopprAnalyticsLogger.log = (eventId, eventDetails) => __awaiter(void 0, void 0, 
   HopprAnalytics.logEvent(eventId, record);
 });
 HopprAnalyticsLogger.setUserProperties = properties => __awaiter(void 0, void 0, void 0, function* () {
-  HopprAnalytics.logEvent(HopprEvents.UpdateUserProperties, _a.assignStandardProperties(properties));
+  HopprAnalytics.logEvent(HopprEvents.UpdateUserProperties, properties);
 });
 HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
-  const record = AnalyticsUtils.getStandardProperties();
-  Object.assign({
-    record
-  }, Object.assign({}, eventDetails));
-  return record;
+  let record = AnalyticsUtils.getStandardProperties();
+  return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
 export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };
