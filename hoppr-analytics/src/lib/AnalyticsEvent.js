@@ -19,6 +19,7 @@ class AnalyticsEvent {
         return true;
     }
     static isValidHopprEvent(eventId) {
+        console.log('isValidHopprEvent', Object.values(__1.HopprEvents), eventId);
         if (Object.values(__1.HopprEvents).includes(eventId)) {
             return true;
         }
