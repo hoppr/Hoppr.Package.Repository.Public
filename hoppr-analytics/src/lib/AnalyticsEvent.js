@@ -19,11 +19,13 @@ class AnalyticsEvent {
         return true;
     }
     static isValidHopprEvent(eventId, hopprEvents) {
-        console.log('isValidHopprEvent', Object.keys(__1.HopprEvents));
-        if (Object.keys(hopprEvents !== null && hopprEvents !== void 0 ? hopprEvents : __1.HopprEvents).includes(eventId)) {
-            return true;
+        // console.log('isValidHopprEvent', Object.keys(HopprEvents));
+        if (hopprEvents) {
+            return hopprEvents.includes(eventId);
         }
-        return false;
+        else {
+            return Object.keys(__1.HopprEvents).includes(eventId);
+        }
     }
     static getInvalidParamsName(eventDetails) {
         let hopprSpecificParam = [];
