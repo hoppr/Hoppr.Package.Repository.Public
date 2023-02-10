@@ -3,7 +3,8 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
-import { HopprInternalEvents, HopprAnalytics, HopprEvents, ScreenTypes, ContentTypes, StreamTypes } from '@hoppr/hoppr-analytics';
+import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
+export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
 import { Platform, TouchableHighlight, Linking } from 'react-native';
 import { jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
@@ -2084,10 +2085,6 @@ var InteractiveBehavior;
 (function (InteractiveBehavior) {
   InteractiveBehavior["Deeplink"] = "Deeplink";
 })(InteractiveBehavior || (InteractiveBehavior = {}));
-const HopprEvent = HopprEvents;
-const ScreenType = ScreenTypes;
-const ContentType = ContentTypes;
-const StreamType = StreamTypes;
 
 const stringTemplate = `
 <!DOCTYPE html>
@@ -2400,14 +2397,14 @@ _a = HopprAnalyticsLogger;
 HopprAnalyticsLogger.log = (eventId, eventDetails) => __awaiter(void 0, void 0, void 0, function* () {
   const record = _a.assignStandardProperties(eventDetails);
   console.log('HopprAnalyticsLogger log', eventId, JSON.stringify(record));
-  HopprAnalytics.logEvent(eventId, record);
+  HopprAnalytics.logEvent(eventId, record, Object.values(HopprEvents));
 });
 HopprAnalyticsLogger.setUserProperties = properties => __awaiter(void 0, void 0, void 0, function* () {
-  HopprAnalytics.logEvent(HopprEvents.UpdateUserProperties, properties);
+  HopprAnalytics.logEvent(HopprEvents.UpdateUserProperties, properties, Object.values(HopprEvents));
 });
 HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   let record = AnalyticsUtils.getStandardProperties();
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
-export { ContentType, HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, HopprEvent, ScreenType, StreamType };
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };

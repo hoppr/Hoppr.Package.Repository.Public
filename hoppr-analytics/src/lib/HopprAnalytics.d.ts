@@ -16,7 +16,7 @@ export declare class HopprAnalytics {
     static sendBeacon: () => Promise<void>;
     static sendBeaconNative: () => Promise<void>;
     static logInternalEvent: (eventId: string, eventDetails?: Record<string, any>) => Promise<void>;
-    static logEvent: (eventId: string, eventDetails?: Record<string, any>) => Promise<void>;
+    static logEvent: (eventId: string, eventDetails?: Record<string, any>, hopprEvents?: string[]) => Promise<void>;
     private logCustomEvent;
     private logHopprEvent;
 }

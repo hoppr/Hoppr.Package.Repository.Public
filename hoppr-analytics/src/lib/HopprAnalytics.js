@@ -82,11 +82,11 @@ HopprAnalytics.logInternalEvent = (eventId, eventDetails) => tslib_1.__awaiter(v
     }
     return (_d = HopprAnalytics.singletonObject) === null || _d === void 0 ? void 0 : _d.logEventHandler(eventId, eventDetails);
 });
-HopprAnalytics.logEvent = (eventId, eventDetails) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
+HopprAnalytics.logEvent = (eventId, eventDetails, hopprEvents) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     var _e, _f;
     if (!HopprAnalytics.isInitialized) {
         HopprAnalytics.commandArray.push(function () {
-            return HopprAnalytics.logEvent(eventId, eventDetails);
+            return HopprAnalytics.logEvent(eventId, eventDetails, hopprEvents);
         });
         return;
     }
@@ -94,7 +94,7 @@ HopprAnalytics.logEvent = (eventId, eventDetails) => tslib_1.__awaiter(void 0, v
     if (invalidParamsNames.length > 0) {
         throw new Error(`received invalid params for $eventId: ${invalidParamsNames}`);
     }
-    if (AnalyticsEvent_1.AnalyticsEvent.isValidHopprEvent(eventId)) {
+    if (AnalyticsEvent_1.AnalyticsEvent.isValidHopprEvent(eventId, hopprEvents)) {
         return (_e = HopprAnalytics.singletonObject) === null || _e === void 0 ? void 0 : _e.logHopprEvent(eventId, eventDetails);
     }
     else {
