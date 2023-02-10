@@ -3,8 +3,7 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
-import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
-export { ContentTypes, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
+import { HopprInternalEvents, HopprAnalytics, HopprEvents, ScreenTypes, ContentTypes, StreamTypes } from '@hoppr/hoppr-analytics';
 import { Platform, TouchableHighlight, Linking } from 'react-native';
 import { jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
@@ -2085,6 +2084,10 @@ var InteractiveBehavior;
 (function (InteractiveBehavior) {
   InteractiveBehavior["Deeplink"] = "Deeplink";
 })(InteractiveBehavior || (InteractiveBehavior = {}));
+const HopprEvent = HopprEvents;
+const ScreenType = ScreenTypes;
+const ContentType = ContentTypes;
+const StreamType = StreamTypes;
 
 const stringTemplate = `
 <!DOCTYPE html>
@@ -2407,4 +2410,4 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };
+export { ContentType, HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, HopprEvent, ScreenType, StreamType };
