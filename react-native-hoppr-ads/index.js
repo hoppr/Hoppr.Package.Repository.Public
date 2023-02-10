@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
-export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
+export { ContentTypes, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
 import { Platform, TouchableHighlight, Linking } from 'react-native';
 import { jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
