@@ -5,7 +5,7 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, TouchableHighlight, Linking } from 'react-native';
+import { Platform, View, Linking } from 'react-native';
 import { jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
 
@@ -965,16 +965,18 @@ class HopprAdProvider extends React.Component {
     this.adSlots = '';
     this.hopprInternalUserId = '';
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
-      var _a;
+      var _a, _b, _c;
       const request = {
         appID: this.props.config.appId,
         clientid: this.props.config.userId
       };
       try {
+        console.log('initHoppr');
         const value = yield ServicesClient.get().update(request);
+        console.log('initHoppr finish', (_b = (_a = value.data) === null || _a === void 0 ? void 0 : _a.advertSlots) === null || _b === void 0 ? void 0 : _b.length);
         if (value.data && !value.error) {
           const advertSlots = [];
-          (_a = value.data) === null || _a === void 0 ? void 0 : _a.advertSlots.forEach(ad => {
+          (_c = value.data) === null || _c === void 0 ? void 0 : _c.advertSlots.forEach(ad => {
             const advertSlot = mapAdSlotResponseToAdSlot(ad);
             advertSlots.push(advertSlot);
           });
@@ -2250,37 +2252,48 @@ class HopprBannerAd extends React.Component {
       if (width > 0) {
         opacity = 1;
       }
-      return /*#__PURE__*/jsx(TouchableHighlight, {
-        style: Object.assign(Object.assign({}, viewStyle), {
-          opacity: opacity,
-          width: width,
-          height: height
-        }),
-        onPress: () => {
-          this.triggerInteractivity();
-        },
-        children: /*#__PURE__*/jsx(WebView, {
-          style: {
+      return (
+        /*#__PURE__*/
+        // <TouchableHighlight
+        //   style={{
+        //     ...viewStyle,
+        //     opacity: opacity,
+        //     width: width,
+        //     height: height,
+        //   }}
+        //   onPress={() => {
+        //     this.triggerInteractivity();
+        //   }}
+        // >
+        jsx(View, {
+          style: Object.assign(Object.assign({}, viewStyle), {
+            opacity: opacity,
             width: width,
             height: height
-          }
-          // automaticallyAdjustContentInsets={true}
-          // ref={this.webView}
-          ,
-          accessible: false,
-          scrollEnabled: false,
-          isTVSelectable: false,
-          javaScriptEnabled: true,
-          showsHorizontalScrollIndicator: false,
-          showsVerticalScrollIndicator: false,
-          originWhitelist: ['*'],
-          onMessage: this.onMessage,
-          source: {
-            html: template,
-            baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
-          }
+          }),
+          children: /*#__PURE__*/jsx(WebView, {
+            style: {
+              width: width,
+              height: height
+            }
+            // automaticallyAdjustContentInsets={true}
+            // ref={this.webView}
+            ,
+            accessible: false,
+            scrollEnabled: false,
+            isTVSelectable: false,
+            javaScriptEnabled: true,
+            showsHorizontalScrollIndicator: false,
+            showsVerticalScrollIndicator: false,
+            originWhitelist: ['*'],
+            onMessage: this.onMessage,
+            source: {
+              html: template,
+              baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
+            }
+          })
         })
-      });
+      );
     } else {
       return /*#__PURE__*/jsx(Fragment, {});
     }

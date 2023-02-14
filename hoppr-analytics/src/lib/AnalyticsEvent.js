@@ -19,7 +19,6 @@ class AnalyticsEvent {
         return true;
     }
     static isValidHopprEvent(eventId, hopprEvents) {
-        // console.log('isValidHopprEvent', Object.keys(HopprEvents));
         if (hopprEvents) {
             return hopprEvents.includes(eventId);
         }

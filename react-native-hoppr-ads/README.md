@@ -28,9 +28,13 @@ If any changes are made to HopprJS SDK, and if those changes are supposed to be 
 
 ## Installation in a stand-alone RN or Expo app
 
-For SDK specific dependencies
+If you want to update the SDK, run this command first
 
-`yarn add 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/react-native-hoppr-ads?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-analytics?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-common?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-services?main'`
+`yarn cache clean`
+
+To install or update SDK specific dependencies
+
+`yarn add 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/react-native-hoppr-ads?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-analytics?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-common?main' 'https://gitpkg.now.sh/hoppr/Hoppr.Package.Repository.Public/hoppr-services?main --force'`
 
 For external libs
 
