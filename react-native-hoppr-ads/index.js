@@ -2257,7 +2257,8 @@ class HopprBannerAd extends React.Component {
         style: Object.assign(Object.assign({}, viewStyle), {
           opacity: opacity,
           width: width,
-          height: height
+          height: height,
+          overflow: 'hidden'
         }),
         children: /*#__PURE__*/jsx(WebView, {
           style: {
