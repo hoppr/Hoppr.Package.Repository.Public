@@ -2257,13 +2257,13 @@ class HopprBannerAd extends React.Component {
         style: Object.assign(Object.assign({}, viewStyle), {
           opacity: opacity,
           width: width,
-          height: height,
-          overflow: 'hidden'
+          height: height
         }),
         children: /*#__PURE__*/jsx(WebView, {
           style: {
             width: width,
-            height: height
+            height: height,
+            backgroundColor: 'transparent'
           }
           // automaticallyAdjustContentInsets={true}
           ,
