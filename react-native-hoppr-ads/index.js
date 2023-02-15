@@ -1,5 +1,5 @@
 import 'react-native-get-random-values';
-import React from 'react';
+import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
@@ -2195,10 +2195,10 @@ const stringTemplate = `
 `;
 
 class HopprBannerAd extends React.Component {
-  // private webView: RefObject<WebView> = createRef();
   constructor(props) {
     super(props);
     this.instanceUUID = UUIDUtils.getID();
+    this.webView = /*#__PURE__*/createRef();
     this.onMessage = data => {
       try {
         const message = JSON.parse(data.nativeEvent.data);
@@ -2252,48 +2252,35 @@ class HopprBannerAd extends React.Component {
       if (width > 0) {
         opacity = 1;
       }
-      return (
-        /*#__PURE__*/
-        // <TouchableHighlight
-        //   style={{
-        //     ...viewStyle,
-        //     opacity: opacity,
-        //     width: width,
-        //     height: height,
-        //   }}
-        //   onPress={() => {
-        //     this.triggerInteractivity();
-        //   }}
-        // >
-        jsx(View, {
-          style: Object.assign(Object.assign({}, viewStyle), {
-            opacity: opacity,
+      console.log('render', this.props.adUnitId, width, height, opacity);
+      return /*#__PURE__*/jsx(View, {
+        style: Object.assign(Object.assign({}, viewStyle), {
+          opacity: opacity,
+          width: width,
+          height: height
+        }),
+        children: /*#__PURE__*/jsx(WebView, {
+          style: {
             width: width,
             height: height
-          }),
-          children: /*#__PURE__*/jsx(WebView, {
-            style: {
-              width: width,
-              height: height
-            }
-            // automaticallyAdjustContentInsets={true}
-            // ref={this.webView}
-            ,
-            accessible: false,
-            scrollEnabled: false,
-            isTVSelectable: false,
-            javaScriptEnabled: true,
-            showsHorizontalScrollIndicator: false,
-            showsVerticalScrollIndicator: false,
-            originWhitelist: ['*'],
-            onMessage: this.onMessage,
-            source: {
-              html: template,
-              baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
-            }
-          })
+          }
+          // automaticallyAdjustContentInsets={true}
+          ,
+          ref: this.webView,
+          accessible: false,
+          scrollEnabled: false,
+          isTVSelectable: false,
+          javaScriptEnabled: true,
+          showsHorizontalScrollIndicator: false,
+          showsVerticalScrollIndicator: false,
+          originWhitelist: ['*'],
+          onMessage: this.onMessage,
+          source: {
+            html: template,
+            baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
+          }
         })
-      );
+      });
     } else {
       return /*#__PURE__*/jsx(Fragment, {});
     }

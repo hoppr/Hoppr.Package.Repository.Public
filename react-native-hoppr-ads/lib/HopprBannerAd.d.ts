@@ -7,6 +7,7 @@ export declare class HopprBannerAd extends React.Component<HopprBannerAdProps, H
     typedContext: HopprAdProviderState | undefined;
     matchingAdSlots: IAdSlot[] | undefined;
     instanceUUID: string;
+    private webView;
     constructor(props: HopprBannerAdProps | Readonly<HopprBannerAdProps>);
     render(): JSX.Element;
     setPressOk(): void;
