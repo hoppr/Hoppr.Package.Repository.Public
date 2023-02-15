@@ -15,6 +15,7 @@ export interface HopprAdProviderState {
 }
 export interface HopprBannerAdState {
     adSize: number[];
+    isSelected: boolean;
 }
 export interface IGptEvent {
     event: googletag.events.Event;

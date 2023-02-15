@@ -5,8 +5,8 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, View, Linking } from 'react-native';
-import { jsx, Fragment } from 'react/jsx-runtime';
+import { Platform, Pressable, View, Linking } from 'react-native';
+import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
 
 /******************************************************************************
@@ -2235,7 +2235,8 @@ class HopprBannerAd extends React.Component {
       }
     };
     this.state = {
-      adSize: [0, 0]
+      adSize: [0, 0],
+      isSelected: false
     };
     if (!this.isAppleTV()) {
       HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalConstructorBanner, AnalyticsUtils.getStandardBannerProperties(this.instanceUUID, this.props, this.state));
@@ -2253,35 +2254,43 @@ class HopprBannerAd extends React.Component {
         opacity = 1;
       }
       console.log('render', this.props.adUnitId, width, height, opacity);
-      return /*#__PURE__*/jsx(View, {
-        style: Object.assign(Object.assign({}, viewStyle), {
-          opacity: opacity,
-          width: width,
-          height: height
-        }),
-        children: /*#__PURE__*/jsx(WebView, {
-          style: {
+      if (Platform.isTV) {
+        return /*#__PURE__*/jsxs(Pressable, {
+          style: Object.assign(Object.assign({}, viewStyle), {
+            opacity: opacity,
             width: width,
-            height: height,
-            backgroundColor: 'transparent'
-          }
-          // automaticallyAdjustContentInsets={true}
-          ,
-          ref: this.webView,
-          accessible: false,
-          scrollEnabled: false,
-          isTVSelectable: false,
-          javaScriptEnabled: true,
-          showsHorizontalScrollIndicator: false,
-          showsVerticalScrollIndicator: false,
-          originWhitelist: ['*'],
-          onMessage: this.onMessage,
-          source: {
-            html: template,
-            baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
-          }
-        })
-      });
+            height: height
+          }),
+          onPress: e => {
+            this.triggerInteractivity();
+          },
+          onFocus: () => {
+            this.setIsSelected(true);
+          },
+          onBlur: () => {
+            this.setIsSelected(false);
+          },
+          children: [this.getWebView(template), /*#__PURE__*/jsx(View, {
+            style: {
+              width: width,
+              height: height,
+              position: 'absolute',
+              borderColor: 'red',
+              borderWidth: this.state.isSelected ? 1 : 0
+            }
+          })]
+        });
+      } else {
+        return /*#__PURE__*/jsx(View, {
+          style: Object.assign(Object.assign({}, viewStyle), {
+            opacity: opacity,
+            backgroundColor: 'transparent',
+            width: width,
+            height: height
+          }),
+          children: this.getWebView(template)
+        });
+      }
     } else {
       return /*#__PURE__*/jsx(Fragment, {});
     }
@@ -2289,6 +2298,41 @@ class HopprBannerAd extends React.Component {
   setPressOk() {
     this.triggerInteractivity();
   }
+  setIsSelected(value) {
+    this.setState({
+      isSelected: value
+    });
+  }
+  getWebView(template) {
+    return /*#__PURE__*/jsx(WebView, {
+      style: {
+        backgroundColor: 'transparent'
+      }
+      // mediaPlaybackRequiresUserAction={false}
+      // setBuiltInZoomControls={false}
+      // automaticallyAdjustContentInsets={true}
+      ,
+      ref: this.webView,
+      accessible: false,
+      focusable: false
+      // disabled={true}
+      ,
+      importantForAccessibility: 'no'
+      // scrollEnabled={false}
+      // isTVSelectable={false}
+      ,
+      javaScriptEnabled: true,
+      showsHorizontalScrollIndicator: false,
+      showsVerticalScrollIndicator: false,
+      originWhitelist: ['*'],
+      onMessage: this.onMessage,
+      source: {
+        html: template,
+        baseUrl: 'http://localhost' // Fix suggested for localStorage access issue https://github.com/react-native-webview/react-native-webview/issues/1635#issuecomment-1021425071
+      }
+    });
+  }
+
   getStringifiedSizes() {
     if (this.props.adUnitSizes && this.props.adUnitSizes.length > 0) {
       return `${JSON.stringify(this.props.adUnitSizes)}`;
