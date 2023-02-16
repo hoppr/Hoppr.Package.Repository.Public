@@ -2509,7 +2509,7 @@ class HopprBannerAd extends React.Component {
       // if (url !== originalUrl) {
       //   if (!this.passesWhitelist(originWhitelist, url))
       // this.openExternalLink(url);
-      return false;
+      return true;
       //   else {
       //     // handling the request if it's with the domain listed in the whitelist
       //     return true;
