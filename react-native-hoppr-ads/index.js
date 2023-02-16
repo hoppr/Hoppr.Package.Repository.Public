@@ -3514,7 +3514,7 @@ class HopprBannerAd extends React.Component {
       // if (url !== originalUrl) {
       //   if (!this.passesWhitelist(originWhitelist, url))
       // this.openExternalLink(url);;
-      if (url.includes('googleads.g.doubleclick.net')) {
+      if (url.includes('googleads.g.doubleclick.net') || url.includes('adclick.g.doubleclick.net')) {
         console.log('contains googleads.g.doubleclick.net');
         const urlParams = new URLSearchParams(url);
         const myParam = urlParams.get('adurl');
