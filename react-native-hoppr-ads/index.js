@@ -2253,9 +2253,10 @@ class HopprBannerAd extends React.Component {
       if (width > 0) {
         opacity = 1;
       }
-      console.log('render', this.props.adUnitId, width, height, opacity);
       if (Platform.isTV) {
-        return /*#__PURE__*/jsxs(Pressable, {
+        return /*#__PURE__*/jsxs(Pressable
+        // accesçç
+        , {
           style: Object.assign(Object.assign({}, viewStyle), {
             opacity: opacity,
             width: width,
@@ -2392,19 +2393,21 @@ class HopprBannerAd extends React.Component {
   }
   triggerInteractivity() {
     var _a, _b;
+    // const url =
+    //   'https://play.google.com/store/apps/details?id=com.amazon.amazonvideo.livingroom';
+    // const url = 'market://details?id=com.amazon.amazonvideo.livingroom';
+    // const url = 'nflx://www.netflix.com/';
+    // const url = 'https://www.disneyplus.com/';
     const url = (_a = this.interactivity) === null || _a === void 0 ? void 0 : _a.url;
     const behavior = (_b = this.interactivity) === null || _b === void 0 ? void 0 : _b.behavior;
+    console.log('url');
     if (url && behavior) {
       switch (behavior) {
         case InteractiveBehavior.Deeplink:
           {
             Linking.canOpenURL(url).then(canOpenUrl => {
-              // if (canOpenUrl) {
               this.logDeeplinkClicked(url, behavior);
               Linking.openURL(url);
-              // }else{
-              //   Linking.openURL(url);
-              // }
             }).catch(err => {
               this.logDeeplinkError('Erro opening', err);
             });

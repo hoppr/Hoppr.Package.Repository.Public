@@ -1,6 +1,4 @@
 export * from './lib/ads/HopprBaseAdProps';
-export * from './lib/IAdConfigManager';
-export * from './lib/IHopprAdManager';
 export * from './lib/IServicesClient';
 export * from './lib/logger/ConsoleLogger';
 export * from './lib/logger/Logger';

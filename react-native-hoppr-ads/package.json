@@ -5,13 +5,13 @@
   "typedoc": {
     "entryPoint": "./src/index.ts",
     "readmeFile": "./README.md",
-    "displayName": "Hoppr Ads GAM React Native SDK Package",
+    "displayName": "Hoppr Ads React Native SDK Package",
     "tsconfig": "./tsconfig.lib.json"
   },
   "keywords": [
     "react-native"
   ],
-  "author": "hemant.kashniyal@hoppr.com.au",
+  "author": "max.bourdin@hoppr.com.au",
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2",
