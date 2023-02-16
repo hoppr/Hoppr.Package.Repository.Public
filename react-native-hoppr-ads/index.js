@@ -2254,9 +2254,7 @@ class HopprBannerAd extends React.Component {
         opacity = 1;
       }
       if (Platform.isTV) {
-        return /*#__PURE__*/jsxs(Pressable
-        // accesçç
-        , {
+        return /*#__PURE__*/jsxs(Pressable, {
           style: Object.assign(Object.assign({}, viewStyle), {
             opacity: opacity,
             width: width,
@@ -2313,16 +2311,16 @@ class HopprBannerAd extends React.Component {
       // setBuiltInZoomControls={false}
       // automaticallyAdjustContentInsets={true}
       ,
-      ref: this.webView,
-      accessible: false,
-      focusable: false
+      ref: this.webView
+      // accessible={false}
+      // focusable={false}
       // disabled={true}
-      ,
-      importantForAccessibility: 'no'
+      // importantForAccessibility={'no'}
       // scrollEnabled={false}
       // isTVSelectable={false}
       ,
       javaScriptEnabled: true,
+      javaScriptCanOpenWindowsAutomatically: true,
       showsHorizontalScrollIndicator: false,
       showsVerticalScrollIndicator: false,
       originWhitelist: ['*'],
