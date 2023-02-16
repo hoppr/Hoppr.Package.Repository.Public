@@ -13,6 +13,10 @@ export declare class HopprBannerAd extends React.Component<HopprBannerAdProps, H
     setPressOk(): void;
     setIsSelected(value: boolean): void;
     private getWebView;
+    private onShouldStartLoadWithRequest;
+    private extractOrigin;
+    private passesWhitelist;
+    private openExternalLink;
     private getStringifiedSizes;
     private getStringifiedTargetProperties;
     private generateTemplate;
