@@ -7,8 +7,10 @@ export declare class HopprAdProvider extends React.Component<HopprAdProviderProp
     private isAdSlotsReady;
     private adSlots;
     private hopprInternalUserId;
+    private appStateSubscription?;
     constructor(props: HopprAdProviderProps | Readonly<HopprAdProviderProps>);
     render(): JSX.Element;
+    componentDidMount(): void;
     componentWillUnmount(): void;
     private setAdSlots;
     private setHopprInternalUserId;

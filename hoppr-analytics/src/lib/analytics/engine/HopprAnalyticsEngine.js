@@ -28,7 +28,7 @@ class HopprAnalyticsEngine {
         // TODO add keepalive flag to http request?
         if (this.events.length > 0) {
             this.analyticsRequest.events = this.events;
-            // console.log('submitHttpPayload', this.analyticsRequest);
+            // TODO split payload if too big
             hoppr_services_1.ServicesClient.get()
                 .postAnalytics(this.analyticsRequest)
                 .then((value) => {
@@ -59,6 +59,7 @@ class HopprAnalyticsEngine {
     asyncSubmission(eventKey, parameters) {
         let sessionId = this.previousSessionId;
         let resetWindow = this.config.sessionTimeoutInMinutes;
+        // TODO improve session logic
         // If the previous event was ContentPlay or ContentResume we extend the window to 120 minutes
         if (this.previousEventType == HopprEvents_1.HopprEvents.ContentPlay ||
             this.previousEventType == HopprEvents_1.HopprEvents.ContentResume) {
@@ -79,6 +80,7 @@ class HopprAnalyticsEngine {
         this.previousEventType = eventRequest.eventKey;
     }
     logEvent(eventKey, eventData) {
+        console.log('logEvent', eventKey, JSON.stringify(eventData));
         this.asyncSubmission(eventKey, eventData);
     }
 }
