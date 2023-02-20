@@ -1735,7 +1735,7 @@ class AnalyticsUtils {
       if (responseInfo.campaignId) record['campaignId'] = responseInfo.campaignId;
       if (responseInfo.lineItemId) record['lineItemId'] = responseInfo.lineItemId;
       if (responseInfo.creativeTemplateId) record['creativeTemplateId'] = responseInfo.creativeTemplateId;
-      if (responseInfo.creativeId) record['creativeId '] = responseInfo.creativeId;
+      if (responseInfo.creativeId) record['creativeId'] = responseInfo.creativeId;
     }
     switch (gptEvent.name) {
       case 'slotVisibilityChanged':

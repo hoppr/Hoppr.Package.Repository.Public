@@ -29,9 +29,12 @@ class HopprAnalyticsEngine {
         if (this.events.length > 0) {
             this.analyticsRequest.events = this.events;
             // TODO split payload if too big
+            // TODO store in local storage and check if anthing in there
+            console.log('submitHttpPayload', JSON.stringify(this.analyticsRequest));
             hoppr_services_1.ServicesClient.get()
                 .postAnalytics(this.analyticsRequest)
                 .then((value) => {
+                console.log('submitHttpPayload finish', JSON.stringify(value));
                 if (!value.error) {
                     this.events = [];
                 }
