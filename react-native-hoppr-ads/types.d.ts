@@ -1,4 +1,4 @@
-import { ViewProps } from 'react-native';
+import { ColorValue, ViewProps } from 'react-native';
 export interface HopprBannerAdProps extends ViewProps {
     /**
      * The Hoppr unit ID for the banner.
@@ -12,6 +12,14 @@ export interface HopprBannerAdProps extends ViewProps {
      * Target properties
      */
     targetProperties?: Record<string, string | number | boolean | string[]> | undefined;
+    /**
+     * Border color when the banner is in a selected state
+     */
+    selectedBorderColor?: ColorValue | undefined;
+    /**
+     * Border with when the banner is in a selected state
+     */
+    selectedBorderWidth?: number | undefined;
 }
 export interface HopprAdProviderProps extends ViewProps {
     /**

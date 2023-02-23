@@ -1681,26 +1681,30 @@ class AnalyticsUtils {
     record['reactNativeVersion'] = Platform.constants.reactNativeVersion.major + '.' + Platform.constants.reactNativeVersion.minor + '.' + Platform.constants.reactNativeVersion.patch;
     return record;
   }
-  static getStandardBannerProperties(instanceUUID, props, state) {
+  static getStandardBannerProperties(instanceUUID, userAgent, props, state) {
     var _a, _b;
     const record = this.getStandardProperties();
     record['hopprAdUnitId'] = props.adUnitId;
     record['uuid'] = instanceUUID;
     if (props.adUnitSizes) record['sizes'] = (_a = props.adUnitSizes) === null || _a === void 0 ? void 0 : _a.toString();
     if (state.adSize) record['determinedSize'] = (_b = state.adSize) === null || _b === void 0 ? void 0 : _b.toString();
+    if (userAgent) record['userAgent'] = userAgent;
     if (props.targetProperties) {
       record['targeting'] = JSON.stringify(props.targetProperties);
     }
     return record;
   }
-  static getDeepLinkRecord(instanceUUID, props, state, url, supported) {
-    const record = this.getStandardBannerProperties(instanceUUID, props, state);
+  static getDeepLinkRecord(instanceUUID, userAgent, props, state, url, supported, clickThruLink) {
+    const record = this.getStandardBannerProperties(instanceUUID, userAgent, props, state);
     record['url'] = url;
     record['supported'] = supported;
+    if (clickThruLink) {
+      record['clickThruLink'] = clickThruLink;
+    }
     return record;
   }
-  static getDeepLinkErrorRecord(instanceUUID, props, state, error) {
-    const record = this.getStandardBannerProperties(instanceUUID, props, state);
+  static getDeepLinkErrorRecord(instanceUUID, userAgent, props, state, error) {
+    const record = this.getStandardBannerProperties(instanceUUID, userAgent, props, state);
     record['error'] = error;
     return record;
   }
@@ -1721,8 +1725,8 @@ class AnalyticsUtils {
     }
     return null;
   }
-  static getGptEventRecord(instanceUUID, props, state, gptEvent) {
-    const record = this.getStandardBannerProperties(instanceUUID, props, state);
+  static getGptEventRecord(instanceUUID, userAgent, props, state, gptEvent) {
+    const record = this.getStandardBannerProperties(instanceUUID, userAgent, props, state);
     const responseInfo = gptEvent.responseInfo;
     record['adPath'] = gptEvent.adPath;
     record['serviceName'] = gptEvent.event.serviceName;
@@ -2240,6 +2244,7 @@ var WindowMessageType;
   WindowMessageType["TriggerInteractivity"] = "TriggerInteractivity";
   WindowMessageType["SetAdSizes"] = "SetAdSizes";
   WindowMessageType["GptEvent"] = "GptEvent";
+  WindowMessageType["UpdateUserAgent"] = "UpdateUserAgent";
 })(WindowMessageType || (WindowMessageType = {}));
 var InteractiveBehavior;
 (function (InteractiveBehavior) {
@@ -2336,6 +2341,15 @@ const stringTemplate = `
         }
       });
     }
+
+    const updateUserAgentMessage = {
+      type: 'UpdateUserAgent',
+      userAgent: window.navigator.userAgent
+    };
+
+    window.ReactNativeWebView.postMessage(
+      \`\${JSON.stringify(updateUserAgentMessage)}\`
+    );
   </script>
 </head>
 
@@ -2356,13 +2370,15 @@ class HopprBannerAd extends React.Component {
   constructor(props) {
     super(props);
     this.instanceUUID = UUIDUtils.getID();
+    this.userAgent = '';
     this.webView = /*#__PURE__*/createRef();
+    this.android = new Android();
     this.onShouldStartLoadWithRequest = ({
       url,
       canGoBack,
       isTopFrame
     }) => {
-      if (url.includes('googleads.g.doubleclick.net') || url.includes('adclick.g.doubleclick.net')) {
+      if (url.includes('googleads.g.doubleclick.net') || url.includes('adclick.g.doubleclick.net') && Platform.OS == 'ios') {
         // const urlParams = new URLSearchParams(url);
         // const myParam = urlParams.get('adurl');
         this.openExternalLink(url);
@@ -2370,15 +2386,19 @@ class HopprBannerAd extends React.Component {
       }
       return true;
     };
-    this.openExternalLink = url => {
+    this.openExternalLink = (url, clickThruLink) => {
       Linking.canOpenURL(url).then(supported => {
-        this.logDeeplinkClicked(url, supported);
+        this.logDeeplinkClicked(url, supported, clickThruLink);
+        if (Platform.isTV && clickThruLink && this.userAgent) {
+          ServicesClient.get().invokeClickThrough(this.userAgent, clickThruLink);
+        }
         Linking.openURL(url);
       }).catch(err => {
         this.logDeeplinkError('Error opening', err);
       });
     };
     this.onMessage = data => {
+      var _a, _b;
       try {
         const message = JSON.parse(data.nativeEvent.data);
         switch (message.type) {
@@ -2397,6 +2417,13 @@ class HopprBannerAd extends React.Component {
                       this.setAdSize(sizes);
                     }
                   }
+                } else if (message.gptEvent.name === 'slotResponseReceived') {
+                  if (((_a = message.gptEvent.responseInfo) === null || _a === void 0 ? void 0 : _a.creativeId) && ((_b = message.gptEvent.responseInfo) === null || _b === void 0 ? void 0 : _b.campaignId)) {
+                    this.android.setAdEventParams({
+                      CampaignId: message.gptEvent.responseInfo.campaignId.toString(),
+                      CreativeId: message.gptEvent.responseInfo.creativeId.toString()
+                    });
+                  }
                 }
                 this.logGptEvent(message.gptEvent);
               }
@@ -2405,6 +2432,11 @@ class HopprBannerAd extends React.Component {
           case WindowMessageType.TriggerInteractivity:
             {
               this.triggerInteractivity();
+              break;
+            }
+          case WindowMessageType.UpdateUserAgent:
+            {
+              this.userAgent = message.userAgent;
               break;
             }
         }
@@ -2417,13 +2449,14 @@ class HopprBannerAd extends React.Component {
       isSelected: false
     };
     if (!this.isAppleTV()) {
-      HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalConstructorBanner, AnalyticsUtils.getStandardBannerProperties(this.instanceUUID, this.props, this.state));
+      HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalConstructorBanner, AnalyticsUtils.getStandardBannerProperties(this.instanceUUID, this.userAgent, this.props, this.state));
     }
+    this.injectJs();
   }
   render() {
-    var _a, _b;
-    const template = this.generateTemplate();
-    if (template && !this.isAppleTV()) {
+    var _a, _b, _c, _d;
+    if (!this.isAppleTV()) {
+      const template = this.generateTemplate();
       const viewStyle = this.props.style;
       const width = (_a = this.state.adSize) === null || _a === void 0 ? void 0 : _a[0];
       const height = (_b = this.state.adSize) === null || _b === void 0 ? void 0 : _b[1];
@@ -2452,8 +2485,8 @@ class HopprBannerAd extends React.Component {
               width: width,
               height: height,
               position: 'absolute',
-              borderColor: 'red',
-              borderWidth: this.state.isSelected ? 1 : 0
+              borderColor: (_c = this.props.selectedBorderColor) !== null && _c !== void 0 ? _c : 'red',
+              borderWidth: this.state.isSelected ? (_d = this.props.selectedBorderWidth) !== null && _d !== void 0 ? _d : 1 : 0
             }
           })]
         });
@@ -2476,16 +2509,23 @@ class HopprBannerAd extends React.Component {
     this.triggerInteractivity();
   }
   setIsSelected(value) {
-    this.setState({
-      isSelected: value
-    });
+    if (value != this.state.isSelected) {
+      this.setState({
+        isSelected: value
+      });
+    }
   }
   getWebView(template) {
     return /*#__PURE__*/jsx(WebView, {
       style: {
         backgroundColor: 'transparent'
       },
-      ref: this.webView,
+      ref: this.webView
+      // injectedJavaScript={this.debugging}
+      // injectedJavaScriptBeforeContentLoaded={this.debugging}
+      ,
+      injectedJavaScriptForMainFrameOnly: false,
+      injectedJavaScriptBeforeContentLoadedForMainFrameOnly: false,
       javaScriptEnabled: true,
       javaScriptCanOpenWindowsAutomatically: true,
       onShouldStartLoadWithRequest: this.onShouldStartLoadWithRequest,
@@ -2514,13 +2554,20 @@ class HopprBannerAd extends React.Component {
     return this.props.targetProperties ? `${JSON.stringify(this.props.targetProperties)}` : '{}';
   }
   generateTemplate() {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     let template = '';
     this.typedContext = JSON.parse(JSON.stringify(this.context));
+    this.android.setPropertiesData({
+      apiKey: [(_c = (_b = (_a = this.typedContext) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.apiKey) !== null && _c !== void 0 ? _c : ''],
+      ppid: [(_f = (_e = (_d = this.typedContext) === null || _d === void 0 ? void 0 : _d.config) === null || _e === void 0 ? void 0 : _e.userId) !== null && _f !== void 0 ? _f : ''],
+      appVersion: ['0.0.1'],
+      baseApiUrl: ['https://us-central1-hoppr-androidtv-test.cloudfunctions.net/'],
+      appId: [(_j = (_h = (_g = this.typedContext) === null || _g === void 0 ? void 0 : _g.config) === null || _h === void 0 ? void 0 : _h.appId) !== null && _j !== void 0 ? _j : '']
+    });
     if (this.typedContext && this.typedContext.adSlots) {
-      this.matchingAdSlots = (_a = JSON.parse(this.typedContext.adSlots)) === null || _a === void 0 ? void 0 : _a.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
+      this.matchingAdSlots = (_k = JSON.parse(this.typedContext.adSlots)) === null || _k === void 0 ? void 0 : _k.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0) {
-        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_b = this.typedContext.config) === null || _b === void 0 ? void 0 : _b.userId);
+        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_l = this.typedContext.config) === null || _l === void 0 ? void 0 : _l.userId);
       }
     }
     return template;
@@ -2538,7 +2585,7 @@ class HopprBannerAd extends React.Component {
     }
   }
   triggerInteractivity() {
-    var _a, _b;
+    var _a, _b, _c;
     // const url =
     //   'https://play.google.com/store/apps/details?id=com.amazon.amazonvideo.livingroom';
     // const url = 'market://details?id=com.amazon.amazonvideo.livingroom';
@@ -2550,7 +2597,7 @@ class HopprBannerAd extends React.Component {
       switch (behavior) {
         case InteractiveBehavior.Deeplink:
           {
-            this.openExternalLink(url);
+            this.openExternalLink(url, (_c = this.interactivity) === null || _c === void 0 ? void 0 : _c.clickThruLink);
             break;
           }
       }
@@ -2558,26 +2605,67 @@ class HopprBannerAd extends React.Component {
       this.logDeeplinkError('Interactivity not initalized correctly - empty URL or behavior');
     }
   }
-  postMessageTest() {
-    // this.webView?.current?.injectJavaScript(js);
-  }
+  injectJs() {
+    setInterval(() => {
+      var _a;
+      (_a = this.webView.current) === null || _a === void 0 ? void 0 : _a.injectJavaScript(`
+       var element = document.getElementById("hoppr-div");
 
+      var firstIframe = element.querySelector('iframe');
+        var secondIframe = firstIframe?.contentWindow?.document.querySelector('iframe');
+
+
+        //alert(secondIframe)
+
+        secondIframe?.contentWindow?.postMessage(${this.android.getAdEventParams()}, '*');
+        secondIframe?.contentWindow?.postMessage(${this.android.getPropertiesData()}, '*');
+
+        `);
+    }, 100);
+  }
   logDeeplinkError(error, errorObject) {
     console.error(error, errorObject);
     if (errorObject) error += JSON.stringify(errorObject);
-    HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalDeeplinkError, AnalyticsUtils.getDeepLinkErrorRecord(this.instanceUUID, this.props, this.state, error));
+    HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalDeeplinkError, AnalyticsUtils.getDeepLinkErrorRecord(this.instanceUUID, this.userAgent, this.props, this.state, error));
   }
-  logDeeplinkClicked(url, supported) {
-    HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalDeeplinkClicked, AnalyticsUtils.getDeepLinkRecord(this.instanceUUID, this.props, this.state, url, supported));
+  logDeeplinkClicked(url, supported, clickThruLink) {
+    HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalDeeplinkClicked, AnalyticsUtils.getDeepLinkRecord(this.instanceUUID, this.userAgent, this.props, this.state, url, supported, clickThruLink));
   }
   logGptEvent(gptEvent) {
     const eventType = AnalyticsUtils.mapGptEventNameToHopprEvent(gptEvent.name);
     if (eventType) {
-      HopprAnalytics.logInternalEvent(eventType, AnalyticsUtils.getGptEventRecord(this.instanceUUID, this.props, this.state, gptEvent));
+      HopprAnalytics.logInternalEvent(eventType, AnalyticsUtils.getGptEventRecord(this.instanceUUID, this.userAgent, this.props, this.state, gptEvent));
     }
   }
 }
 HopprBannerAd.contextType = HopprAdContext;
+class Android {
+  constructor() {
+    this.adEventParams = {
+      CreativeId: '',
+      CampaignId: ''
+    };
+    this.propertiesData = {
+      ppid: [''],
+      apiKey: [''],
+      appId: [''],
+      baseApiUrl: [''],
+      appVersion: ['']
+    };
+  }
+  setAdEventParams(adEventParams) {
+    this.adEventParams = adEventParams;
+  }
+  setPropertiesData(propertiesData) {
+    this.propertiesData = propertiesData;
+  }
+  getAdEventParams() {
+    return JSON.stringify(this.adEventParams);
+  }
+  getPropertiesData() {
+    return JSON.stringify(this.propertiesData);
+  }
+}
 
 var _a;
 class HopprAnalyticsLogger {}

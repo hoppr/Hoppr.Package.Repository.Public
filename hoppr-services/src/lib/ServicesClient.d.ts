@@ -15,4 +15,5 @@ export declare class ServicesClient implements IServicesClient {
     update(req: UpdateReq): Promise<UpdateResp>;
     postAnalytics(req: IAnalyticsRequest): Promise<AnalyticsResp>;
     postBeaconAnalytics(req: IAnalyticsRequest): Promise<AnalyticsResp>;
+    invokeClickThrough(userAgent: string, url: string): Promise<any>;
 }

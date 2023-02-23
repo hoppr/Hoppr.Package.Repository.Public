@@ -83,6 +83,28 @@ class ServicesClient {
             return response;
         });
     }
+    invokeClickThrough(userAgent, url) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const response = {};
+            try {
+                const config = {
+                    headers: {
+                        'User-Agent': userAgent,
+                    },
+                };
+                const apiResponse = yield this._httpClient.get(url, config);
+                response.data = apiResponse.data;
+            }
+            catch (error) {
+                response.error = {
+                    message: error.message,
+                    details: error,
+                };
+                console.error('invokeClickThrough error', error);
+            }
+            return response;
+        });
+    }
 }
 exports.ServicesClient = ServicesClient;
 //# sourceMappingURL=ServicesClient.js.map
