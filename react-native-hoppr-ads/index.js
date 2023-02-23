@@ -2425,14 +2425,7 @@ class HopprBannerAd extends React.Component {
                       CreativeId: message.gptEvent.responseInfo.creativeId.toString()
                     });
                   }
-                } else if (message.gptEvent.name === 'slotRenderEnded') {
-                  console.log('slotRenderEnded');
-                  // this.injectJs();
-                } else if (message.gptEvent.name === 'slotOnload') {
-                  console.log('slotOnl oad');
-                  // this.injectJs();
                 } else if (message.gptEvent.name === 'impressionViewable') {
-                  console.log('impressionViewable');
                   this.injectJs();
                 }
                 this.logGptEvent(message.gptEvent);
@@ -2638,6 +2631,7 @@ class HopprBannerAd extends React.Component {
     // const url = 'https://www.disneyplus.com/';
     const url = (_a = this.interactivity) === null || _a === void 0 ? void 0 : _a.url;
     const behavior = (_b = this.interactivity) === null || _b === void 0 ? void 0 : _b.behavior;
+    console.log('triggerInteractivity', JSON.stringify(this.interactivity));
     if (url && behavior) {
       switch (behavior) {
         case InteractiveBehavior.Deeplink:
