@@ -5,7 +5,7 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, AppState, Linking, Pressable, View } from 'react-native';
+import { Platform, AppState, Linking, PixelRatio, Pressable, View } from 'react-native';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
 
@@ -2259,7 +2259,7 @@ const stringTemplate = `
   <meta charset="utf-8" />
   <base href="/" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="initial-scale=%INITIAL_SCALE%, user-scalable=no">
 
   <style>
     html,
@@ -2418,12 +2418,22 @@ class HopprBannerAd extends React.Component {
                     }
                   }
                 } else if (message.gptEvent.name === 'slotResponseReceived') {
+                  console.log('slotResponseReceived');
                   if (((_a = message.gptEvent.responseInfo) === null || _a === void 0 ? void 0 : _a.creativeId) && ((_b = message.gptEvent.responseInfo) === null || _b === void 0 ? void 0 : _b.campaignId)) {
                     this.android.setAdEventParams({
                       CampaignId: message.gptEvent.responseInfo.campaignId.toString(),
                       CreativeId: message.gptEvent.responseInfo.creativeId.toString()
                     });
                   }
+                } else if (message.gptEvent.name === 'slotRenderEnded') {
+                  console.log('slotRenderEnded');
+                  // this.injectJs();
+                } else if (message.gptEvent.name === 'slotOnload') {
+                  console.log('slotOnl oad');
+                  // this.injectJs();
+                } else if (message.gptEvent.name === 'impressionViewable') {
+                  console.log('impressionViewable');
+                  this.injectJs();
                 }
                 this.logGptEvent(message.gptEvent);
               }
@@ -2451,19 +2461,53 @@ class HopprBannerAd extends React.Component {
     if (!this.isAppleTV()) {
       HopprAnalytics.logInternalEvent(HopprInternalEvents.HopprInternalConstructorBanner, AnalyticsUtils.getStandardBannerProperties(this.instanceUUID, this.userAgent, this.props, this.state));
     }
-    this.injectJs();
   }
   render() {
     var _a, _b, _c, _d;
     if (!this.isAppleTV()) {
       const template = this.generateTemplate();
       const viewStyle = this.props.style;
-      const width = (_a = this.state.adSize) === null || _a === void 0 ? void 0 : _a[0];
-      const height = (_b = this.state.adSize) === null || _b === void 0 ? void 0 : _b[1];
+      var width = (_a = this.state.adSize) === null || _a === void 0 ? void 0 : _a[0];
+      var height = (_b = this.state.adSize) === null || _b === void 0 ? void 0 : _b[1];
       let opacity = 0;
       if (width > 0) {
         opacity = 1;
+        if (Platform.isTV) {
+          var pixelRatio = PixelRatio.get();
+          width = width / pixelRatio;
+          height = height / pixelRatio;
+        }
+        // var newWidth1 = PixelRatio.getPixelSizeForLayoutSize(width);
+        // var newHeight1 = PixelRatio.getPixelSizeForLayoutSize(height);
+        // var newWidth2 = width / pixelRatio;
+        // var newHeight2 = height / pixelRatio;
+        // var newWidth3 = width * pixelRatio;
+        // var newHeight3 = height * pixelRatio;
+        // // var newWidth4 = width * devicePixelRatio;
+        // // var newHeight4 = height * devicePixelRatio;
+        // const windowWidth = Dimensions.get('window').width;
+        // const windowHeight = Dimensions.get('window').height;
+        // const screenWith = Dimensions.get('screen').width;
+        // const screenHeight = Dimensions.get('screen').height;
+        // console.log('----------------------------');
+        // console.log('render - width', width);
+        // console.log('render - height', height);
+        // console.log('render - newWidth1', newWidth1);
+        // console.log('render - newHeight1', newHeight1);
+        // console.log('render - newWidth2', newWidth2);
+        // console.log('render - newHeight2', newHeight2);
+        // console.log('render - newWidth3', newWidth3);
+        // console.log('render - newHeight3', newHeight3);
+        // // console.log('render - newWidth4', newWidth4);
+        // // console.log('render - newHeight4', newHeight4);
+        // console.log('render - windowWidth', windowWidth);
+        // console.log('render - windowHeight', windowHeight);
+        // console.log('render - screenWith', screenWith);
+        // console.log('render - screenHeight', screenHeight);
+        // console.log('render - devicePixelRatio', pixelRatio);
+        // console.log('----------------------------');
       }
+
       if (Platform.isTV) {
         return /*#__PURE__*/jsxs(Pressable, {
           style: Object.assign(Object.assign({}, viewStyle), {
@@ -2480,7 +2524,7 @@ class HopprBannerAd extends React.Component {
           onBlur: () => {
             this.setIsSelected(false);
           },
-          children: [this.getWebView(template), /*#__PURE__*/jsx(View, {
+          children: [this.getWebView(template, width, height), /*#__PURE__*/jsx(View, {
             style: {
               width: width,
               height: height,
@@ -2498,7 +2542,7 @@ class HopprBannerAd extends React.Component {
             width: width,
             height: height
           }),
-          children: this.getWebView(template)
+          children: this.getWebView(template, width, height)
         });
       }
     } else {
@@ -2515,15 +2559,16 @@ class HopprBannerAd extends React.Component {
       });
     }
   }
-  getWebView(template) {
+  getWebView(template, width, height) {
     return /*#__PURE__*/jsx(WebView, {
       style: {
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        // resizeMode: 'cover',
+        flex: 1,
+        width: width,
+        height: height
       },
-      ref: this.webView
-      // injectedJavaScript={this.debugging}
-      // injectedJavaScriptBeforeContentLoaded={this.debugging}
-      ,
+      ref: this.webView,
       injectedJavaScriptForMainFrameOnly: false,
       injectedJavaScriptBeforeContentLoadedForMainFrameOnly: false,
       javaScriptEnabled: true,
@@ -2567,7 +2612,7 @@ class HopprBannerAd extends React.Component {
     if (this.typedContext && this.typedContext.adSlots) {
       this.matchingAdSlots = (_k = JSON.parse(this.typedContext.adSlots)) === null || _k === void 0 ? void 0 : _k.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0) {
-        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_l = this.typedContext.config) === null || _l === void 0 ? void 0 : _l.userId);
+        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_l = this.typedContext.config) === null || _l === void 0 ? void 0 : _l.userId).replace(/(%INITIAL_SCALE%)/g, Platform.isTV ? '0.5' : '1.0');
       }
     }
     return template;
@@ -2606,9 +2651,9 @@ class HopprBannerAd extends React.Component {
     }
   }
   injectJs() {
-    setInterval(() => {
-      var _a;
-      (_a = this.webView.current) === null || _a === void 0 ? void 0 : _a.injectJavaScript(`
+    var _a;
+    // setInterval(() => {
+    (_a = this.webView.current) === null || _a === void 0 ? void 0 : _a.injectJavaScript(`
        var element = document.getElementById("hoppr-div");
 
       var firstIframe = element.querySelector('iframe');
@@ -2621,8 +2666,9 @@ class HopprBannerAd extends React.Component {
         secondIframe?.contentWindow?.postMessage(${this.android.getPropertiesData()}, '*');
 
         `);
-    }, 100);
+    // }, 100);
   }
+
   logDeeplinkError(error, errorObject) {
     console.error(error, errorObject);
     if (errorObject) error += JSON.stringify(errorObject);
