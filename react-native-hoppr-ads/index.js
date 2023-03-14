@@ -1769,10 +1769,12 @@ class HopprPIP extends React.Component {
     super(props);
     this.pipWidth = 200;
     this.pipHeight = 200;
+    this.screenshotInterval = null;
     this.state = {
       imageUrl: '',
       previousImageUrl: ''
     };
+    this.startScreenshotInterval();
   }
   render() {
     if (this.state.imageUrl && this.state.imageUrl != '' && this.state.previousImageUrl && this.state.previousImageUrl != '') {
@@ -1821,17 +1823,40 @@ class HopprPIP extends React.Component {
       imageUrl: newImageUrl
     });
   }
+  componentWillUnmount() {
+    this.clearScreenshotInterval();
+  }
+  clearScreenshotInterval() {
+    if (this.screenshotInterval) {
+      clearInterval(this.screenshotInterval);
+      this.screenshotInterval = null;
+    }
+  }
+  startScreenshotInterval() {
+    if (!this.screenshotInterval) {
+      this.screenshotInterval = setInterval(() => {
+        captureScreen({
+          format: 'jpg',
+          // format: 'raw',
+          quality: 0.2
+        }).then(uri => {
+          // this.hopprPIPRef?.current?.updateImageUrl(uri);
+          this.updateImageUrl(uri);
+        }, error => console.log('Oops, snapshot failed', error));
+      }, 500);
+    }
+  }
 }
 
 class HopprAdProvider extends React.Component {
+  // private hopprPIPRef: RefObject<HopprPIP> = createRef();
+  // private screenshotInterval: NodeJS.Timer | null = null;
   constructor(props) {
     super(props);
     this.isInternalUserIdReady = false;
     this.isAdSlotsReady = false;
     this.adSlots = '';
     this.hopprInternalUserId = '';
-    this.hopprPIPRef = /*#__PURE__*/createRef();
-    this.screenshotInterval = null;
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
       var _a, _b, _c;
       const request = {
@@ -1900,51 +1925,49 @@ class HopprAdProvider extends React.Component {
     };
     this.initHoppr();
     this.initAnalytics(props.config.appId, props.config.apiKey, props.config.userId);
-    this.startScreenshotInterval();
   }
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {
-        ref: this.hopprPIPRef
-      })]
+      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {})]
     });
   }
   componentDidMount() {
     this.appStateSubscription = AppState.addEventListener('change', nextAppState => {
       console.log('HopprAdProvider', nextAppState);
       if (nextAppState.match(/inactive|background/)) {
-        HopprAnalytics.sendBeaconNative(); // We send remainings event when app become inactive or in backgroundclea
-        this.clearScreenshotInterval();
-      } else if (nextAppState.match(/active/)) {
-        this.startScreenshotInterval();
-      } else ;
+        HopprAnalytics.sendBeaconNative(); // We send remainings event when app become inactive or in background
+        // this.clearScreenshotInterval();
+      } else if (nextAppState.match(/active/)) ; else ;
     });
   }
   componentWillUnmount() {
     var _a;
     (_a = this.appStateSubscription) === null || _a === void 0 ? void 0 : _a.remove();
+    // this.clearScreenshotInterval();
   }
-  clearScreenshotInterval() {
-    if (this.screenshotInterval) {
-      clearInterval(this.screenshotInterval);
-      this.screenshotInterval = null;
-    }
-  }
-  startScreenshotInterval() {
-    if (!this.screenshotInterval) {
-      this.screenshotInterval = setInterval(() => {
-        captureScreen({
-          format: 'jpg',
-          // format: 'raw',
-          quality: 0.2
-        }).then(uri => {
-          var _a, _b;
-          (_b = (_a = this.hopprPIPRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.updateImageUrl(uri);
-        }, error => console.log('Oops, snapshot failed', error));
-      }, 500);
-    }
-  }
+  // private clearScreenshotInterval() {
+  //   if (this.screenshotInterval) {
+  //     clearInterval(this.screenshotInterval);
+  //     this.screenshotInterval = null;
+  //   }
+  // }
+  // private startScreenshotInterval() {
+  //   if (!this.screenshotInterval) {
+  //     this.screenshotInterval = setInterval(() => {
+  //       captureScreen({
+  //         format: 'jpg',
+  //         // format: 'raw',
+  //         quality: 0.2,
+  //       }).then(
+  //         (uri) => {
+  //           this.hopprPIPRef?.current?.updateImageUrl(uri);
+  //         },
+  //         (error) => console.log('Oops, snapshot failed', error)
+  //       );
+  //     }, 500);
+  //   }
+  // }
   setAdSlots(adSlots) {
     this.isAdSlotsReady = true;
     this.adSlots = adSlots;

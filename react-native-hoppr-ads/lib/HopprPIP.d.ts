@@ -10,7 +10,11 @@ export interface IHopprPIPProps extends ViewProps {
 export declare class HopprPIP extends React.Component<IHopprPIPProps, IHopprPIPState> {
     private pipWidth;
     private pipHeight;
+    private screenshotInterval;
     constructor(props: IHopprBannerAdProps | Readonly<IHopprBannerAdProps>);
     render(): JSX.Element;
     updateImageUrl(newImageUrl: string): void;
+    componentWillUnmount(): void;
+    private clearScreenshotInterval;
+    private startScreenshotInterval;
 }
