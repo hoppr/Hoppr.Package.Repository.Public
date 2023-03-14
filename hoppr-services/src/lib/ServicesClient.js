@@ -13,15 +13,19 @@ const defaultServiceClientConfig = {
  */
 class ServicesClient {
     constructor(config, logger) {
-        this.baseURL = 'https://us-central1-hoppr-androidtv-test.cloudfunctions.net/sdkapi';
-        this.updateURL = `${this.baseURL}/update`;
-        this.analyticsURL = `${this.baseURL}/analytics`;
+        this.baseUrl = 'https://us-central1-hoppr-androidtv-test.cloudfunctions.net/';
+        this.baseSdkApiUrl = `${this.baseUrl}sdkapi`;
+        this.updateURL = `${this.baseSdkApiUrl}/update`;
+        this.analyticsURL = `${this.baseSdkApiUrl}/analytics`;
         this._logger = logger;
         this._config = config;
         this._httpClient = axios_1.default;
     }
     static get(config, logger = defaultLogger) {
         return new ServicesClient(Object.assign(Object.assign({}, defaultServiceClientConfig), config), logger);
+    }
+    getBaseApiUrl() {
+        return this.baseUrl;
     }
     update(req) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {

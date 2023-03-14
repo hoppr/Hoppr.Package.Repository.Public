@@ -5,6 +5,3 @@ export declare enum WindowMessageType {
     GptEvent = "GptEvent",
     UpdateUserAgent = "UpdateUserAgent"
 }
-export declare enum InteractiveBehavior {
-    Deeplink = "Deeplink"
-}

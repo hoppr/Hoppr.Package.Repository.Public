@@ -5,8 +5,9 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, AppState, Linking, PixelRatio, Pressable, View } from 'react-native';
-import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
+import { Platform, View, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
+import { captureScreen } from 'react-native-view-shot';
+import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -1762,6 +1763,66 @@ class AnalyticsUtils {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-var-requires */
+class HopprPIP extends React.Component {
+  constructor(props) {
+    super(props);
+    this.pipWidth = 200;
+    this.pipHeight = 200;
+    this.state = {
+      imageUrl: '',
+      previousImageUrl: ''
+    };
+  }
+  render() {
+    if (this.state.imageUrl && this.state.imageUrl != '' && this.state.previousImageUrl && this.state.previousImageUrl != '') {
+      return /*#__PURE__*/jsxs(View, {
+        style: {
+          position: 'absolute'
+          // width: this.pipWidth,
+          // height: this.pipHeight,
+          // backgroundColor: 'tr',
+        },
+        children: [/*#__PURE__*/jsx(Image, {
+          fadeDuration: 0,
+          style: {
+            width: this.pipWidth,
+            height: this.pipHeight,
+            resizeMode: 'cover',
+            position: 'absolute'
+          }
+          // resizeMethod="auto"
+          ,
+          source: {
+            uri: this.state.previousImageUrl
+          }
+        }), /*#__PURE__*/jsx(Image, {
+          fadeDuration: 0,
+          style: {
+            width: this.pipWidth,
+            height: this.pipHeight,
+            resizeMode: 'cover',
+            position: 'absolute'
+          }
+          // resizeMethod="auto"
+          ,
+          source: {
+            uri: this.state.imageUrl
+          }
+        })]
+      });
+    } else {
+      return /*#__PURE__*/jsx(View, {});
+    }
+  }
+  updateImageUrl(newImageUrl) {
+    this.setState({
+      previousImageUrl: this.state.imageUrl,
+      imageUrl: newImageUrl
+    });
+  }
+}
+
 class HopprAdProvider extends React.Component {
   constructor(props) {
     super(props);
@@ -1769,6 +1830,8 @@ class HopprAdProvider extends React.Component {
     this.isAdSlotsReady = false;
     this.adSlots = '';
     this.hopprInternalUserId = '';
+    this.hopprPIPRef = /*#__PURE__*/createRef();
+    this.screenshotInterval = null;
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
       var _a, _b, _c;
       const request = {
@@ -1837,24 +1900,50 @@ class HopprAdProvider extends React.Component {
     };
     this.initHoppr();
     this.initAnalytics(props.config.appId, props.config.apiKey, props.config.userId);
+    this.startScreenshotInterval();
   }
   render() {
-    return /*#__PURE__*/jsx(HopprAdContext.Provider, {
+    return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: this.props.children
+      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {
+        ref: this.hopprPIPRef
+      })]
     });
   }
   componentDidMount() {
     this.appStateSubscription = AppState.addEventListener('change', nextAppState => {
+      console.log('HopprAdProvider', nextAppState);
       if (nextAppState.match(/inactive|background/)) {
-        HopprAnalytics.sendBeaconNative(); // We send remainings event when app become inactive or in background
-      }
+        HopprAnalytics.sendBeaconNative(); // We send remainings event when app become inactive or in backgroundclea
+        this.clearScreenshotInterval();
+      } else if (nextAppState.match(/active/)) {
+        this.startScreenshotInterval();
+      } else ;
     });
   }
-
   componentWillUnmount() {
     var _a;
     (_a = this.appStateSubscription) === null || _a === void 0 ? void 0 : _a.remove();
+  }
+  clearScreenshotInterval() {
+    if (this.screenshotInterval) {
+      clearInterval(this.screenshotInterval);
+      this.screenshotInterval = null;
+    }
+  }
+  startScreenshotInterval() {
+    if (!this.screenshotInterval) {
+      this.screenshotInterval = setInterval(() => {
+        captureScreen({
+          format: 'jpg',
+          // format: 'raw',
+          quality: 0.2
+        }).then(uri => {
+          var _a, _b;
+          (_b = (_a = this.hopprPIPRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.updateImageUrl(uri);
+        }, error => console.log('Oops, snapshot failed', error));
+      }, 500);
+    }
   }
   setAdSlots(adSlots) {
     this.isAdSlotsReady = true;
@@ -1869,6 +1958,7 @@ class HopprAdProvider extends React.Component {
   tryUpdateState() {
     if (this.isInternalUserIdReady && this.isAdSlotsReady) {
       this.setState({
+        // TODO is it necessary? will be better in banners
         hopprInternalUserId: this.hopprInternalUserId,
         adSlots: this.adSlots
       });
@@ -2238,19 +2328,6 @@ fixRegExpWellKnownSymbolLogic('replace', function (_, nativeReplace, maybeCallNa
   ];
 }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
 
-var WindowMessageType;
-(function (WindowMessageType) {
-  WindowMessageType["InitializeInteractivity"] = "InitializeInteractivity";
-  WindowMessageType["TriggerInteractivity"] = "TriggerInteractivity";
-  WindowMessageType["SetAdSizes"] = "SetAdSizes";
-  WindowMessageType["GptEvent"] = "GptEvent";
-  WindowMessageType["UpdateUserAgent"] = "UpdateUserAgent";
-})(WindowMessageType || (WindowMessageType = {}));
-var InteractiveBehavior;
-(function (InteractiveBehavior) {
-  InteractiveBehavior["Deeplink"] = "Deeplink";
-})(InteractiveBehavior || (InteractiveBehavior = {}));
-
 const stringTemplate = `
 <!DOCTYPE html>
 <html lang="en">
@@ -2366,13 +2443,27 @@ const stringTemplate = `
 </html>
 `;
 
+var WindowMessageType;
+(function (WindowMessageType) {
+  WindowMessageType["InitializeInteractivity"] = "InitializeInteractivity";
+  WindowMessageType["TriggerInteractivity"] = "TriggerInteractivity";
+  WindowMessageType["SetAdSizes"] = "SetAdSizes";
+  WindowMessageType["GptEvent"] = "GptEvent";
+  WindowMessageType["UpdateUserAgent"] = "UpdateUserAgent";
+})(WindowMessageType || (WindowMessageType = {}));
+
+var InteractiveBehavior;
+(function (InteractiveBehavior) {
+  InteractiveBehavior["Deeplink"] = "Deeplink";
+})(InteractiveBehavior || (InteractiveBehavior = {}));
+
 class HopprBannerAd extends React.Component {
+  // private adProperties: AdProperties = new AdProperties();
   constructor(props) {
     super(props);
     this.instanceUUID = UUIDUtils.getID();
     this.userAgent = '';
     this.webView = /*#__PURE__*/createRef();
-    this.android = new Android();
     this.onShouldStartLoadWithRequest = ({
       url,
       canGoBack,
@@ -2398,7 +2489,6 @@ class HopprBannerAd extends React.Component {
       });
     };
     this.onMessage = data => {
-      var _a, _b;
       try {
         const message = JSON.parse(data.nativeEvent.data);
         switch (message.type) {
@@ -2417,17 +2507,22 @@ class HopprBannerAd extends React.Component {
                       this.setAdSize(sizes);
                     }
                   }
-                } else if (message.gptEvent.name === 'slotResponseReceived') {
-                  console.log('slotResponseReceived');
-                  if (((_a = message.gptEvent.responseInfo) === null || _a === void 0 ? void 0 : _a.creativeId) && ((_b = message.gptEvent.responseInfo) === null || _b === void 0 ? void 0 : _b.campaignId)) {
-                    this.android.setAdEventParams({
-                      CampaignId: message.gptEvent.responseInfo.campaignId.toString(),
-                      CreativeId: message.gptEvent.responseInfo.creativeId.toString()
-                    });
-                  }
-                } else if (message.gptEvent.name === 'impressionViewable') {
-                  this.injectJs();
                 }
+                // else if (message.gptEvent.name === 'slotResponseReceived') {
+                //   if (
+                //     message.gptEvent.responseInfo?.creativeId &&
+                //     message.gptEvent.responseInfo?.campaignId
+                //   ) {
+                //     this.adProperties.setAdEventParams({
+                //       CampaignId:
+                //         message.gptEvent.responseInfo.campaignId.toString(),
+                //       CreativeId:
+                //         message.gptEvent.responseInfo.creativeId.toString(),
+                //     });
+                //   }
+                // } else if (message.gptEvent.name === 'impressionViewable') {
+                //   this.injectAdProperties();
+                // }
                 this.logGptEvent(message.gptEvent);
               }
               break;
@@ -2470,37 +2565,7 @@ class HopprBannerAd extends React.Component {
           width = width / pixelRatio;
           height = height / pixelRatio;
         }
-        // var newWidth1 = PixelRatio.getPixelSizeForLayoutSize(width);
-        // var newHeight1 = PixelRatio.getPixelSizeForLayoutSize(height);
-        // var newWidth2 = width / pixelRatio;
-        // var newHeight2 = height / pixelRatio;
-        // var newWidth3 = width * pixelRatio;
-        // var newHeight3 = height * pixelRatio;
-        // // var newWidth4 = width * devicePixelRatio;
-        // // var newHeight4 = height * devicePixelRatio;
-        // const windowWidth = Dimensions.get('window').width;
-        // const windowHeight = Dimensions.get('window').height;
-        // const screenWith = Dimensions.get('screen').width;
-        // const screenHeight = Dimensions.get('screen').height;
-        // console.log('----------------------------');
-        // console.log('render - width', width);
-        // console.log('render - height', height);
-        // console.log('render - newWidth1', newWidth1);
-        // console.log('render - newHeight1', newHeight1);
-        // console.log('render - newWidth2', newWidth2);
-        // console.log('render - newHeight2', newHeight2);
-        // console.log('render - newWidth3', newWidth3);
-        // console.log('render - newHeight3', newHeight3);
-        // // console.log('render - newWidth4', newWidth4);
-        // // console.log('render - newHeight4', newHeight4);
-        // console.log('render - windowWidth', windowWidth);
-        // console.log('render - windowHeight', windowHeight);
-        // console.log('render - screenWith', screenWith);
-        // console.log('render - screenHeight', screenHeight);
-        // console.log('render - devicePixelRatio', pixelRatio);
-        // console.log('----------------------------');
       }
-
       if (Platform.isTV) {
         return /*#__PURE__*/jsxs(Pressable, {
           style: Object.assign(Object.assign({}, viewStyle), {
@@ -2556,7 +2621,6 @@ class HopprBannerAd extends React.Component {
     return /*#__PURE__*/jsx(WebView, {
       style: {
         backgroundColor: 'transparent',
-        // resizeMode: 'cover',
         flex: 1,
         width: width,
         height: height
@@ -2589,23 +2653,40 @@ class HopprBannerAd extends React.Component {
     return 'null';
   }
   getStringifiedTargetProperties() {
-    return this.props.targetProperties ? `${JSON.stringify(this.props.targetProperties)}` : '{}';
+    var _a, _b;
+    var properties = {};
+    var userId = (_b = (_a = this.typedContext) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.userId;
+    var baseApiUrl = ServicesClient.get().getBaseApiUrl();
+    if (this.props.targetProperties) {
+      properties = this.props.targetProperties;
+    }
+    if (userId) {
+      properties['ppid'] = userId;
+    }
+    properties['baseApiUrl'] = baseApiUrl;
+    return JSON.stringify(properties);
+    // return this.props.targetProperties
+    //   ? `${JSON.stringify(this.props.targetProperties)}`
+    //   : '{}';
   }
+
   generateTemplate() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+    var _a, _b;
     let template = '';
     this.typedContext = JSON.parse(JSON.stringify(this.context));
-    this.android.setPropertiesData({
-      apiKey: [(_c = (_b = (_a = this.typedContext) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.apiKey) !== null && _c !== void 0 ? _c : ''],
-      ppid: [(_f = (_e = (_d = this.typedContext) === null || _d === void 0 ? void 0 : _d.config) === null || _e === void 0 ? void 0 : _e.userId) !== null && _f !== void 0 ? _f : ''],
-      appVersion: ['0.0.1'],
-      baseApiUrl: ['https://us-central1-hoppr-androidtv-test.cloudfunctions.net/'],
-      appId: [(_j = (_h = (_g = this.typedContext) === null || _g === void 0 ? void 0 : _g.config) === null || _h === void 0 ? void 0 : _h.appId) !== null && _j !== void 0 ? _j : '']
-    });
+    // this.adProperties.setPropertiesData({
+    //   apiKey: [this.typedContext?.config?.apiKey ?? ''],
+    //   ppid: [this.typedContext?.config?.userId ?? ''],
+    //   appVersion: ['0.0.1'],
+    //   baseApiUrl: [
+    //     'https://us-central1-hoppr-androidtv-test.cloudfunctions.net/',
+    //   ],
+    //   appId: [this.typedContext?.config?.appId ?? ''],
+    // });
     if (this.typedContext && this.typedContext.adSlots) {
-      this.matchingAdSlots = (_k = JSON.parse(this.typedContext.adSlots)) === null || _k === void 0 ? void 0 : _k.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
+      this.matchingAdSlots = (_a = JSON.parse(this.typedContext.adSlots)) === null || _a === void 0 ? void 0 : _a.filter(ad => ad.hopprAdUnit === this.props.adUnitId);
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0) {
-        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_l = this.typedContext.config) === null || _l === void 0 ? void 0 : _l.userId).replace(/(%INITIAL_SCALE%)/g, Platform.isTV ? '0.5' : '1.0');
+        template = stringTemplate.replace(/(%AD_UNIT_ID%)/g, this.matchingAdSlots[0].gamAdUnit).replace(/("%TARGETING_PROPERTIES%")/g, this.getStringifiedTargetProperties()).replace(/("%AD_SIZES%")/g, this.getStringifiedSizes()).replace(/(%USER_ID%)/g, (_b = this.typedContext.config) === null || _b === void 0 ? void 0 : _b.userId).replace(/(%INITIAL_SCALE%)/g, Platform.isTV ? '0.5' : '1.0');
       }
     }
     return template;
@@ -2631,7 +2712,6 @@ class HopprBannerAd extends React.Component {
     // const url = 'https://www.disneyplus.com/';
     const url = (_a = this.interactivity) === null || _a === void 0 ? void 0 : _a.url;
     const behavior = (_b = this.interactivity) === null || _b === void 0 ? void 0 : _b.behavior;
-    console.log('triggerInteractivity', JSON.stringify(this.interactivity));
     if (url && behavior) {
       switch (behavior) {
         case InteractiveBehavior.Deeplink:
@@ -2644,25 +2724,17 @@ class HopprBannerAd extends React.Component {
       this.logDeeplinkError('Interactivity not initalized correctly - empty URL or behavior');
     }
   }
-  injectJs() {
-    var _a;
-    // setInterval(() => {
-    (_a = this.webView.current) === null || _a === void 0 ? void 0 : _a.injectJavaScript(`
-       var element = document.getElementById("hoppr-div");
-
-      var firstIframe = element.querySelector('iframe');
-        var secondIframe = firstIframe?.contentWindow?.document.querySelector('iframe');
-
-
-        //alert(secondIframe)
-
-        secondIframe?.contentWindow?.postMessage(${this.android.getAdEventParams()}, '*');
-        secondIframe?.contentWindow?.postMessage(${this.android.getPropertiesData()}, '*');
-
-        `);
-    // }, 100);
-  }
-
+  // private injectAdProperties() {
+  //   this.webView.current?.injectJavaScript(
+  //     `
+  //       var element = document.getElementById("hoppr-div");
+  //       var firstIframe = element.querySelector('iframe');
+  //       var secondIframe = firstIframe?.contentWindow?.document.querySelector('iframe');
+  //       secondIframe?.contentWindow?.postMessage(${this.adProperties.getAdEventParams()}, '*');
+  //       secondIframe?.contentWindow?.postMessage(${this.adProperties.getPropertiesData()}, '*');
+  //       `
+  //   );
+  // }
   logDeeplinkError(error, errorObject) {
     console.error(error, errorObject);
     if (errorObject) error += JSON.stringify(errorObject);
@@ -2679,33 +2751,6 @@ class HopprBannerAd extends React.Component {
   }
 }
 HopprBannerAd.contextType = HopprAdContext;
-class Android {
-  constructor() {
-    this.adEventParams = {
-      CreativeId: '',
-      CampaignId: ''
-    };
-    this.propertiesData = {
-      ppid: [''],
-      apiKey: [''],
-      appId: [''],
-      baseApiUrl: [''],
-      appVersion: ['']
-    };
-  }
-  setAdEventParams(adEventParams) {
-    this.adEventParams = adEventParams;
-  }
-  setPropertiesData(propertiesData) {
-    this.propertiesData = propertiesData;
-  }
-  getAdEventParams() {
-    return JSON.stringify(this.adEventParams);
-  }
-  getPropertiesData() {
-    return JSON.stringify(this.propertiesData);
-  }
-}
 
 var _a;
 class HopprAnalyticsLogger {}

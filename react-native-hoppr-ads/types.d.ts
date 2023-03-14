@@ -1,5 +1,5 @@
 import { ColorValue, ViewProps } from 'react-native';
-export interface HopprBannerAdProps extends ViewProps {
+export interface IHopprBannerAdProps extends ViewProps {
     /**
      * The Hoppr unit ID for the banner.
      */
@@ -21,7 +21,7 @@ export interface HopprBannerAdProps extends ViewProps {
      */
     selectedBorderWidth?: number | undefined;
 }
-export interface HopprAdProviderProps extends ViewProps {
+export interface IHopprAdProviderProps extends ViewProps {
     /**
      * Hoppr configuration
      */
@@ -47,4 +47,8 @@ export interface IHopprBannerAd {
      * Will trigger the interactive action of the AD if any.
      */
     setPressOk: () => void;
+    /**
+     * To use when the user press is navigating to the AD
+     */
+    setIsSelected: (value: boolean) => void;
 }

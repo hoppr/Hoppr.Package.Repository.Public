@@ -1,4 +1,4 @@
 import React from 'react';
-import { HopprAdProviderState } from '../interfaces';
-declare const HopprAdContext: React.Context<HopprAdProviderState>;
+import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
+declare const HopprAdContext: React.Context<IHopprAdProviderState>;
 export default HopprAdContext;

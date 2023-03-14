@@ -50,6 +50,7 @@ export interface IServicesClient {
     postAnalytics(req: IAnalyticsRequest): Promise<AnalyticsResp>;
     postBeaconAnalytics(req: IAnalyticsRequest): Promise<AnalyticsResp>;
     invokeClickThrough(userAgent: string, url: string): Promise<any>;
+    getBaseApiUrl(): string;
 }
 export declare enum AdType {
     BANNER = "banner",
