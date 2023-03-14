@@ -15,6 +15,6 @@ export declare class HopprPIP extends React.Component<IHopprPIPProps, IHopprPIPS
     render(): JSX.Element;
     updateImageUrl(newImageUrl: string): void;
     componentWillUnmount(): void;
-    private clearScreenshotInterval;
-    private startScreenshotInterval;
+    clearScreenshotInterval(): void;
+    startScreenshotInterval(): void;
 }

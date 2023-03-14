@@ -5,8 +5,8 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, View, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
-import { captureScreen } from 'react-native-view-shot';
+import { Platform, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
+import { releaseCapture, captureScreen } from 'react-native-view-shot';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
 
@@ -1767,8 +1767,8 @@ class AnalyticsUtils {
 class HopprPIP extends React.Component {
   constructor(props) {
     super(props);
-    this.pipWidth = 200;
-    this.pipHeight = 200;
+    this.pipWidth = 300;
+    this.pipHeight = this.pipWidth / 1.777;
     this.screenshotInterval = null;
     this.state = {
       imageUrl: '',
@@ -1780,7 +1780,8 @@ class HopprPIP extends React.Component {
     if (this.state.imageUrl && this.state.imageUrl != '' && this.state.previousImageUrl && this.state.previousImageUrl != '') {
       return /*#__PURE__*/jsxs(View, {
         style: {
-          position: 'absolute'
+          position: 'absolute',
+          marginLeft: Dimensions.get('window').width - this.pipWidth
           // width: this.pipWidth,
           // height: this.pipHeight,
           // backgroundColor: 'tr',
@@ -1791,7 +1792,9 @@ class HopprPIP extends React.Component {
             width: this.pipWidth,
             height: this.pipHeight,
             resizeMode: 'cover',
-            position: 'absolute'
+            position: 'absolute',
+            borderColor: 'black',
+            borderWidth: 2
           }
           // resizeMethod="auto"
           ,
@@ -1804,7 +1807,9 @@ class HopprPIP extends React.Component {
             width: this.pipWidth,
             height: this.pipHeight,
             resizeMode: 'cover',
-            position: 'absolute'
+            position: 'absolute',
+            borderColor: 'black',
+            borderWidth: 2
           }
           // resizeMethod="auto"
           ,
@@ -1822,6 +1827,7 @@ class HopprPIP extends React.Component {
       previousImageUrl: this.state.imageUrl,
       imageUrl: newImageUrl
     });
+    releaseCapture(this.state.previousImageUrl);
   }
   componentWillUnmount() {
     this.clearScreenshotInterval();
@@ -1849,14 +1855,20 @@ class HopprPIP extends React.Component {
 }
 
 class HopprAdProvider extends React.Component {
-  // private hopprPIPRef: RefObject<HopprPIP> = createRef();
-  // private screenshotInterval: NodeJS.Timer | null = null;
   constructor(props) {
     super(props);
     this.isInternalUserIdReady = false;
     this.isAdSlotsReady = false;
     this.adSlots = '';
     this.hopprInternalUserId = '';
+    this.hopprPIPRef = /*#__PURE__*/createRef();
+    // private viewShotRef: RefObject<ViewShot> = createRef();
+    this.screenshotInterval = null;
+    this.onCapture = uri => {
+      var _a, _b;
+      console.log('onCapture', uri);
+      (_b = (_a = this.hopprPIPRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.updateImageUrl(uri);
+    };
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
       var _a, _b, _c;
       const request = {
@@ -1929,21 +1941,29 @@ class HopprAdProvider extends React.Component {
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {})]
+      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {
+        ref: this.hopprPIPRef
+      })]
     });
   }
   componentDidMount() {
     this.appStateSubscription = AppState.addEventListener('change', nextAppState => {
+      var _a, _b, _c, _d;
       console.log('HopprAdProvider', nextAppState);
       if (nextAppState.match(/inactive|background/)) {
         HopprAnalytics.sendBeaconNative(); // We send remainings event when app become inactive or in background
+        (_b = (_a = this.hopprPIPRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.clearScreenshotInterval();
         // this.clearScreenshotInterval();
-      } else if (nextAppState.match(/active/)) ; else ;
+      } else if (nextAppState.match(/active/)) {
+        (_d = (_c = this.hopprPIPRef) === null || _c === void 0 ? void 0 : _c.current) === null || _d === void 0 ? void 0 : _d.startScreenshotInterval();
+        // this.startScreenshotInterval();
+      } else ;
     });
   }
   componentWillUnmount() {
-    var _a;
+    var _a, _b, _c;
     (_a = this.appStateSubscription) === null || _a === void 0 ? void 0 : _a.remove();
+    (_c = (_b = this.hopprPIPRef) === null || _b === void 0 ? void 0 : _b.current) === null || _c === void 0 ? void 0 : _c.clearScreenshotInterval();
     // this.clearScreenshotInterval();
   }
   // private clearScreenshotInterval() {
@@ -1955,16 +1975,22 @@ class HopprAdProvider extends React.Component {
   // private startScreenshotInterval() {
   //   if (!this.screenshotInterval) {
   //     this.screenshotInterval = setInterval(() => {
-  //       captureScreen({
-  //         format: 'jpg',
-  //         // format: 'raw',
-  //         quality: 0.2,
-  //       }).then(
-  //         (uri) => {
+  //       // captureScreen({
+  //       //   format: 'jpg',
+  //       //   // format: 'raw',
+  //       //   quality: 0.2,
+  //       // }).then(
+  //       //   (uri) => {
+  //       //     this.hopprPIPRef?.current?.updateImageUrl(uri);
+  //       //   },
+  //       //   (error) => console.log('Oops, snapshot failed', error)
+  //       // );
+  //       if (this.viewShotRef?.current?.capture) {
+  //         this.viewShotRef.current.capture()?.then((uri) => {
+  //           // console.log("do something with ", uri);
   //           this.hopprPIPRef?.current?.updateImageUrl(uri);
-  //         },
-  //         (error) => console.log('Oops, snapshot failed', error)
-  //       );
+  //         });
+  //       }
   //     }, 500);
   //   }
   // }
@@ -1980,6 +2006,7 @@ class HopprAdProvider extends React.Component {
   }
   tryUpdateState() {
     if (this.isInternalUserIdReady && this.isAdSlotsReady) {
+      console.log('HopprAdProvider setState');
       this.setState({
         // TODO is it necessary? will be better in banners
         hopprInternalUserId: this.hopprInternalUserId,

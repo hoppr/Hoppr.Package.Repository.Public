@@ -8,7 +8,10 @@ export declare class HopprAdProvider extends React.Component<IHopprAdProviderPro
     private adSlots;
     private hopprInternalUserId;
     private appStateSubscription?;
+    private hopprPIPRef;
+    private screenshotInterval;
     constructor(props: IHopprAdProviderProps | Readonly<IHopprAdProviderProps>);
+    private onCapture;
     render(): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;
