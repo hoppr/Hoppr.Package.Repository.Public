@@ -9,4 +9,5 @@ export interface IWindowMessage {
     sizes?: number[] | undefined;
     gptEvent?: IGptEvent | undefined;
     userAgent?: string | undefined;
+    message?: string | undefined;
 }

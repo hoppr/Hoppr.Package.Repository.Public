@@ -11,6 +11,7 @@ export declare class HopprPIP extends React.Component<IHopprPIPProps, IHopprPIPS
     private pipWidth;
     private pipHeight;
     private screenshotInterval;
+    private screenRatio;
     constructor(props: IHopprBannerAdProps | Readonly<IHopprBannerAdProps>);
     render(): JSX.Element;
     updateImageUrl(newImageUrl: string): void;

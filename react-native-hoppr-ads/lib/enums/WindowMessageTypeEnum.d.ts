@@ -3,5 +3,6 @@ export declare enum WindowMessageType {
     TriggerInteractivity = "TriggerInteractivity",
     SetAdSizes = "SetAdSizes",
     GptEvent = "GptEvent",
-    UpdateUserAgent = "UpdateUserAgent"
+    UpdateUserAgent = "UpdateUserAgent",
+    Log = "Log"
 }

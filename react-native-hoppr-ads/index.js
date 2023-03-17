@@ -5,7 +5,7 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
+import { Platform, Dimensions, View, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
 import { releaseCapture, captureScreen } from 'react-native-view-shot';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
@@ -1767,13 +1767,21 @@ class AnalyticsUtils {
 class HopprPIP extends React.Component {
   constructor(props) {
     super(props);
-    this.pipWidth = 300;
-    this.pipHeight = this.pipWidth / 1.777;
+    this.pipWidth = 0;
+    this.pipHeight = 0;
     this.screenshotInterval = null;
+    this.screenRatio = 0;
     this.state = {
       imageUrl: '',
       previousImageUrl: ''
     };
+    this.screenRatio = Dimensions.get('window').width / Dimensions.get('window').height;
+    if (!Platform.isTV) {
+      this.pipWidth = 100;
+    } else {
+      this.pipWidth = 300;
+    }
+    this.pipHeight = this.pipWidth / this.screenRatio;
     this.startScreenshotInterval();
   }
   render() {
@@ -1844,12 +1852,12 @@ class HopprPIP extends React.Component {
         captureScreen({
           format: 'jpg',
           // format: 'raw',
-          quality: 0.2
+          quality: 0.1
         }).then(uri => {
           // this.hopprPIPRef?.current?.updateImageUrl(uri);
           this.updateImageUrl(uri);
         }, error => console.log('Oops, snapshot failed', error));
-      }, 500);
+      }, 200);
     }
   }
 }
@@ -2500,6 +2508,7 @@ var WindowMessageType;
   WindowMessageType["SetAdSizes"] = "SetAdSizes";
   WindowMessageType["GptEvent"] = "GptEvent";
   WindowMessageType["UpdateUserAgent"] = "UpdateUserAgent";
+  WindowMessageType["Log"] = "Log";
 })(WindowMessageType || (WindowMessageType = {}));
 
 var InteractiveBehavior;
@@ -2542,6 +2551,11 @@ class HopprBannerAd extends React.Component {
       try {
         const message = JSON.parse(data.nativeEvent.data);
         switch (message.type) {
+          case WindowMessageType.Log:
+            {
+              console.log('WindowMessage', message.message);
+              break;
+            }
           case WindowMessageType.InitializeInteractivity:
             {
               this.interactivity = message;
@@ -2589,7 +2603,7 @@ class HopprBannerAd extends React.Component {
             }
         }
       } catch (e) {
-        console.log('onMessage error parsing ', data, e);
+        // console.log('onMessage error parsing ', data, e);
       }
     };
     this.state = {
@@ -2703,7 +2717,7 @@ class HopprBannerAd extends React.Component {
     return 'null';
   }
   getStringifiedTargetProperties() {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f;
     var properties = {};
     var userId = (_b = (_a = this.typedContext) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.userId;
     var baseApiUrl = ServicesClient.get().getBaseApiUrl();
@@ -2712,6 +2726,9 @@ class HopprBannerAd extends React.Component {
     }
     if (userId) {
       properties['ppid'] = userId;
+    }
+    if ((_d = (_c = this.typedContext) === null || _c === void 0 ? void 0 : _c.config) === null || _d === void 0 ? void 0 : _d.apiKey) {
+      properties['apiKey'] = (_f = (_e = this.typedContext) === null || _e === void 0 ? void 0 : _e.config) === null || _f === void 0 ? void 0 : _f.apiKey;
     }
     properties['baseApiUrl'] = baseApiUrl;
     return JSON.stringify(properties);
