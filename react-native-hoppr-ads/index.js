@@ -1863,6 +1863,8 @@ class HopprPIP extends React.Component {
 }
 
 class HopprAdProvider extends React.Component {
+  // private viewShotRef: RefObject<ViewShot> = createRef();
+  // private screenshotInterval: NodeJS.Timer | null = null;
   constructor(props) {
     super(props);
     this.isInternalUserIdReady = false;
@@ -1870,13 +1872,6 @@ class HopprAdProvider extends React.Component {
     this.adSlots = '';
     this.hopprInternalUserId = '';
     this.hopprPIPRef = /*#__PURE__*/createRef();
-    // private viewShotRef: RefObject<ViewShot> = createRef();
-    this.screenshotInterval = null;
-    this.onCapture = uri => {
-      var _a, _b;
-      console.log('onCapture', uri);
-      (_b = (_a = this.hopprPIPRef) === null || _a === void 0 ? void 0 : _a.current) === null || _b === void 0 ? void 0 : _b.updateImageUrl(uri);
-    };
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
       var _a, _b, _c;
       const request = {
@@ -1946,13 +1941,24 @@ class HopprAdProvider extends React.Component {
     this.initHoppr();
     this.initAnalytics(props.config.appId, props.config.apiKey, props.config.userId);
   }
+  // private onCapture = (uri: string) => {
+  //   console.log('onCapture', uri);
+  //   this.hopprPIPRef?.current?.updateImageUrl(uri);
+  // };
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, /*#__PURE__*/jsx(HopprPIP, {
-        ref: this.hopprPIPRef
-      })]
+      children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(View, {})]
     });
+  }
+  getPIPComponent() {
+    if (this.props.config.enablePIP) {
+      return /*#__PURE__*/jsx(HopprPIP, {
+        ref: this.hopprPIPRef
+      });
+    } else {
+      return /*#__PURE__*/jsx(View, {});
+    }
   }
   componentDidMount() {
     this.appStateSubscription = AppState.addEventListener('change', nextAppState => {

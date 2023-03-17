@@ -40,6 +40,7 @@ export interface IHopprAdConfig {
      * A unique user ID
      */
     userId: string;
+    enablePIP: boolean;
 }
 export interface IHopprBannerAd {
     /**
