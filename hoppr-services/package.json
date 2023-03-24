@@ -8,20 +8,14 @@
     "displayName": "Hoppr Services Client SDK Package",
     "tsconfig": "./tsconfig.lib.json"
   },
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "dependencies": {},
-  "peerDependencies": {
+  "dependencies": {
     "axios": "0.27.2",
-    "follow-redirects": "1.15.2",
-    "form-data": "4.0.0",
-    "asynckit": "0.4.0",
-    "combined-stream": "1.0.8",
-    "delayed-stream": "1.0.0",
-    "mime-types": "2.1.35",
-    "mime-db": "1.52.0",
+    "uuid": "8.3.2"
+  },
+  "peerDependencies": {
     "@hoppr/hoppr-common": "0.0.2",
-    "uuid": "8.3.2",
-    "tslib": "2.4.0"
-  }
+    "tslib": "2.5.0"
+  },
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts"
 }

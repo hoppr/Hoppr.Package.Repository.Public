@@ -12,6 +12,9 @@ const defaultServiceClientConfig = {
  * @internal
  */
 class ServicesClient {
+    static get(config, logger = defaultLogger) {
+        return new ServicesClient(Object.assign(Object.assign({}, defaultServiceClientConfig), config), logger);
+    }
     constructor(config, logger) {
         this.baseUrl = 'https://us-central1-hoppr-androidtv-test.cloudfunctions.net/';
         this.baseSdkApiUrl = `${this.baseUrl}sdkapi`;
@@ -20,9 +23,6 @@ class ServicesClient {
         this._logger = logger;
         this._config = config;
         this._httpClient = axios_1.default;
-    }
-    static get(config, logger = defaultLogger) {
-        return new ServicesClient(Object.assign(Object.assign({}, defaultServiceClientConfig), config), logger);
     }
     getBaseApiUrl() {
         return this.baseUrl;

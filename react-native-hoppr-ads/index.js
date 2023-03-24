@@ -1,3 +1,4 @@
+import { Platform, Dimensions, View, Image, StyleSheet, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -5,7 +6,6 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, Dimensions, View, Image, AppState, Linking, PixelRatio, Pressable } from 'react-native';
 import { releaseCapture, captureScreen } from 'react-native-view-shot';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
@@ -93,37 +93,27 @@ var FunctionPrototype$2 = Function.prototype;
 var call$a = FunctionPrototype$2.call;
 var uncurryThisWithBind = NATIVE_BIND$1 && FunctionPrototype$2.bind.bind(call$a, call$a);
 
-var functionUncurryThisRaw = function (fn) {
-  return NATIVE_BIND$1 ? uncurryThisWithBind(fn) : function () {
+var functionUncurryThis = NATIVE_BIND$1 ? uncurryThisWithBind : function (fn) {
+  return function () {
     return call$a.apply(fn, arguments);
   };
 };
 
-var uncurryThisRaw$1 = functionUncurryThisRaw;
+var uncurryThis$g = functionUncurryThis;
 
-var toString$7 = uncurryThisRaw$1({}.toString);
-var stringSlice$4 = uncurryThisRaw$1(''.slice);
+var toString$7 = uncurryThis$g({}.toString);
+var stringSlice$5 = uncurryThis$g(''.slice);
 
 var classofRaw$2 = function (it) {
-  return stringSlice$4(toString$7(it), 8, -1);
+  return stringSlice$5(toString$7(it), 8, -1);
 };
 
-var classofRaw$1 = classofRaw$2;
-var uncurryThisRaw = functionUncurryThisRaw;
-
-var functionUncurryThis = function (fn) {
-  // Nashorn bug:
-  //   https://github.com/zloirock/core-js/issues/1128
-  //   https://github.com/zloirock/core-js/issues/1130
-  if (classofRaw$1(fn) === 'Function') return uncurryThisRaw(fn);
-};
-
-var uncurryThis$d = functionUncurryThis;
+var uncurryThis$f = functionUncurryThis;
 var fails$d = fails$g;
 var classof$4 = classofRaw$2;
 
 var $Object$3 = Object;
-var split = uncurryThis$d(''.split);
+var split = uncurryThis$f(''.split);
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var indexedObject = fails$d(function () {
@@ -162,6 +152,7 @@ var toIndexedObject$4 = function (it) {
 var documentAll$2 = typeof document == 'object' && document.all;
 
 // https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot
+// eslint-disable-next-line unicorn/no-typeof-undefined -- required for testing
 var IS_HTMLDDA = typeof documentAll$2 == 'undefined' && documentAll$2 !== undefined;
 
 var documentAll_1 = {
@@ -199,17 +190,15 @@ var aFunction = function (argument) {
   return isCallable$b(argument) ? argument : undefined;
 };
 
-var getBuiltIn$4 = function (namespace, method) {
+var getBuiltIn$3 = function (namespace, method) {
   return arguments.length < 2 ? aFunction(global$c[namespace]) : global$c[namespace] && global$c[namespace][method];
 };
 
-var uncurryThis$c = functionUncurryThis;
+var uncurryThis$e = functionUncurryThis;
 
-var objectIsPrototypeOf = uncurryThis$c({}.isPrototypeOf);
+var objectIsPrototypeOf = uncurryThis$e({}.isPrototypeOf);
 
-var getBuiltIn$3 = getBuiltIn$4;
-
-var engineUserAgent = getBuiltIn$3('navigator', 'userAgent') || '';
+var engineUserAgent = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
 
 var global$b = global$d;
 var userAgent = engineUserAgent;
@@ -262,7 +251,7 @@ var useSymbolAsUid = NATIVE_SYMBOL$1
   && !Symbol.sham
   && typeof Symbol.iterator == 'symbol';
 
-var getBuiltIn$2 = getBuiltIn$4;
+var getBuiltIn$2 = getBuiltIn$3;
 var isCallable$a = isCallable$d;
 var isPrototypeOf$1 = objectIsPrototypeOf;
 var USE_SYMBOL_AS_UID$1 = useSymbolAsUid;
@@ -276,11 +265,11 @@ var isSymbol$2 = USE_SYMBOL_AS_UID$1 ? function (it) {
   return isCallable$a($Symbol) && isPrototypeOf$1($Symbol.prototype, $Object$2(it));
 };
 
-var $String$2 = String;
+var $String$3 = String;
 
 var tryToString$1 = function (argument) {
   try {
-    return $String$2(argument);
+    return $String$3(argument);
   } catch (error) {
     return 'Object';
   }
@@ -351,10 +340,10 @@ var store$2 = sharedStore;
 (shared$4.exports = function (key, value) {
   return store$2[key] || (store$2[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.25.5',
+  version: '3.29.1',
   mode: 'global',
-  copyright: '© 2014-2022 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.25.5/LICENSE',
+  copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.29.1/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -368,10 +357,10 @@ var toObject$3 = function (argument) {
   return $Object$1(requireObjectCoercible$4(argument));
 };
 
-var uncurryThis$b = functionUncurryThis;
+var uncurryThis$d = functionUncurryThis;
 var toObject$2 = toObject$3;
 
-var hasOwnProperty = uncurryThis$b({}.hasOwnProperty);
+var hasOwnProperty = uncurryThis$d({}.hasOwnProperty);
 
 // `HasOwnProperty` abstract operation
 // https://tc39.es/ecma262/#sec-hasownproperty
@@ -380,11 +369,11 @@ var hasOwnProperty_1 = Object.hasOwn || function hasOwn(it, key) {
   return hasOwnProperty(toObject$2(it), key);
 };
 
-var uncurryThis$a = functionUncurryThis;
+var uncurryThis$c = functionUncurryThis;
 
 var id = 0;
 var postfix = Math.random();
-var toString$6 = uncurryThis$a(1.0.toString);
+var toString$6 = uncurryThis$c(1.0.toString);
 
 var uid$2 = function (key) {
   return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$6(++id + postfix, 36);
@@ -397,21 +386,15 @@ var uid$1 = uid$2;
 var NATIVE_SYMBOL = symbolConstructorDetection;
 var USE_SYMBOL_AS_UID = useSymbolAsUid;
 
-var WellKnownSymbolsStore = shared$3('wks');
 var Symbol$1 = global$8.Symbol;
-var symbolFor = Symbol$1 && Symbol$1['for'];
-var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$1;
+var WellKnownSymbolsStore = shared$3('wks');
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1['for'] || Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$1;
 
 var wellKnownSymbol$8 = function (name) {
-  if (!hasOwn$7(WellKnownSymbolsStore, name) || !(NATIVE_SYMBOL || typeof WellKnownSymbolsStore[name] == 'string')) {
-    var description = 'Symbol.' + name;
-    if (NATIVE_SYMBOL && hasOwn$7(Symbol$1, name)) {
-      WellKnownSymbolsStore[name] = Symbol$1[name];
-    } else if (USE_SYMBOL_AS_UID && symbolFor) {
-      WellKnownSymbolsStore[name] = symbolFor(description);
-    } else {
-      WellKnownSymbolsStore[name] = createWellKnownSymbol(description);
-    }
+  if (!hasOwn$7(WellKnownSymbolsStore, name)) {
+    WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn$7(Symbol$1, name)
+      ? Symbol$1[name]
+      : createWellKnownSymbol('Symbol.' + name);
   } return WellKnownSymbolsStore[name];
 };
 
@@ -514,13 +497,13 @@ var v8PrototypeDefineBug = DESCRIPTORS$6 && fails$a(function () {
 
 var isObject$2 = isObject$6;
 
-var $String$1 = String;
+var $String$2 = String;
 var $TypeError$3 = TypeError;
 
 // `Assert: Type(argument) is Object`
 var anObject$9 = function (argument) {
   if (isObject$2(argument)) return argument;
-  throw $TypeError$3($String$1(argument) + ' is not an object');
+  throw $TypeError$3($String$2(argument) + ' is not an object');
 };
 
 var DESCRIPTORS$5 = descriptors;
@@ -598,11 +581,11 @@ var functionName = {
   CONFIGURABLE: CONFIGURABLE
 };
 
-var uncurryThis$9 = functionUncurryThis;
+var uncurryThis$b = functionUncurryThis;
 var isCallable$7 = isCallable$d;
 var store$1 = sharedStore;
 
-var functionToString = uncurryThis$9(Function.toString);
+var functionToString = uncurryThis$b(Function.toString);
 
 // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
 if (!isCallable$7(store$1.inspectSource)) {
@@ -702,6 +685,7 @@ var internalState = {
   getterFor: getterFor
 };
 
+var uncurryThis$a = functionUncurryThis;
 var fails$9 = fails$g;
 var isCallable$5 = isCallable$d;
 var hasOwn$3 = hasOwnProperty_1;
@@ -712,8 +696,12 @@ var InternalStateModule = internalState;
 
 var enforceInternalState = InternalStateModule.enforce;
 var getInternalState$1 = InternalStateModule.get;
+var $String$1 = String;
 // eslint-disable-next-line es/no-object-defineproperty -- safe
 var defineProperty$2 = Object.defineProperty;
+var stringSlice$4 = uncurryThis$a(''.slice);
+var replace$2 = uncurryThis$a(''.replace);
+var join = uncurryThis$a([].join);
 
 var CONFIGURABLE_LENGTH = DESCRIPTORS$2 && !fails$9(function () {
   return defineProperty$2(function () { /* empty */ }, 'length', { value: 8 }).length !== 8;
@@ -722,8 +710,8 @@ var CONFIGURABLE_LENGTH = DESCRIPTORS$2 && !fails$9(function () {
 var TEMPLATE = String(String).split('String');
 
 var makeBuiltIn$1 = makeBuiltIn$2.exports = function (value, name, options) {
-  if (String(name).slice(0, 7) === 'Symbol(') {
-    name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
+  if (stringSlice$4($String$1(name), 0, 7) === 'Symbol(') {
+    name = '[' + replace$2($String$1(name), /^Symbol\(([^)]*)\)/, '$1') + ']';
   }
   if (options && options.getter) name = 'get ' + name;
   if (options && options.setter) name = 'set ' + name;
@@ -742,7 +730,7 @@ var makeBuiltIn$1 = makeBuiltIn$2.exports = function (value, name, options) {
   } catch (error) { /* empty */ }
   var state = enforceInternalState(value);
   if (!hasOwn$3(state, 'source')) {
-    state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
+    state.source = join(TEMPLATE, typeof name == 'string' ? name : '');
   } return value;
 };
 
@@ -867,13 +855,13 @@ var arrayIncludes = {
   indexOf: createMethod$1(false)
 };
 
-var uncurryThis$8 = functionUncurryThis;
+var uncurryThis$9 = functionUncurryThis;
 var hasOwn$2 = hasOwnProperty_1;
 var toIndexedObject$1 = toIndexedObject$4;
 var indexOf$1 = arrayIncludes.indexOf;
 var hiddenKeys$2 = hiddenKeys$4;
 
-var push$1 = uncurryThis$8([].push);
+var push$1 = uncurryThis$9([].push);
 
 var objectKeysInternal = function (object, names) {
   var O = toIndexedObject$1(object);
@@ -916,13 +904,13 @@ var objectGetOwnPropertySymbols = {};
 // eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
 objectGetOwnPropertySymbols.f = Object.getOwnPropertySymbols;
 
-var getBuiltIn$1 = getBuiltIn$4;
-var uncurryThis$7 = functionUncurryThis;
+var getBuiltIn$1 = getBuiltIn$3;
+var uncurryThis$8 = functionUncurryThis;
 var getOwnPropertyNamesModule = objectGetOwnPropertyNames;
 var getOwnPropertySymbolsModule$1 = objectGetOwnPropertySymbols;
 var anObject$7 = anObject$9;
 
-var concat$2 = uncurryThis$7([].concat);
+var concat$2 = uncurryThis$8([].concat);
 
 // all object keys, includes non-enumerable and symbols
 var ownKeys$1 = getBuiltIn$1('Reflect', 'ownKeys') || function ownKeys(it) {
@@ -1037,14 +1025,14 @@ var toStringTagSupport = String(test) === '[object z]';
 
 var TO_STRING_TAG_SUPPORT = toStringTagSupport;
 var isCallable$2 = isCallable$d;
-var classofRaw = classofRaw$2;
+var classofRaw$1 = classofRaw$2;
 var wellKnownSymbol$5 = wellKnownSymbol$8;
 
 var TO_STRING_TAG = wellKnownSymbol$5('toStringTag');
 var $Object = Object;
 
 // ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+var CORRECT_ARGUMENTS = classofRaw$1(function () { return arguments; }()) == 'Arguments';
 
 // fallback for IE11 Script Access Denied error
 var tryGet = function (it, key) {
@@ -1054,15 +1042,15 @@ var tryGet = function (it, key) {
 };
 
 // getting tag from ES6+ `Object.prototype.toString`
-var classof$3 = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
+var classof$3 = TO_STRING_TAG_SUPPORT ? classofRaw$1 : function (it) {
   var O, tag, result;
   return it === undefined ? 'Undefined' : it === null ? 'Null'
     // @@toStringTag case
     : typeof (tag = tryGet(O = $Object(it), TO_STRING_TAG)) == 'string' ? tag
     // builtinTag case
-    : CORRECT_ARGUMENTS ? classofRaw(O)
+    : CORRECT_ARGUMENTS ? classofRaw$1(O)
     // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && isCallable$2(O.callee) ? 'Arguments' : result;
+    : (result = classofRaw$1(O)) == 'Object' && isCallable$2(O.callee) ? 'Arguments' : result;
 };
 
 var classof$2 = classof$3;
@@ -1156,7 +1144,7 @@ objectDefineProperties.f = DESCRIPTORS$1 && !V8_PROTOTYPE_DEFINE_BUG ? Object.de
   return O;
 };
 
-var getBuiltIn = getBuiltIn$4;
+var getBuiltIn = getBuiltIn$3;
 
 var html$1 = getBuiltIn('document', 'documentElement');
 
@@ -1271,7 +1259,7 @@ var regexpUnsupportedNcg = fails$5(function () {
 /* eslint-disable regexp/no-empty-capturing-group, regexp/no-empty-group, regexp/no-lazy-ends -- testing */
 /* eslint-disable regexp/no-useless-quantifier -- testing */
 var call$6 = functionCall;
-var uncurryThis$6 = functionUncurryThis;
+var uncurryThis$7 = functionUncurryThis;
 var toString$4 = toString$5;
 var regexpFlags = regexpFlags$1;
 var stickyHelpers = regexpStickyHelpers;
@@ -1284,10 +1272,10 @@ var UNSUPPORTED_NCG = regexpUnsupportedNcg;
 var nativeReplace = shared('native-string-replace', String.prototype.replace);
 var nativeExec = RegExp.prototype.exec;
 var patchedExec = nativeExec;
-var charAt$3 = uncurryThis$6(''.charAt);
-var indexOf = uncurryThis$6(''.indexOf);
-var replace$1 = uncurryThis$6(''.replace);
-var stringSlice$3 = uncurryThis$6(''.slice);
+var charAt$3 = uncurryThis$7(''.charAt);
+var indexOf = uncurryThis$7(''.indexOf);
+var replace$1 = uncurryThis$7(''.replace);
+var stringSlice$3 = uncurryThis$7(''.slice);
 
 var UPDATES_LAST_INDEX_WRONG = (function () {
   var re1 = /a/;
@@ -1394,9 +1382,19 @@ $$3({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
   exec: exec
 });
 
+var classofRaw = classofRaw$2;
+var uncurryThis$6 = functionUncurryThis;
+
+var functionUncurryThisClause = function (fn) {
+  // Nashorn bug:
+  //   https://github.com/zloirock/core-js/issues/1128
+  //   https://github.com/zloirock/core-js/issues/1130
+  if (classofRaw(fn) === 'Function') return uncurryThis$6(fn);
+};
+
 // TODO: Remove from `core-js@4` since it's moved to entry points
 
-var uncurryThis$5 = functionUncurryThis;
+var uncurryThis$5 = functionUncurryThisClause;
 var defineBuiltIn$1 = defineBuiltIn$3;
 var regexpExec$1 = regexpExec$2;
 var fails$4 = fails$g;
@@ -1628,7 +1626,8 @@ const config = {
   config: {
     appId: '',
     apiKey: '',
-    userId: ''
+    userId: '',
+    enablePIP: false
   },
   hopprInternalUserId: ''
 };
@@ -1862,6 +1861,12 @@ class HopprPIP extends React.Component {
   }
 }
 
+const videoStyle = StyleSheet.create({
+  video: {
+    width: 500,
+    height: 500
+  }
+});
 class HopprAdProvider extends React.Component {
   // private viewShotRef: RefObject<ViewShot> = createRef();
   // private screenshotInterval: NodeJS.Timer | null = null;
@@ -1948,7 +1953,10 @@ class HopprAdProvider extends React.Component {
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(View, {})]
+      children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(HopprView, {
+        color: "",
+        style: videoStyle.video
+      }), /*#__PURE__*/jsx(View, {})]
     });
   }
   getPIPComponent() {
@@ -2058,6 +2066,7 @@ var addToUnscopables = addToUnscopables$1;
 
 // FF99+ bug
 var BROKEN_ON_SPARSE = fails$2(function () {
+  // eslint-disable-next-line es/no-array-prototype-includes -- detection
   return !Array(1).includes();
 });
 
@@ -2217,6 +2226,7 @@ var floor = Math.floor;
 var charAt = uncurryThis$1(''.charAt);
 var replace = uncurryThis$1(''.replace);
 var stringSlice$1 = uncurryThis$1(''.slice);
+// eslint-disable-next-line redos/no-vulnerable -- safe
 var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
 var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
 
@@ -2738,11 +2748,7 @@ class HopprBannerAd extends React.Component {
     }
     properties['baseApiUrl'] = baseApiUrl;
     return JSON.stringify(properties);
-    // return this.props.targetProperties
-    //   ? `${JSON.stringify(this.props.targetProperties)}`
-    //   : '{}';
   }
-
   generateTemplate() {
     var _a, _b;
     let template = '';
@@ -2840,4 +2846,20 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };
+const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seems to be linked. Make sure: \n\n` + Platform.select({
+  ios: "- You have run 'pod install'\n",
+  default: ''
+}) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
+const ComponentName = 'HopprView';
+// export const HopprView = getHopprView();
+const HopprView = UIManager.getViewManagerConfig(ComponentName) != null ? requireNativeComponent(ComponentName) : () => {
+  throw new Error(LINKING_ERROR);
+};
+// export const HopprVideoView =
+//   UIManager.getViewManagerConfig(ComponentName2) != null
+//     ? requireNativeComponent<HopprVdeoProps>(ComponentName2)
+//     : () => {
+//         throw new Error(LINKING_ERROR);
+//       };
+
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, HopprView };

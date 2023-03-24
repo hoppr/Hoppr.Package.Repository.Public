@@ -9,22 +9,45 @@
     "tsconfig": "./tsconfig.lib.json"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "ios",
+    "android"
   ],
   "author": "max.bourdin@hoppr.com.au",
   "license": "",
   "peerDependencies": {
     "react-native": "^0.71.4",
     "@hoppr/hoppr-analytics": "0.0.2",
-    "react": "18.2.0",
-    "react-native-get-random-values": "1.8.0",
     "@hoppr/hoppr-common": "0.0.2",
     "@hoppr/hoppr-services": "0.0.2",
-    "react-native-webview": "11.26.0",
-    "react-native-view-shot": "3.5.0"
+    "react": "18.2.0",
+    "react-native-get-random-values": "1.8.0",
+    "react-native-view-shot": "3.5.0",
+    "react-native-webview": "11.26.1"
   },
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "!lib/typescript/example",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "react-native": "src/index",
+  "source": "src/index",
   "module": "./index.js",
   "type": "module",
-  "types": "./index.d.ts",
+  "types": "./src/index.d.ts",
   "dependencies": {}
 }
