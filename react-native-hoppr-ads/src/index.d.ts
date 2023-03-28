@@ -7,4 +7,4 @@ type HopprProps = {
     color: string;
     style: ViewStyle;
 };
-export declare const HopprView: import("react-native").HostComponent<HopprProps> | (() => never);
+export declare const HopprView: import("react-native").HostComponent<HopprProps>;

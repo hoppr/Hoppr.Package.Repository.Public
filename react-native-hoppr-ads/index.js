@@ -1,4 +1,4 @@
-import { Platform, Dimensions, View, Image, StyleSheet, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
+import { Platform, Dimensions, View, Image, StyleSheet, AppState, Linking, PixelRatio, Pressable, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -2846,15 +2846,28 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
-const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seems to be linked. Make sure: \n\n` + Platform.select({
+`The package 'react-native-hoppr' doesn't seems to be linked. Make sure: \n\n` + Platform.select({
   ios: "- You have run 'pod install'\n",
   default: ''
 }) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
-const ComponentName = 'HopprView';
 // export const HopprView = getHopprView();
-const HopprView = UIManager.getViewManagerConfig(ComponentName) != null ? requireNativeComponent(ComponentName) : () => {
-  throw new Error(LINKING_ERROR);
-};
+const HopprView = requireNativeComponent('HopprView');
+// console.log('test a', UIManager.getViewManagerConfig(ComponentName));
+// console.log('test b', UIManager.hasViewManagerConfig(ComponentName));
+// export const HopprView =
+//   UIManager.getViewManagerConfig(ComponentName) != null
+//     ? requireNativeComponent<HopprProps>(ComponentName)
+//     : () => {
+//         throw new Error(LINKING_ERROR);
+//       };
+// function getHopprView() {
+//   try {
+//     return requireNativeComponent<HopprProps>(ComponentName);
+//   } catch (e) {
+//     console.log('error', e);
+//   }
+//   return null;
+// }
 // export const HopprVideoView =
 //   UIManager.getViewManagerConfig(ComponentName2) != null
 //     ? requireNativeComponent<HopprVdeoProps>(ComponentName2)
