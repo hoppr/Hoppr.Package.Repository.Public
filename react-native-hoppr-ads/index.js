@@ -1867,12 +1867,12 @@ const videoStyle = StyleSheet.create({
     height: 500
   }
 });
-const HopprView = requireNativeComponent('HopprView');
 class HopprAdProvider extends React.Component {
   // private viewShotRef: RefObject<ViewShot> = createRef();
   // private screenshotInterval: NodeJS.Timer | null = null;
   constructor(props) {
     super(props);
+    this.HopprView = requireNativeComponent('HopprView');
     this.isInternalUserIdReady = false;
     this.isAdSlotsReady = false;
     this.adSlots = '';
@@ -1954,7 +1954,7 @@ class HopprAdProvider extends React.Component {
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(HopprView, {
+      children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(this.HopprView, {
         color: "#32a852",
         style: videoStyle.video
       }), /*#__PURE__*/jsx(View, {})]

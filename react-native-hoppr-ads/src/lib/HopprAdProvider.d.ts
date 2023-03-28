@@ -3,6 +3,7 @@ import React from 'react';
 import { IHopprAdProviderProps } from '../types';
 import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
 export declare class HopprAdProvider extends React.Component<IHopprAdProviderProps, IHopprAdProviderState> {
+    private HopprView;
     private isInternalUserIdReady;
     private isAdSlotsReady;
     private adSlots;
