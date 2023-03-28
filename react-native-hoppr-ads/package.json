@@ -12,9 +12,9 @@
     "react-native"
   ],
   "files": [
-    "src",
-    "android",
-    "ios",
+    "/src/",
+    "/android/",
+    "/ios/",
     "!android/build",
     "!android/gradle",
     "!android/gradlew",

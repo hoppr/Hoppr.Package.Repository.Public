@@ -1,4 +1,4 @@
-import { Platform, Dimensions, View, Image, StyleSheet, AppState, Linking, PixelRatio, Pressable, requireNativeComponent } from 'react-native';
+import { Platform, Dimensions, View, Image, StyleSheet, requireNativeComponent, AppState, Linking, PixelRatio, Pressable } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -1867,6 +1867,7 @@ const videoStyle = StyleSheet.create({
     height: 500
   }
 });
+const HopprView = requireNativeComponent('HopprView');
 class HopprAdProvider extends React.Component {
   // private viewShotRef: RefObject<ViewShot> = createRef();
   // private screenshotInterval: NodeJS.Timer | null = null;
@@ -2851,7 +2852,6 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   default: ''
 }) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
 // export const HopprView = getHopprView();
-const HopprView = requireNativeComponent('HopprView');
 // console.log('test a', UIManager.getViewManagerConfig(ComponentName));
 // console.log('test b', UIManager.hasViewManagerConfig(ComponentName));
 // export const HopprView =
@@ -2875,4 +2875,4 @@ const HopprView = requireNativeComponent('HopprView');
 //         throw new Error(LINKING_ERROR);
 //       };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, HopprView };
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };
