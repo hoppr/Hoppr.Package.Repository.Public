@@ -1954,7 +1954,7 @@ class HopprAdProvider extends React.Component {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
       children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(HopprView, {
-        color: "",
+        color: "#32a852",
         style: videoStyle.video
       }), /*#__PURE__*/jsx(View, {})]
     });
