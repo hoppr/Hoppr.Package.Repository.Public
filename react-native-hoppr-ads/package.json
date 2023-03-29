@@ -11,39 +11,38 @@
   "keywords": [
     "react-native"
   ],
-  "files": [
-    "/src/",
-    "/android/",
-    "/ios/",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties"
-  ],
   "author": "max.bourdin@hoppr.com.au",
   "license": "",
   "peerDependencies": {
     "react-native": "^0.71.4",
     "@hoppr/hoppr-analytics": "0.0.2",
-    "@hoppr/hoppr-common": "0.0.2",
-    "@hoppr/hoppr-services": "0.0.2",
     "react": "18.2.0",
     "react-native-get-random-values": "1.8.0",
-    "react-native-view-shot": "3.6.0",
-    "react-native-webview": "11.26.1"
+    "@hoppr/hoppr-common": "0.0.2",
+    "@hoppr/hoppr-services": "0.0.2",
+    "react-native-webview": "11.26.0",
+    "react-native-view-shot": "3.5.0"
   },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
-  },
+  "files": [
+    "src",
+    "android",
+    "ios",
+    "*.podspec",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "react-native": "src/index",
+  "source": "src/index",
+  "packageManager": "^yarn@1.22.15",
   "module": "./index.js",
   "type": "module",
-  "types": "./src/index.d.ts",
+  "types": "./index.d.ts",
   "dependencies": {}
 }

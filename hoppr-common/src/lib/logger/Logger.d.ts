@@ -22,6 +22,6 @@ export declare enum LogSeverity {
     TRACE = 8
 }
 export declare const LogLevelStringKeys: readonly ["error", "err", "warn", "warning", "info", "debug", "dbg", "trace"];
-export type LogLevelString = typeof LogLevelStringKeys[number];
+export declare type LogLevelString = typeof LogLevelStringKeys[number];
 export declare const getDefaultLogger: (name: string, appLogLevel?: LogLevelString | undefined) => Logger;
 export declare const setGlobalDefaultLogLevel: (appLogLevel: LogLevelString) => void;

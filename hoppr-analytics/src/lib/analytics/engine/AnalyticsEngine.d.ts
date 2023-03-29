@@ -11,4 +11,4 @@ export interface HopprAnalyticsConfig {
     sessionTimeoutInMinutes: number;
     longSessionTimeoutInMinutes: number;
 }
-export type AnalyticsEngineConfig = HopprAnalyticsConfig;
+export declare type AnalyticsEngineConfig = HopprAnalyticsConfig;
