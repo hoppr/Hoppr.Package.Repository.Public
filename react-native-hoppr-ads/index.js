@@ -1,3 +1,4 @@
+import { Platform, Dimensions, View, Image, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -5,7 +6,6 @@ import { UUIDUtils } from '@hoppr/hoppr-common';
 import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
-import { Platform, Dimensions, View, Image, requireNativeComponent, AppState, Linking, PixelRatio, Pressable } from 'react-native';
 import { releaseCapture, captureScreen } from 'react-native-view-shot';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { WebView } from 'react-native-webview';
@@ -1631,7 +1631,9 @@ const config = {
     userId: '',
     enablePIP: false
   },
-  hopprInternalUserId: ''
+  hopprInternalUserId: '',
+  loadVideo: false,
+  playVideo: false
 };
 const HopprAdContext = /*#__PURE__*/React.createContext(config);
 
@@ -1863,17 +1865,198 @@ class HopprPIP extends React.Component {
   }
 }
 
-class HopprAdProvider extends React.Component {
-  // private viewShotRef: RefObject<ViewShot> = createRef();
-  // private screenshotInterval: NodeJS.Timer | null = null;
+var DESCRIPTORS = descriptors;
+var uncurryThis$3 = functionUncurryThis;
+var call$2 = functionCall;
+var fails$2 = fails$g;
+var objectKeys = objectKeys$2;
+var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
+var propertyIsEnumerableModule = objectPropertyIsEnumerable;
+var toObject$1 = toObject$3;
+var IndexedObject = indexedObject;
+
+// eslint-disable-next-line es/no-object-assign -- safe
+var $assign = Object.assign;
+// eslint-disable-next-line es/no-object-defineproperty -- required for testing
+var defineProperty$1 = Object.defineProperty;
+var concat$1 = uncurryThis$3([].concat);
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+var objectAssign = !$assign || fails$2(function () {
+  // should have correct order of operations (Edge bug)
+  if (DESCRIPTORS && $assign({ b: 1 }, $assign(defineProperty$1({}, 'a', {
+    enumerable: true,
+    get: function () {
+      defineProperty$1(this, 'b', {
+        value: 3,
+        enumerable: false
+      });
+    }
+  }), { b: 2 })).b !== 1) return true;
+  // should work with symbols and should have deterministic property order (V8 bug)
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line es/no-symbol -- safe
+  var symbol = Symbol();
+  var alphabet = 'abcdefghijklmnopqrst';
+  A[symbol] = 7;
+  alphabet.split('').forEach(function (chr) { B[chr] = chr; });
+  return $assign({}, A)[symbol] != 7 || objectKeys($assign({}, B)).join('') != alphabet;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
+  var T = toObject$1(target);
+  var argumentsLength = arguments.length;
+  var index = 1;
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  var propertyIsEnumerable = propertyIsEnumerableModule.f;
+  while (argumentsLength > index) {
+    var S = IndexedObject(arguments[index++]);
+    var keys = getOwnPropertySymbols ? concat$1(objectKeys(S), getOwnPropertySymbols(S)) : objectKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || call$2(propertyIsEnumerable, S, key)) T[key] = S[key];
+    }
+  } return T;
+} : $assign;
+
+var $$2 = _export;
+var assign = objectAssign;
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+// eslint-disable-next-line es/no-object-assign -- required for testing
+$$2({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
+  assign: assign
+});
+
+var EventType;
+(function (EventType) {
+  EventType["AdEvent"] = "AdEvent";
+  EventType["LogEvent"] = "LogEvent";
+})(EventType || (EventType = {}));
+var AdEventType;
+(function (AdEventType) {
+  AdEventType["ALL_ADS_COMPLETED"] = "ALL_ADS_COMPLETED";
+  AdEventType["AD_BREAK_FETCH_ERROR"] = "AD_BREAK_FETCH_ERROR";
+  AdEventType["CLICKED"] = "CLICKED";
+  AdEventType["COMPLETED"] = "COMPLETED";
+  AdEventType["CUEPOINTS_CHANGED"] = "CUEPOINTS_CHANGED";
+  AdEventType["CONTENT_PAUSE_REQUESTED"] = "CONTENT_PAUSE_REQUESTED";
+  AdEventType["CONTENT_RESUME_REQUESTED"] = "CONTENT_RESUME_REQUESTED";
+  AdEventType["FIRST_QUARTILE"] = "FIRST_QUARTILE";
+  AdEventType["LOG"] = "LOG";
+  AdEventType["AD_BREAK_READY"] = "AD_BREAK_READY";
+  AdEventType["MIDPOINT"] = "MIDPOINT";
+  AdEventType["PAUSED"] = "PAUSED";
+  AdEventType["RESUMED"] = "RESUMED";
+  AdEventType["SKIPPABLE_STATE_CHANGED"] = "SKIPPABLE_STATE_CHANGED";
+  AdEventType["SKIPPED"] = "SKIPPED";
+  AdEventType["STARTED"] = "STARTED";
+  AdEventType["TAPPED"] = "TAPPED";
+  AdEventType["ICON_TAPPED"] = "ICON_TAPPED";
+  AdEventType["ICON_FALLBACK_IMAGE_CLOSED"] = "ICON_FALLBACK_IMAGE_CLOSED";
+  AdEventType["THIRD_QUARTILE"] = "THIRD_QUARTILE";
+  AdEventType["LOADED"] = "LOADED";
+  AdEventType["AD_PROGRESS"] = "AD_PROGRESS";
+  AdEventType["AD_BUFFERING"] = "AD_BUFFERING";
+  AdEventType["AD_BREAK_STARTED"] = "AD_BREAK_STARTED";
+  AdEventType["AD_BREAK_ENDED"] = "AD_BREAK_ENDED";
+  AdEventType["AD_PERIOD_STARTED"] = "AD_PERIOD_STARTED";
+  AdEventType["AD_PERIOD_ENDED"] = "AD_PERIOD_ENDED";
+})(AdEventType || (AdEventType = {}));
+
+class HopprVideoView extends React.Component {
   constructor(props) {
     super(props);
-    this.HopprView = requireNativeComponent('HopprView');
+    this.state = {
+      play: false
+    };
+    this._onNativeEventReceived = this._onNativeEventReceived.bind(this);
+  }
+  render() {
+    const viewStyle = this.props.style;
+    return /*#__PURE__*/jsx(NativeHopprVideoView, {
+      style: Object.assign({}, viewStyle),
+      onChange: this._onNativeEventReceived,
+      play: this.state.play,
+      adTag: this.props.adTag,
+      scaleMode: this.props.scaleMode
+    });
+  }
+  play() {
+    this.setState({
+      play: true
+    });
+  }
+  _onNativeEventReceived(event) {
+    try {
+      var message = event['nativeEvent']['message'];
+      var reactNativeEvent = JSON.parse(message);
+      this.handleEvent(reactNativeEvent);
+    } catch (e) {
+      console.error('Error parsing event', e, event);
+    }
+  }
+  handleEvent(nativeEvent) {
+    switch (nativeEvent.eventType) {
+      case EventType.AdEvent:
+        {
+          this.handleAdEvent(nativeEvent.adEventType);
+          break;
+        }
+      case EventType.LogEvent:
+        {
+          console.log('message', nativeEvent.message);
+          break;
+        }
+    }
+  }
+  handleAdEvent(adEventType) {
+    console.log('Ad Event', adEventType);
+    switch (adEventType) {
+      case AdEventType.ALL_ADS_COMPLETED:
+        {
+          this.props.onAllAdsCompleted();
+          break;
+        }
+      case AdEventType.AD_BREAK_FETCH_ERROR:
+        {
+          this.props.onError();
+          break;
+        }
+      case AdEventType.LOADED:
+        {
+          this.props.onAdLoaded();
+          break;
+        }
+    }
+  }
+  componentDidMount() {
+    console.log('componentDidMount HopprVideoView');
+  }
+  componentWillUnmount() {
+    console.log('componentDidMount HopprVideoView');
+  }
+}
+
+class HopprAdProvider extends React.Component {
+  constructor(props) {
+    super(props);
     this.isInternalUserIdReady = false;
     this.isAdSlotsReady = false;
     this.adSlots = '';
     this.hopprInternalUserId = '';
     this.hopprPIPRef = /*#__PURE__*/createRef();
+    // private viewShotRef: RefObject<ViewShot> = createRef();
+    // private screenshotInterval: NodeJS.Timer | null = null;
+    this.videoViewRef = /*#__PURE__*/createRef();
+    this.isAdLoaded = false;
+    this.sampleAdTag =
+    // 'https://pubads.g.doubleclick.net/gampad/ads?iu=/21854952015/DevUnit/DevVideo/HopprSdkSampleVideoSkippable&tfcd=0&npa=0&sz=1920x1080%7C1920x1080&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=';
+    'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=';
     this.initHoppr = () => __awaiter(this, void 0, void 0, function* () {
       var _a, _b, _c;
       const request = {
@@ -1938,7 +2121,9 @@ class HopprAdProvider extends React.Component {
     this.state = {
       adSlots: '',
       config: props.config,
-      hopprInternalUserId: ''
+      hopprInternalUserId: '',
+      loadVideo: false,
+      playVideo: false
     };
     this.initHoppr();
     this.initAnalytics(props.config.appId, props.config.apiKey, props.config.userId);
@@ -1950,7 +2135,65 @@ class HopprAdProvider extends React.Component {
   render() {
     return /*#__PURE__*/jsxs(HopprAdContext.Provider, {
       value: this.state,
-      children: [this.props.children, /*#__PURE__*/jsx(this.HopprView, {}), this.getPIPComponent(), /*#__PURE__*/jsx(View, {})]
+      children: [this.props.children, this.getPIPComponent(), this.getVideoView(), /*#__PURE__*/jsx(View, {})]
+    });
+  }
+  getVideoView() {
+    if (this.state.loadVideo) {
+      return /*#__PURE__*/jsx(HopprVideoView, {
+        ref: this.videoViewRef,
+        style: {
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          display: this.state.playVideo ? 'flex' : 'none',
+          // width: Dimensions.get('window').width,
+          // height: 400,
+          // width: Dimensions.get('window').width,
+          // height: Dimensions.get('window').height,
+          width: 711.11,
+          height: 400
+        },
+        onAllAdsCompleted: () => {
+          this.hideVideo(); // HERE callback ad finished
+        },
+        onError: () => {
+          this.hideVideo(); // HERE callback ad finished
+        },
+        onAdLoaded: () => {
+          this.isAdLoaded = true;
+          this.playVideo();
+        },
+        adTag: this.sampleAdTag,
+        scaleMode: 'fit'
+      });
+    } else {
+      return /*#__PURE__*/jsx(View, {});
+    }
+  }
+  loadVideo() {
+    this.setState({
+      loadVideo: true,
+      playVideo: false
+    });
+  }
+  playVideo() {
+    var _a;
+    if (this.isAdLoaded) {
+      this.setState({
+        playVideo: true
+      });
+      (_a = this.videoViewRef.current) === null || _a === void 0 ? void 0 : _a.play();
+    } else {
+      console.log('Ad not loaded yet '); // HERE callback ad finished
+    }
+  }
+
+  hideVideo() {
+    this.isAdLoaded = false;
+    this.setState({
+      playVideo: false,
+      loadVideo: false
     });
   }
   getPIPComponent() {
@@ -1975,6 +2218,7 @@ class HopprAdProvider extends React.Component {
         // this.startScreenshotInterval();
       } else ;
     });
+    this.loadVideo();
   }
   componentWillUnmount() {
     var _a, _b, _c;
@@ -2034,7 +2278,7 @@ class HopprAdProvider extends React.Component {
 
 var wellKnownSymbol$3 = wellKnownSymbol$8;
 var create = objectCreate;
-var defineProperty$1 = objectDefineProperty.f;
+var defineProperty = objectDefineProperty.f;
 
 var UNSCOPABLES = wellKnownSymbol$3('unscopables');
 var ArrayPrototype = Array.prototype;
@@ -2042,7 +2286,7 @@ var ArrayPrototype = Array.prototype;
 // Array.prototype[@@unscopables]
 // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  defineProperty$1(ArrayPrototype, UNSCOPABLES, {
+  defineProperty(ArrayPrototype, UNSCOPABLES, {
     configurable: true,
     value: create(null)
   });
@@ -2053,19 +2297,19 @@ var addToUnscopables$1 = function (key) {
   ArrayPrototype[UNSCOPABLES][key] = true;
 };
 
-var $$2 = _export;
+var $$1 = _export;
 var $includes = arrayIncludes.includes;
-var fails$2 = fails$g;
+var fails$1 = fails$g;
 var addToUnscopables = addToUnscopables$1;
 
 // FF99+ bug
-var BROKEN_ON_SPARSE = fails$2(function () {
+var BROKEN_ON_SPARSE = fails$1(function () {
   return !Array(1).includes();
 });
 
 // `Array.prototype.includes` method
 // https://tc39.es/ecma262/#sec-array.prototype.includes
-$$2({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+$$1({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
   includes: function includes(el /* , fromIndex = 0 */) {
     return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
   }
@@ -2113,18 +2357,18 @@ var correctIsRegexpLogic = function (METHOD_NAME) {
   } return false;
 };
 
-var $$1 = _export;
-var uncurryThis$3 = functionUncurryThis;
+var $ = _export;
+var uncurryThis$2 = functionUncurryThis;
 var notARegExp = notARegexp;
 var requireObjectCoercible$1 = requireObjectCoercible$6;
 var toString$1 = toString$5;
 var correctIsRegExpLogic = correctIsRegexpLogic;
 
-var stringIndexOf$1 = uncurryThis$3(''.indexOf);
+var stringIndexOf$1 = uncurryThis$2(''.indexOf);
 
 // `String.prototype.includes` method
 // https://tc39.es/ecma262/#sec-string.prototype.includes
-$$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
   includes: function includes(searchString /* , position = 0 */) {
     return !!~stringIndexOf$1(
       toString$1(requireObjectCoercible$1(this)),
@@ -2132,73 +2376,6 @@ $$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }
       arguments.length > 1 ? arguments[1] : undefined
     );
   }
-});
-
-var DESCRIPTORS = descriptors;
-var uncurryThis$2 = functionUncurryThis;
-var call$2 = functionCall;
-var fails$1 = fails$g;
-var objectKeys = objectKeys$2;
-var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
-var propertyIsEnumerableModule = objectPropertyIsEnumerable;
-var toObject$1 = toObject$3;
-var IndexedObject = indexedObject;
-
-// eslint-disable-next-line es/no-object-assign -- safe
-var $assign = Object.assign;
-// eslint-disable-next-line es/no-object-defineproperty -- required for testing
-var defineProperty = Object.defineProperty;
-var concat$1 = uncurryThis$2([].concat);
-
-// `Object.assign` method
-// https://tc39.es/ecma262/#sec-object.assign
-var objectAssign = !$assign || fails$1(function () {
-  // should have correct order of operations (Edge bug)
-  if (DESCRIPTORS && $assign({ b: 1 }, $assign(defineProperty({}, 'a', {
-    enumerable: true,
-    get: function () {
-      defineProperty(this, 'b', {
-        value: 3,
-        enumerable: false
-      });
-    }
-  }), { b: 2 })).b !== 1) return true;
-  // should work with symbols and should have deterministic property order (V8 bug)
-  var A = {};
-  var B = {};
-  // eslint-disable-next-line es/no-symbol -- safe
-  var symbol = Symbol();
-  var alphabet = 'abcdefghijklmnopqrst';
-  A[symbol] = 7;
-  alphabet.split('').forEach(function (chr) { B[chr] = chr; });
-  return $assign({}, A)[symbol] != 7 || objectKeys($assign({}, B)).join('') != alphabet;
-}) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
-  var T = toObject$1(target);
-  var argumentsLength = arguments.length;
-  var index = 1;
-  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
-  var propertyIsEnumerable = propertyIsEnumerableModule.f;
-  while (argumentsLength > index) {
-    var S = IndexedObject(arguments[index++]);
-    var keys = getOwnPropertySymbols ? concat$1(objectKeys(S), getOwnPropertySymbols(S)) : objectKeys(S);
-    var length = keys.length;
-    var j = 0;
-    var key;
-    while (length > j) {
-      key = keys[j++];
-      if (!DESCRIPTORS || call$2(propertyIsEnumerable, S, key)) T[key] = S[key];
-    }
-  } return T;
-} : $assign;
-
-var $ = _export;
-var assign = objectAssign;
-
-// `Object.assign` method
-// https://tc39.es/ecma262/#sec-object.assign
-// eslint-disable-next-line es/no-object-assign -- required for testing
-$({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
-  assign: assign
 });
 
 var NATIVE_BIND = functionBindNative;
@@ -2838,4 +3015,13 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd };
+const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seem to be linked. Make sure: \n\n` + Platform.select({
+  ios: "- You have run 'pod install'\n",
+  default: ''
+}) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
+const ComponentName2 = 'NativeHopprVideoView';
+const NativeHopprVideoView = UIManager.getViewManagerConfig(ComponentName2) != null ? requireNativeComponent(ComponentName2) : () => {
+  throw new Error(LINKING_ERROR);
+};
+
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, NativeHopprVideoView };

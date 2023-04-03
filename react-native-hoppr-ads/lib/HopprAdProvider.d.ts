@@ -1,17 +1,24 @@
 import 'react-native-get-random-values';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { IHopprAdProviderProps } from '../types';
 import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
+import { HopprVideoView } from './HopprVideoView';
 export declare class HopprAdProvider extends React.Component<IHopprAdProviderProps, IHopprAdProviderState> {
-    private HopprView;
     private isInternalUserIdReady;
     private isAdSlotsReady;
     private adSlots;
     private hopprInternalUserId;
     private appStateSubscription?;
     private hopprPIPRef;
+    videoViewRef: RefObject<HopprVideoView>;
+    isAdLoaded: boolean;
+    sampleAdTag: string;
     constructor(props: IHopprAdProviderProps | Readonly<IHopprAdProviderProps>);
     render(): JSX.Element;
+    private getVideoView;
+    private loadVideo;
+    private playVideo;
+    private hideVideo;
     private getPIPComponent;
     componentDidMount(): void;
     componentWillUnmount(): void;
