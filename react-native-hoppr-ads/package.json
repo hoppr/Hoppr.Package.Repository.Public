@@ -1,5 +1,5 @@
 {
-  "name": "react-native-hoppr-ads",
+  "name": "@hoppr/react-native-hoppr-ads",
   "version": "0.0.2",
   "main": "./index.js",
   "typedoc": {
