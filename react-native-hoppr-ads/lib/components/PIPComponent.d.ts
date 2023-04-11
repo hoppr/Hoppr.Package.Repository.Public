@@ -1,18 +1,17 @@
 import React from 'react';
 import { ViewProps } from 'react-native';
-import { IHopprBannerAdProps } from '../types';
-export interface IHopprPIPState {
+export interface IPIPComponentState {
     previousImageUrl: string;
     imageUrl: string;
 }
-export interface IHopprPIPProps extends ViewProps {
+export interface IPIPComponentProps extends ViewProps {
 }
-export declare class HopprPIP extends React.Component<IHopprPIPProps, IHopprPIPState> {
+export declare class PIPComponent extends React.Component<IPIPComponentProps, IPIPComponentState> {
     private pipWidth;
     private pipHeight;
     private screenshotInterval;
     private screenRatio;
-    constructor(props: IHopprBannerAdProps | Readonly<IHopprBannerAdProps>);
+    constructor(props: IPIPComponentProps | Readonly<IPIPComponentProps>);
     render(): JSX.Element;
     updateImageUrl(newImageUrl: string): void;
     componentWillUnmount(): void;

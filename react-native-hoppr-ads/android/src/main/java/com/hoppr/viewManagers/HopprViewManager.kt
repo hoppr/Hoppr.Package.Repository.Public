@@ -1,4 +1,4 @@
-package com.hoppr
+package com.hoppr.viewManagers
 
 import android.graphics.Color
 import android.view.View

@@ -39,6 +39,7 @@ export declare enum HopprInternalEvents {
     HopprInternalImaSkippableStateChanged = "HopprInternalImaSkippableStateChanged",
     HopprInternalImaUserClose = "HopprInternalImaUserClose",
     HopprInternalImaAdsManagerLoaded = "HopprInternalImaAdsManagerLoaded",
+    HopprInternalAdBreakFetchError = "HopprInternalAdBreakFetchError",
     HopprInternalImaUnknownError = "HopprInternalImaUnknownError",
     HopprInternalDeeplinkClicked = "HopprInternalDeeplinkClicked",
     HopprInternalDeeplinkError = "HopprInternalDeeplinkError"

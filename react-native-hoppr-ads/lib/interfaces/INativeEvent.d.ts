@@ -2,10 +2,12 @@ export interface INativeEvent {
     eventType: EventType;
     adEventType?: AdEventType;
     message?: string;
+    errorMessage?: string;
 }
 export declare enum EventType {
     AdEvent = "AdEvent",
-    LogEvent = "LogEvent"
+    LogEvent = "LogEvent",
+    AdErrorEvent = "AdErrorEvent"
 }
 export declare enum AdEventType {
     ALL_ADS_COMPLETED = "ALL_ADS_COMPLETED",

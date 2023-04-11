@@ -1,24 +1,18 @@
 import 'react-native-get-random-values';
 import React, { RefObject } from 'react';
-import { IHopprAdProviderProps } from '../types';
+import { IHopprAdProviderProps, VideoLoadOptions, VideoOptions } from '../types';
 import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
-import { HopprVideoView } from './HopprVideoView';
+import { OverlayComponent } from './components/OverlayComponent';
 export declare class HopprAdProvider extends React.Component<IHopprAdProviderProps, IHopprAdProviderState> {
     private isInternalUserIdReady;
     private isAdSlotsReady;
     private adSlots;
     private hopprInternalUserId;
     private appStateSubscription?;
-    private hopprPIPRef;
-    videoViewRef: RefObject<HopprVideoView>;
-    isAdLoaded: boolean;
-    sampleAdTag: string;
+    private pipComponentRef;
+    static overlayComponent: RefObject<OverlayComponent> | null;
     constructor(props: IHopprAdProviderProps | Readonly<IHopprAdProviderProps>);
     render(): JSX.Element;
-    private getVideoView;
-    private loadVideo;
-    private playVideo;
-    private hideVideo;
     private getPIPComponent;
     componentDidMount(): void;
     componentWillUnmount(): void;
@@ -27,4 +21,6 @@ export declare class HopprAdProvider extends React.Component<IHopprAdProviderPro
     private tryUpdateState;
     private initHoppr;
     private initAnalytics;
+    static loadVideo(adUnitId: string, videoLoadOptons?: VideoLoadOptions): void;
+    static playVideo(adUnitId: string, videoOptions: VideoOptions): void;
 }

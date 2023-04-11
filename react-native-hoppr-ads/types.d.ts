@@ -53,3 +53,12 @@ export interface IHopprBannerAd {
      */
     setIsSelected: (value: boolean) => void;
 }
+export declare type VideoOptions = {
+    /**
+     * Called when video is completed
+     */
+    onFinish?: () => void;
+};
+export declare type VideoLoadOptions = {
+    targeting?: Map<string, string | string[]>;
+};

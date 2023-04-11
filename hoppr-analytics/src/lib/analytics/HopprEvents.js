@@ -46,6 +46,7 @@ var HopprInternalEvents;
     HopprInternalEvents["HopprInternalImaSkippableStateChanged"] = "HopprInternalImaSkippableStateChanged";
     HopprInternalEvents["HopprInternalImaUserClose"] = "HopprInternalImaUserClose";
     HopprInternalEvents["HopprInternalImaAdsManagerLoaded"] = "HopprInternalImaAdsManagerLoaded";
+    HopprInternalEvents["HopprInternalAdBreakFetchError"] = "HopprInternalAdBreakFetchError";
     HopprInternalEvents["HopprInternalImaUnknownError"] = "HopprInternalImaUnknownError";
     HopprInternalEvents["HopprInternalDeeplinkClicked"] = "HopprInternalDeeplinkClicked";
     HopprInternalEvents["HopprInternalDeeplinkError"] = "HopprInternalDeeplinkError";

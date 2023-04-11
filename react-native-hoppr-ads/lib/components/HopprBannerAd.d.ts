@@ -1,7 +1,7 @@
 import React from 'react';
-import { IHopprBannerAdProps, IHopprBannerAd } from '../types';
-import { IHopprBannerAdState } from './interfaces/IHopprBannerAdState';
-import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
+import { IHopprBannerAdProps, IHopprBannerAd } from '../../types';
+import { IHopprBannerAdState } from '../interfaces/IHopprBannerAdState';
+import { IHopprAdProviderState } from '../interfaces/IHopprAdProviderState';
 export declare class HopprBannerAd extends React.Component<IHopprBannerAdProps, IHopprBannerAdState> implements IHopprBannerAd {
     static contextType: React.Context<IHopprAdProviderState>;
     private interactivity;
