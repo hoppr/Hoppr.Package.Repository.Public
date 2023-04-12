@@ -14,9 +14,9 @@
   "author": "max.bourdin@hoppr.com.au",
   "license": "",
   "peerDependencies": {
-    "react-native": "^0.71.4",
+    "react": "*",
+    "react-native": "*",
     "@hoppr/hoppr-analytics": "0.0.2",
-    "react": "18.2.0",
     "react-native-webview": "11.26.0",
     "@hoppr/hoppr-common": "0.0.2",
     "@hoppr/hoppr-services": "0.0.2",
@@ -26,7 +26,9 @@
   },
   "files": [
     "src",
-    "android"
+    "android",
+    "ios",
+    "*.podspec"
   ],
   "module": "./index.js",
   "type": "module",

@@ -7,9 +7,9 @@ import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
 import 'react-native-url-polyfill/auto';
-import { WebView } from 'react-native-webview';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { releaseCapture, captureScreen } from 'react-native-view-shot';
+import { WebView } from 'react-native-webview';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -4312,16 +4312,7 @@ class URLUtils {
   }
 }
 
-var $$2 = _export;
-var assign = objectAssign;
-
-// `Object.assign` method
-// https://tc39.es/ecma262/#sec-object.assign
-// eslint-disable-next-line es/no-object-assign -- required for testing
-$$2({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
-  assign: assign
-});
-
+// import { NativeHopprVideoView } from '../../';
 class VideoComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -4331,15 +4322,21 @@ class VideoComponent extends React.Component {
     this._onNativeEventReceived = this._onNativeEventReceived.bind(this);
   }
   render() {
-    const viewStyle = this.props.style;
-    return /*#__PURE__*/jsx(NativeHopprVideoView, {
-      style: Object.assign({}, viewStyle),
-      onChange: this._onNativeEventReceived,
-      play: this.state.play,
-      adTag: this.props.adTag,
-      scaleMode: this.props.scaleMode,
-      ppid: this.props.ppid
-    });
+    this.props.style;
+    return (
+      /*#__PURE__*/
+      // <NativeHopprVideoView
+      //   style={{
+      //     ...viewStyle,
+      //   }}
+      //   onChange={this._onNativeEventReceived}
+      //   play={this.state.play}
+      //   adTag={this.props.adTag}
+      //   scaleMode={this.props.scaleMode}
+      //   ppid={this.props.ppid}
+      // />
+      jsx(View, {})
+    );
   }
   play() {
     this.setState({
@@ -4630,6 +4627,29 @@ class PIPComponent extends React.Component {
 class HopprAdProvider extends React.Component {
   // private viewShotRef: RefObject<ViewShot> = createRef();
   // private screenshotInterval: NodeJS.Timer | null = null;
+  // traverseHierarchy(component : any, depth = 0) {
+  //   if (!component || !component.props) {
+  //     return;
+  //   }
+  // const componentName =
+  // component.type === React.Fragment
+  //   ? 'React.Fragment'
+  //   : component.type.displayName || component.type.name || 'Unknown';
+  //   const componentName = component.type.displayName || component.type.name || 'Unknown';
+  //   console.log(' '.repeat(depth * 2), componentName);
+  //   if (typeof component.props.children === 'function') {
+  //     const children = component.props.children();
+  //     if (React.isValidElement(children)) {
+  //       this.traverseHierarchy(children, depth + 1);
+  //     } else if (Array.isArray(children)) {
+  //       children.forEach((child) => this.traverseHierarchy(child, depth + 1));
+  //     }
+  //   } else {
+  //     React.Children.forEach(component.props.children, (child : any) => {
+  //       this.traverseHierarchy(child, depth + 1);
+  //     });
+  //   }
+  // }
   constructor(props) {
     super(props);
     this.isInternalUserIdReady = false;
@@ -4715,14 +4735,9 @@ class HopprAdProvider extends React.Component {
       value: this.state,
       children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(OverlayComponent, {
         ref: HopprAdProvider.overlayComponent
-      }), /*#__PURE__*/jsx(CounterView, {
-        style: styles.wrapper
-      }), /*#__PURE__*/jsx(View, {
-        style: {
-          width: 100,
-          height: 100,
-          backgroundColor: 'blue'
-        }
+      }), /*#__PURE__*/jsx(TestLibraryView, {
+        color: "#32a852",
+        style: styles.box
       })]
     });
   }
@@ -4818,24 +4833,17 @@ HopprAdProvider.overlayComponent = /*#__PURE__*/createRef();
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch'
-  },
-  wrapper: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  border: {
-    borderColor: '#eee',
-    borderBottomWidth: 1
-  },
-  button: {
-    fontSize: 50,
-    color: 'orange'
+  box: {
+    width: 60,
+    height: 60,
+    marginVertical: 20
   }
 });
 
-var $$1 = _export;
+var $$2 = _export;
 var $includes = arrayIncludes.includes;
 var fails$1 = fails$k;
 var addToUnscopables = addToUnscopables$2;
@@ -4847,7 +4855,7 @@ var BROKEN_ON_SPARSE = fails$1(function () {
 
 // `Array.prototype.includes` method
 // https://tc39.es/ecma262/#sec-array.prototype.includes
-$$1({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+$$2({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
   includes: function includes(el /* , fromIndex = 0 */) {
     return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
   }
@@ -4895,7 +4903,7 @@ var correctIsRegexpLogic = function (METHOD_NAME) {
   } return false;
 };
 
-var $ = _export;
+var $$1 = _export;
 var uncurryThis$2 = functionUncurryThis;
 var notARegExp = notARegexp;
 var requireObjectCoercible$1 = requireObjectCoercible$6;
@@ -4906,7 +4914,7 @@ var stringIndexOf$1 = uncurryThis$2(''.indexOf);
 
 // `String.prototype.includes` method
 // https://tc39.es/ecma262/#sec-string.prototype.includes
-$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+$$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
   includes: function includes(searchString /* , position = 0 */) {
     return !!~stringIndexOf$1(
       toString$1(requireObjectCoercible$1(this)),
@@ -4914,6 +4922,16 @@ $({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, 
       arguments.length > 1 ? arguments[1] : undefined
     );
   }
+});
+
+var $ = _export;
+var assign = objectAssign;
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+// eslint-disable-next-line es/no-object-assign -- required for testing
+$({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
+  assign: assign
 });
 
 var NATIVE_BIND = functionBindNative;
@@ -5557,13 +5575,17 @@ const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seem to be linke
   ios: "- You have run 'pod install'\n",
   default: ''
 }) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
-const ComponentName2 = 'NativeHopprVideoView';
-const NativeHopprVideoView = UIManager.getViewManagerConfig(ComponentName2) != null ? requireNativeComponent(ComponentName2) : () => {
-  throw new Error(LINKING_ERROR);
-};
-UIManager.getViewManagerConfig(ComponentName2) != null;
-const CounterView = UIManager.getViewManagerConfig('CounterView') != null ? requireNativeComponent('CounterView') : () => {
-  throw new Error(LINKING_ERROR + '2');
+const ComponentName = 'TestLibraryView';
+// export const TestLibraryView = getSomething();
+// function getSomething() {
+//   try {
+//     return requireNativeComponent<TestLibraryProps>(ComponentName);
+//   } catch (e) {
+//     console.log('e');
+//   }
+// }
+const TestLibraryView = UIManager.getViewManagerConfig(ComponentName) != null ? requireNativeComponent(ComponentName) : () => {
+  throw new Error(LINKING_ERROR + '1');
 };
 
-export { CounterView, HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, NativeHopprVideoView };
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, TestLibraryView };

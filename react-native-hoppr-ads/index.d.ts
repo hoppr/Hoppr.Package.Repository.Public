@@ -3,16 +3,8 @@ export * from './lib/HopprAdProvider';
 export * from './lib/components/HopprBannerAd';
 export * from './lib/HopprAnalyticsLogger';
 export { HopprEvents, ContentTypes, ScreenTypes, StreamTypes, } from '@hoppr/hoppr-analytics';
-declare type HopprVdeoProps = {
-    style: ViewStyle;
-    onChange: Function;
-    play: boolean;
-    adTag: string;
-    scaleMode: string;
-    ppid: string;
-};
-declare type CounterViewProps = {
+declare type TestLibraryProps = {
+    color: string;
     style: ViewStyle;
 };
-export declare const NativeHopprVideoView: import("react-native").HostComponent<HopprVdeoProps> | (() => never);
-export declare const CounterView: import("react-native").HostComponent<CounterViewProps> | (() => never);
+export declare const TestLibraryView: import("react-native").HostComponent<TestLibraryProps> | (() => never);
