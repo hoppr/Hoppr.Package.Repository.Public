@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   # s.platform     = :ios, "12.4"
   s.ios.deployment_target = "12.4"
   s.tvos.deployment_target = "12.4"
-  s.source       = { :git => "hhttps://github.com/hoppr/Hoppr.Package.Repository.Public.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/hoppr/Hoppr.Package.Repository.Public.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
