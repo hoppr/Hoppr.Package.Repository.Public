@@ -4461,10 +4461,10 @@ class OverlayComponent extends React.Component {
           display: this.state.playVideo ? 'flex' : 'none',
           // width: Dimensions.get('window').width,
           // height: 400,
-          // width: Dimensions.get('window').width,
-          // height: Dimensions.get('window').height,
-          width: 711.11,
-          height: 400
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height
+          // width: 711.11,
+          // height: 400,
         },
         onAllAdsCompleted: () => {
           this.hideVideo();
