@@ -4312,16 +4312,6 @@ class URLUtils {
   }
 }
 
-var $$2 = _export;
-var assign = objectAssign;
-
-// `Object.assign` method
-// https://tc39.es/ecma262/#sec-object.assign
-// eslint-disable-next-line es/no-object-assign -- required for testing
-$$2({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
-  assign: assign
-});
-
 class VideoComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -4331,9 +4321,19 @@ class VideoComponent extends React.Component {
     this._onNativeEventReceived = this._onNativeEventReceived.bind(this);
   }
   render() {
-    const viewStyle = this.props.style;
+    this.props.style;
     return /*#__PURE__*/jsx(NativeHopprVideoView, {
-      style: Object.assign({}, viewStyle),
+      style: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        // display: this.state.playVideo ? 'flex' : 'none',
+        display: 'flex',
+        // width: Dimensions.get('window').width,
+        // height: 400,
+        width: 300,
+        height: 300
+      },
       onChange: this._onNativeEventReceived,
       play: this.state.play,
       adTag: this.props.adTag,
@@ -4450,37 +4450,47 @@ class OverlayComponent extends React.Component {
   }
   getVideoView() {
     if (this.state.loadVideo) {
-      return /*#__PURE__*/jsx(VideoComponent, {
-        ref: this.videoComponentRef,
-        style: {
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          // display: this.state.playVideo ? 'flex' : 'none',
-          display: 'flex',
-          // width: Dimensions.get('window').width,
-          // height: 400,
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height
-          // width: 711.11,
-          // height: 400,
-        },
-        onAllAdsCompleted: () => {
-          this.hideVideo();
-          this.onFinishCallback();
-        },
-        onError: () => {
-          this.hideVideo();
-          this.onFinishCallback();
-        },
-        videoAdUnitId: this.videoAdUnitId,
-        onAdLoaded: () => {
-          this.isVideoAdLoaded = true;
-        },
-        adTag: this.state.adTagUrl,
-        scaleMode: 'zoom',
-        ppid: this.state.ppid
-      });
+      return (
+        /*#__PURE__*/
+        // <View style={{
+        //   flex: 1,
+        //   alignItems: 'center',
+        //   justifyContent: 'center',
+        // }}>
+        jsx(VideoComponent, {
+          ref: this.videoComponentRef
+          // style={{
+          //   position: 'absolute',
+          //   right: 0,
+          //   bottom: 0,
+          //   // display: this.state.playVideo ? 'flex' : 'none',
+          //   display: 'flex',
+          //   // width: Dimensions.get('window').width,
+          //   // height: 400,
+          //   width: Dimensions.get('window').width,
+          //   height: Dimensions.get('window').height,
+          //   // width: 711.11,
+          //   // height: 400,
+          // }}
+          ,
+          onAllAdsCompleted: () => {
+            this.hideVideo();
+            this.onFinishCallback();
+          },
+          onError: () => {
+            this.hideVideo();
+            this.onFinishCallback();
+          },
+          videoAdUnitId: this.videoAdUnitId,
+          onAdLoaded: () => {
+            this.isVideoAdLoaded = true;
+          },
+          adTag: this.state.adTagUrl,
+          scaleMode: 'zoom',
+          ppid: this.state.ppid
+        })
+        // </View>
+      );
     } else {
       return /*#__PURE__*/jsx(View, {});
     }
@@ -4845,7 +4855,7 @@ class HopprAdProvider extends React.Component {
 }
 HopprAdProvider.overlayComponent = /*#__PURE__*/createRef();
 
-var $$1 = _export;
+var $$2 = _export;
 var $includes = arrayIncludes.includes;
 var fails$1 = fails$k;
 var addToUnscopables = addToUnscopables$2;
@@ -4857,7 +4867,7 @@ var BROKEN_ON_SPARSE = fails$1(function () {
 
 // `Array.prototype.includes` method
 // https://tc39.es/ecma262/#sec-array.prototype.includes
-$$1({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+$$2({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
   includes: function includes(el /* , fromIndex = 0 */) {
     return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
   }
@@ -4905,7 +4915,7 @@ var correctIsRegexpLogic = function (METHOD_NAME) {
   } return false;
 };
 
-var $ = _export;
+var $$1 = _export;
 var uncurryThis$2 = functionUncurryThis;
 var notARegExp = notARegexp;
 var requireObjectCoercible$1 = requireObjectCoercible$6;
@@ -4916,7 +4926,7 @@ var stringIndexOf$1 = uncurryThis$2(''.indexOf);
 
 // `String.prototype.includes` method
 // https://tc39.es/ecma262/#sec-string.prototype.includes
-$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+$$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
   includes: function includes(searchString /* , position = 0 */) {
     return !!~stringIndexOf$1(
       toString$1(requireObjectCoercible$1(this)),
@@ -4924,6 +4934,16 @@ $({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, 
       arguments.length > 1 ? arguments[1] : undefined
     );
   }
+});
+
+var $ = _export;
+var assign = objectAssign;
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+// eslint-disable-next-line es/no-object-assign -- required for testing
+$({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
+  assign: assign
 });
 
 var NATIVE_BIND = functionBindNative;
