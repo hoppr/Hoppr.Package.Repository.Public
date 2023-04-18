@@ -4355,7 +4355,7 @@ class VideoComponent extends React.Component {
     try {
       var message = '';
       if (Platform.OS == 'ios') {
-        message = event['nativeEvent'];
+        message = JSON.stringify(event['nativeEvent']);
         console.log('message 1', message);
       } else {
         message = event['nativeEvent']['message'];
