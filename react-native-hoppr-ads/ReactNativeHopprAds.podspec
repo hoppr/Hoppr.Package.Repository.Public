@@ -11,7 +11,9 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
   s.authors      = { "Maxence bourdin" => "max.bourdin@hoppr.com.au" }
-  s.platform     = :ios, "12.4"
+  # s.platform     = :ios, "12.4"
+  s.ios.deployment_target = "12.4"
+  s.tvos.deployment_target = "12.4"
   s.source       = { :git => "hhttps://github.com/hoppr/Hoppr.Package.Repository.Public.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
@@ -19,5 +21,7 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency "React-Core"
-  s.dependency 'GoogleAds-IMA-iOS-SDK', '~> 3.18.5'
+  # s.dependency 'GoogleAds-IMA-iOS-SDK', '~> 3.18.5'
+  s.ios.dependency 'GoogleAds-IMA-iOS-SDK', '~> 3.18.5'
+  s.tvos.dependency 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
 end
