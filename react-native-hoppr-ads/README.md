@@ -38,7 +38,7 @@ To install or update SDK specific dependencies
 
 For external libs
 
-`yarn add react-native-url-polyfill react-native-get-random-values @react-native-async-storage/async-storage react-native-webview@11.23.1 axios`
+`yarn add react-native-get-random-values @react-native-async-storage/async-storage react-native-webview@11.23.1 axios`
 
 ## Sample App Examples
 

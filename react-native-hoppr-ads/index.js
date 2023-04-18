@@ -1,4 +1,4 @@
-import { Platform, View, Dimensions, Image, AppState, StyleSheet, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
+import { Platform, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,9 +7,9 @@ import { ServicesClient } from '@hoppr/hoppr-services';
 import { HopprInternalEvents, HopprAnalytics, HopprEvents } from '@hoppr/hoppr-analytics';
 export { ContentTypes, HopprEvents, ScreenTypes, StreamTypes } from '@hoppr/hoppr-analytics';
 import 'react-native-url-polyfill/auto';
+import { WebView } from 'react-native-webview';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { releaseCapture, captureScreen } from 'react-native-view-shot';
-import { WebView } from 'react-native-webview';
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -4312,7 +4312,16 @@ class URLUtils {
   }
 }
 
-// import { NativeHopprVideoView } from '../../';
+var $$2 = _export;
+var assign = objectAssign;
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+// eslint-disable-next-line es/no-object-assign -- required for testing
+$$2({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
+  assign: assign
+});
+
 class VideoComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -4322,21 +4331,20 @@ class VideoComponent extends React.Component {
     this._onNativeEventReceived = this._onNativeEventReceived.bind(this);
   }
   render() {
-    this.props.style;
-    return (
-      /*#__PURE__*/
-      // <NativeHopprVideoView
-      //   style={{
-      //     ...viewStyle,
-      //   }}
-      //   onChange={this._onNativeEventReceived}
-      //   play={this.state.play}
-      //   adTag={this.props.adTag}
-      //   scaleMode={this.props.scaleMode}
-      //   ppid={this.props.ppid}
-      // />
-      jsx(View, {})
-    );
+    const viewStyle = this.props.style;
+    return /*#__PURE__*/jsx(NativeHopprVideoView, {
+      style: Object.assign({}, viewStyle),
+      onChange: this._onNativeEventReceived,
+      play: this.state.play,
+      adTag: this.props.adTag,
+      scaleMode: this.props.scaleMode,
+      ppid: this.props.ppid,
+      properties: {
+        scaleMode: this.props.scaleMode,
+        adTag: this.props.adTag,
+        ppid: this.props.ppid
+      }
+    });
   }
   play() {
     this.setState({
@@ -4627,15 +4635,15 @@ class PIPComponent extends React.Component {
 class HopprAdProvider extends React.Component {
   // private viewShotRef: RefObject<ViewShot> = createRef();
   // private screenshotInterval: NodeJS.Timer | null = null;
-  // traverseHierarchy(component : any, depth = 0) {
+  // traverseHierarchy(component: any, depth = 0) {
   //   if (!component || !component.props) {
   //     return;
   //   }
-  // const componentName =
-  // component.type === React.Fragment
-  //   ? 'React.Fragment'
-  //   : component.type.displayName || component.type.name || 'Unknown';
-  //   const componentName = component.type.displayName || component.type.name || 'Unknown';
+  //   // const componentName = component.type.displayName || component.type.name || 'Unknown';
+  //   const componentName =
+  //     component.type === React.Fragment
+  //       ? 'React.Fragment'
+  //       : component.type.displayName || component.type.name || 'Unknown';
   //   console.log(' '.repeat(depth * 2), componentName);
   //   if (typeof component.props.children === 'function') {
   //     const children = component.props.children();
@@ -4645,7 +4653,7 @@ class HopprAdProvider extends React.Component {
   //       children.forEach((child) => this.traverseHierarchy(child, depth + 1));
   //     }
   //   } else {
-  //     React.Children.forEach(component.props.children, (child : any) => {
+  //     React.Children.forEach(component.props.children, (child) => {
   //       this.traverseHierarchy(child, depth + 1);
   //     });
   //   }
@@ -4725,6 +4733,9 @@ class HopprAdProvider extends React.Component {
     };
     this.initHoppr();
     this.initAnalytics(props.config.appId, props.config.apiKey, props.config.userId);
+    // setInterval(() => {
+    //   this.traverseHierarchy(this);
+    // }, 5000);
   }
   // private onCapture = (uri: string) => {
   //   console.log('onCapture', uri);
@@ -4735,10 +4746,7 @@ class HopprAdProvider extends React.Component {
       value: this.state,
       children: [this.props.children, this.getPIPComponent(), /*#__PURE__*/jsx(OverlayComponent, {
         ref: HopprAdProvider.overlayComponent
-      }), /*#__PURE__*/jsx(TestLibraryView, {
-        color: "#32a852",
-        style: styles.box
-      })]
+      }), /*#__PURE__*/jsx(View, {})]
     });
   }
   getPIPComponent() {
@@ -4830,20 +4838,8 @@ class HopprAdProvider extends React.Component {
   }
 }
 HopprAdProvider.overlayComponent = /*#__PURE__*/createRef();
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20
-  }
-});
 
-var $$2 = _export;
+var $$1 = _export;
 var $includes = arrayIncludes.includes;
 var fails$1 = fails$k;
 var addToUnscopables = addToUnscopables$2;
@@ -4855,7 +4851,7 @@ var BROKEN_ON_SPARSE = fails$1(function () {
 
 // `Array.prototype.includes` method
 // https://tc39.es/ecma262/#sec-array.prototype.includes
-$$2({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+$$1({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
   includes: function includes(el /* , fromIndex = 0 */) {
     return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
   }
@@ -4903,7 +4899,7 @@ var correctIsRegexpLogic = function (METHOD_NAME) {
   } return false;
 };
 
-var $$1 = _export;
+var $ = _export;
 var uncurryThis$2 = functionUncurryThis;
 var notARegExp = notARegexp;
 var requireObjectCoercible$1 = requireObjectCoercible$6;
@@ -4914,7 +4910,7 @@ var stringIndexOf$1 = uncurryThis$2(''.indexOf);
 
 // `String.prototype.includes` method
 // https://tc39.es/ecma262/#sec-string.prototype.includes
-$$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
+$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
   includes: function includes(searchString /* , position = 0 */) {
     return !!~stringIndexOf$1(
       toString$1(requireObjectCoercible$1(this)),
@@ -4922,16 +4918,6 @@ $$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }
       arguments.length > 1 ? arguments[1] : undefined
     );
   }
-});
-
-var $ = _export;
-var assign = objectAssign;
-
-// `Object.assign` method
-// https://tc39.es/ecma262/#sec-object.assign
-// eslint-disable-next-line es/no-object-assign -- required for testing
-$({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
-  assign: assign
 });
 
 var NATIVE_BIND = functionBindNative;
@@ -5575,17 +5561,9 @@ const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seem to be linke
   ios: "- You have run 'pod install'\n",
   default: ''
 }) + '- You rebuilt the app after installing the package\n' + '- You are not using Expo Go\n';
-const ComponentName = 'TestLibraryView';
-// export const TestLibraryView = getSomething();
-// function getSomething() {
-//   try {
-//     return requireNativeComponent<TestLibraryProps>(ComponentName);
-//   } catch (e) {
-//     console.log('e');
-//   }
-// }
-const TestLibraryView = UIManager.getViewManagerConfig(ComponentName) != null ? requireNativeComponent(ComponentName) : () => {
-  throw new Error(LINKING_ERROR + '1');
+const ComponentName2 = 'NativeHopprVideoView';
+const NativeHopprVideoView = UIManager.getViewManagerConfig(ComponentName2) != null ? requireNativeComponent(ComponentName2) : () => {
+  throw new Error(LINKING_ERROR);
 };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, TestLibraryView };
+export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, NativeHopprVideoView };

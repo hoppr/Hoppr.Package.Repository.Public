@@ -1,0 +1,386 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5C71BEA929EE52A100CFBDB6 /* ReactNativeHopprAds.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */; };
+		5C71BEAA29EE52A100CFBDB6 /* ReactNativeHopprAds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71BEA729EE52A100CFBDB6 /* ReactNativeHopprAds.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C71BEB129EE530500CFBDB6 /* NativeHopprVideoViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */; };
+		5C71BEB329EE535B00CFBDB6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB229EE535B00CFBDB6 /* Utils.swift */; };
+		5C71BEB529EE537B00CFBDB6 /* NativeHopprVideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */; };
+		5C71BEB729EE539A00CFBDB6 /* NativeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */; };
+		5C71BEB929EE53A900CFBDB6 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB829EE53A900CFBDB6 /* EventType.swift */; };
+		5C71BEBC29EE53EF00CFBDB6 /* ClosureBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5C71BEA429EE52A100CFBDB6 /* ReactNativeHopprAds.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactNativeHopprAds.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C71BEA729EE52A100CFBDB6 /* ReactNativeHopprAds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactNativeHopprAds.h; sourceTree = "<group>"; };
+		5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ReactNativeHopprAds.docc; sourceTree = "<group>"; };
+		5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHopprVideoViewManager.swift; sourceTree = "<group>"; };
+		5C71BEB229EE535B00CFBDB6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeHopprVideoViewManager.m; sourceTree = "<group>"; };
+		5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeEvents.swift; sourceTree = "<group>"; };
+		5C71BEB829EE53A900CFBDB6 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		5C71BEBA29EE53C900CFBDB6 /* ReactNativeHopprAds-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeHopprAds-Bridging-Header.h"; sourceTree = "<group>"; };
+		5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureBasedViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5C71BEA129EE52A100CFBDB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5C71BE9A29EE52A100CFBDB6 = {
+			isa = PBXGroup;
+			children = (
+				5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */,
+				5C71BEBA29EE53C900CFBDB6 /* ReactNativeHopprAds-Bridging-Header.h */,
+				5C71BEB829EE53A900CFBDB6 /* EventType.swift */,
+				5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */,
+				5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */,
+				5C71BEB229EE535B00CFBDB6 /* Utils.swift */,
+				5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */,
+				5C71BEA629EE52A100CFBDB6 /* ReactNativeHopprAds */,
+				5C71BEA529EE52A100CFBDB6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5C71BEA529EE52A100CFBDB6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5C71BEA429EE52A100CFBDB6 /* ReactNativeHopprAds.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5C71BEA629EE52A100CFBDB6 /* ReactNativeHopprAds */ = {
+			isa = PBXGroup;
+			children = (
+				5C71BEA729EE52A100CFBDB6 /* ReactNativeHopprAds.h */,
+				5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */,
+			);
+			path = ReactNativeHopprAds;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5C71BE9F29EE52A100CFBDB6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C71BEAA29EE52A100CFBDB6 /* ReactNativeHopprAds.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5C71BEA329EE52A100CFBDB6 /* ReactNativeHopprAds */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C71BEAD29EE52A100CFBDB6 /* Build configuration list for PBXNativeTarget "ReactNativeHopprAds" */;
+			buildPhases = (
+				5C71BE9F29EE52A100CFBDB6 /* Headers */,
+				5C71BEA029EE52A100CFBDB6 /* Sources */,
+				5C71BEA129EE52A100CFBDB6 /* Frameworks */,
+				5C71BEA229EE52A100CFBDB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReactNativeHopprAds;
+			productName = ReactNativeHopprAds;
+			productReference = 5C71BEA429EE52A100CFBDB6 /* ReactNativeHopprAds.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5C71BE9B29EE52A100CFBDB6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					5C71BEA329EE52A100CFBDB6 = {
+						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1430;
+					};
+				};
+			};
+			buildConfigurationList = 5C71BE9E29EE52A100CFBDB6 /* Build configuration list for PBXProject "ReactNativeHopprAds" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5C71BE9A29EE52A100CFBDB6;
+			productRefGroup = 5C71BEA529EE52A100CFBDB6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5C71BEA329EE52A100CFBDB6 /* ReactNativeHopprAds */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5C71BEA229EE52A100CFBDB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5C71BEA029EE52A100CFBDB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C71BEA929EE52A100CFBDB6 /* ReactNativeHopprAds.docc in Sources */,
+				5C71BEB729EE539A00CFBDB6 /* NativeEvents.swift in Sources */,
+				5C71BEB529EE537B00CFBDB6 /* NativeHopprVideoViewManager.m in Sources */,
+				5C71BEB129EE530500CFBDB6 /* NativeHopprVideoViewManager.swift in Sources */,
+				5C71BEBC29EE53EF00CFBDB6 /* ClosureBasedViewController.swift in Sources */,
+				5C71BEB929EE53A900CFBDB6 /* EventType.swift in Sources */,
+				5C71BEB329EE535B00CFBDB6 /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5C71BEAB29EE52A100CFBDB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5C71BEAC29EE52A100CFBDB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5C71BEAE29EE52A100CFBDB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = V5Y26MG96P;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hoppr.ReactNativeHopprAds;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+			};
+			name = Debug;
+		};
+		5C71BEAF29EE52A100CFBDB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = V5Y26MG96P;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hoppr.ReactNativeHopprAds;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5C71BE9E29EE52A100CFBDB6 /* Build configuration list for PBXProject "ReactNativeHopprAds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C71BEAB29EE52A100CFBDB6 /* Debug */,
+				5C71BEAC29EE52A100CFBDB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C71BEAD29EE52A100CFBDB6 /* Build configuration list for PBXNativeTarget "ReactNativeHopprAds" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C71BEAE29EE52A100CFBDB6 /* Debug */,
+				5C71BEAF29EE52A100CFBDB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5C71BE9B29EE52A100CFBDB6 /* Project object */;
+}
