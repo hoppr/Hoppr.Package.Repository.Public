@@ -4356,10 +4356,8 @@ class VideoComponent extends React.Component {
       var message = '';
       if (Platform.OS == 'ios') {
         message = JSON.stringify(event['nativeEvent']);
-        console.log('message 1', message);
       } else {
         message = event['nativeEvent']['message'];
-        console.log('message 2', message);
       }
       var reactNativeEvent = JSON.parse(message);
       this.handleEvent(reactNativeEvent);
@@ -4458,7 +4456,8 @@ class OverlayComponent extends React.Component {
           position: 'absolute',
           right: 0,
           bottom: 0,
-          display: this.state.playVideo ? 'flex' : 'none',
+          // display: this.state.playVideo ? 'flex' : 'none',
+          display: 'flex',
           // width: Dimensions.get('window').width,
           // height: 400,
           width: Dimensions.get('window').width,
