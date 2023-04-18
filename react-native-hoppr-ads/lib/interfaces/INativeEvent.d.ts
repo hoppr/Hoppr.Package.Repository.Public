@@ -3,6 +3,7 @@ export interface INativeEvent {
     adEventType?: AdEventType;
     message?: string;
     errorMessage?: string;
+    target?: number;
 }
 export declare enum EventType {
     AdEvent = "AdEvent",
