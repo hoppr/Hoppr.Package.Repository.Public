@@ -1,4 +1,4 @@
-import { Platform, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
+import { Platform, SafeAreaView, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -4322,28 +4322,32 @@ class VideoComponent extends React.Component {
   }
   render() {
     this.props.style;
-    return /*#__PURE__*/jsx(NativeHopprVideoView, {
-      style: {
-        position: 'absolute',
-        right: 0,
-        bottom: 0,
-        // display: this.state.playVideo ? 'flex' : 'none',
-        display: 'flex',
-        // width: Dimensions.get('window').width,
-        // height: 400,
-        width: 300,
-        height: 300
-      },
-      onChange: this._onNativeEventReceived,
-      play: this.state.play,
-      adTag: this.props.adTag,
-      scaleMode: this.props.scaleMode,
-      ppid: this.props.ppid,
-      properties: {
-        scaleMode: this.props.scaleMode,
-        adTag: this.props.adTag,
-        ppid: this.props.ppid
-      }
+    return /*#__PURE__*/jsx(SafeAreaView, {
+      children: /*#__PURE__*/jsx(View, {
+        children: /*#__PURE__*/jsx(NativeHopprVideoView, {
+          style: {
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            // display: this.state.playVideo ? 'flex' : 'none',
+            display: 'flex',
+            // width: Dimensions.get('window').width,
+            // height: 400,
+            width: 300,
+            height: 300
+          },
+          onChange: this._onNativeEventReceived,
+          play: this.state.play,
+          adTag: this.props.adTag,
+          scaleMode: this.props.scaleMode,
+          ppid: this.props.ppid,
+          properties: {
+            scaleMode: this.props.scaleMode,
+            adTag: this.props.adTag,
+            ppid: this.props.ppid
+          }
+        })
+      })
     });
   }
   play() {
