@@ -21,12 +21,23 @@ class NativeEvent {
   }
   
   func toDictionary() -> [AnyHashable : Any]? {
-    return [
-      "eventType": eventType.rawValue,
-      "adEventType": Utils.mapImaAdEventToGenericFormat(iMAAdEventType: adEventType),
-      "message": message,
-      "errorMessage": errorMessage,
-    ]
+      var result: [AnyHashable: Any] = [:]
+      let adEvent = Utils.mapImaAdEventToGenericFormat(iMAAdEventType: adEventType)
+      result["eventType"] = eventType.rawValue
+      
+      if adEvent != "" {
+          result["adEventType"] = adEvent
+      }
+
+      if let message = message {
+          result["message"] = message
+      }
+
+      if let errorMessage = errorMessage { 
+          result["errorMessage"] = errorMessage
+      }
+      
+    return result
   }
   
   //    func toJSON() -> String {
