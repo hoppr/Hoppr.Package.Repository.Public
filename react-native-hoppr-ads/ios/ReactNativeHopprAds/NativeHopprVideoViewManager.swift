@@ -230,6 +230,9 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func playAd(){
+    window?.canBecomeKey = true
+    window?.becomeKey()
+    window?.makeKeyAndVisible()
     becomeFirstResponder()
     playerViewController.view.isHidden = false
     adsManager.start()
@@ -312,6 +315,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   
   func release(){
     resignFirstResponder()
+      window?.resignKey()
     
     sendLogEvent(content: "release")
 
