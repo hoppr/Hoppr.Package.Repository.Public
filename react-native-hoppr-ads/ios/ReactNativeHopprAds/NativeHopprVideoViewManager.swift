@@ -108,10 +108,10 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   override func didMoveToWindow() {
-    sendLogEvent(content: "maxdebug : didMoveToWindow()")
+    sendLogEvent(content: "didMoveToWindow")
     super.didMoveToWindow()
     if window != nil {
-      sendLogEvent(content: "maxdebug : didMoveToWindow2()")
+      sendLogEvent(content: "didMoveToWindow 2")
       isWindowReady = true
       tryLoadAd()
     }else{
@@ -121,6 +121,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   
   func tryLoadAd(){
     if(isReadyToInitalize()){
+      sendLogEvent(content: "tryLoadAd")
+
       adContainerViewController = ClosureBasedViewController()
       adContainerViewController?.view = self
 
@@ -143,12 +145,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
       isInit = true
       previousAdTag = currentAdTag
       
-      sendLogEvent(content: "maxdebug : tryLoadAd()")
-
       setUpPlayer()
       setUpAdsLoader()
-      
-      
       requestAds()
     }
   }
@@ -157,45 +155,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     return !currentPpid.isEmpty && !currentScaleMode.isEmpty && !currentAdTag.isEmpty && isWindowReady
   }
   
-  func setUpAdsLoader() {
-    sendLogEvent(content: "maxdebug : setUpAdsLoader()")
-    
-    let locale = Locale.current.languageCode
-    let adsLoaderSettings = IMASettings()
-    adsLoaderSettings.ppid = currentPpid
-    adsLoaderSettings.enableBackgroundPlayback = true
-    
-    if let safeLocale = locale {
-      sendLogEvent(content: "maxdebug : setUpAdsLoader() " + safeLocale)
-      adsLoaderSettings.language = safeLocale
-    }
-    
-    adsLoader = IMAAdsLoader(settings: adsLoaderSettings)
-    adsLoader.delegate = self
-  }
-  
-  func playAd(){
-    playerViewController.view.isHidden = false
-    adsManager.start()
-  }
-
-  func requestAds() {
-    sendLogEvent(content: "maxdebug : requestAds()")
-    
-    let adDisplayContainer = IMAAdDisplayContainer(adContainer: self, viewController: adContainerViewController)
-    
-    let request = IMAAdsRequest(
-      adTagUrl: currentAdTag,
-      adDisplayContainer: adDisplayContainer,
-      avPlayerVideoDisplay: IMAAVPlayerVideoDisplay(avPlayer: player!),
-      pictureInPictureProxy: IMAPictureInPictureProxy(avPictureInPictureControllerDelegate: self),
-      userContext: nil)
-    
-    adsLoader.requestAds(with: request)
-  }
-  
   func setUpPlayer() {
-    sendLogEvent(content: "maxdebug : setUpContentPlayer()")
+    sendLogEvent(content: "etUpContentPlayer")
     
     player = AVPlayer()
     guard let player = player else { return }
@@ -220,27 +181,65 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     self.addSubview(playerViewController.view)
   }
   
+  func setUpAdsLoader() {
+    sendLogEvent(content: "setUpAdsLoader")
+    
+    let locale = Locale.current.languageCode
+    let adsLoaderSettings = IMASettings()
+    adsLoaderSettings.ppid = currentPpid
+    adsLoaderSettings.enableBackgroundPlayback = true
+    adsLoaderSettings.autoPlayAdBreaks = false
+    
+    if let safeLocale = locale {
+      sendLogEvent(content: "Language" + safeLocale)
+      adsLoaderSettings.language = safeLocale
+    }
+    
+    adsLoader = IMAAdsLoader(settings: adsLoaderSettings)
+    adsLoader.delegate = self
+  }
+  
+  func requestAds() {
+    sendLogEvent(content: "requestAds")
+    
+    let adDisplayContainer = IMAAdDisplayContainer(adContainer: self, viewController: adContainerViewController)
+    
+    let request = IMAAdsRequest(
+      adTagUrl: currentAdTag,
+      adDisplayContainer: adDisplayContainer,
+      avPlayerVideoDisplay: IMAAVPlayerVideoDisplay(avPlayer: player!),
+      pictureInPictureProxy: IMAPictureInPictureProxy(avPictureInPictureControllerDelegate: self),
+      userContext: nil)
+    
+    adsLoader.requestAds(with: request)
+  }
+  
+  func playAd(){
+    playerViewController.view.isHidden = false
+    adsManager.start()
+  }
+  
   
   func adsLoader(_ loader: IMAAdsLoader, adsLoadedWith adsLoadedData: IMAAdsLoadedData) {
-    sendLogEvent(content: "maxdebug : adsLoader() 1")
+    sendLogEvent(content: "adsLoader")
     adsManager = adsLoadedData.adsManager
     adsManager.delegate = self
     
-    let adsRenderingSettings = IMAAdsRenderingSettings()
+//    let adsRenderingSettings = IMAAdsRenderingSettings()
 //    adsRenderingSettings.linkOpenerPresentingController = adContainerViewController
     
     adsManager.initialize(with: nil)
   }
   
   func adsLoader(_ loader: IMAAdsLoader, failedWith adErrorData: IMAAdLoadingErrorData) {
-    sendLogEvent(content: "maxdebug : adsLoader() error " + adErrorData.adError.message!)
+    sendLogEvent(content: "adsLoader error " + adErrorData.adError.message!)
     let errorMessage = "\(adErrorData.adError.code) | \(adErrorData.adError.type) | \(String(describing: adErrorData.adError.message))"
     sendNativeEvent(nativeEvent: NativeEvent(eventType:EventType.adErrorEvent, errorMessage: errorMessage))
     release()
   }
   
   func adsManager(_ adsManager: IMAAdsManager, didReceive error: IMAAdError) {
-    sendLogEvent(content: "maxdebug : adsManager() 1")
+    sendLogEvent(content: "adsManager error")
     let errorMessage = "\(error.code) | \(error.type) | \(String(describing: error.message))"
     sendNativeEvent(nativeEvent: NativeEvent(eventType:EventType.adErrorEvent, errorMessage: errorMessage))
     release()
@@ -257,7 +256,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func adsManager(_ adsManager: IMAAdsManager, didReceive event: IMAAdEvent) {
-    sendLogEvent(content: "maxdebug : adsManager() 2")
+    sendLogEvent(content: "adsManager event")
     sendNativeEvent(nativeEvent: NativeEvent(eventType:EventType.adEvent, adEventType: event.type))
     
     switch(event.type){
@@ -281,6 +280,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func release(){
+    sendLogEvent(content: "release")
+
     adsManager?.destroy()
     adsLoader?.contentComplete()
     player?.pause()
@@ -289,12 +290,12 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     adsLoader = nil
     playerLayer?.removeFromSuperlayer()
     playerLayer = nil
-     playerViewController?.willMove(toParent:nil)
-     playerViewController?.view.removeFromSuperview()
-     playerViewController?.removeFromParent()
-    adContainerViewController?.willMove(toParent:nil)
-    adContainerViewController?.view.removeFromSuperview()
-    adContainerViewController?.removeFromParent()
+//     playerViewController?.willMove(toParent:nil)
+//     playerViewController?.view.removeFromSuperview()
+//     playerViewController?.removeFromParent()
+//    adContainerViewController?.willMove(toParent:nil)
+//    adContainerViewController?.view.removeFromSuperview()
+//    adContainerViewController?.removeFromParent()
     
    playerViewController = nil
     adContainerViewController = nil

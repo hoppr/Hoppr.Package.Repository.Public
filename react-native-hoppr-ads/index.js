@@ -4425,7 +4425,7 @@ class VideoComponent extends React.Component {
     console.log('componentDidMount VideoComponent');
   }
   componentWillUnmount() {
-    console.log('componentDidMount VideoComponent');
+    console.log('componentWillUnmount VideoComponent');
   }
 }
 
