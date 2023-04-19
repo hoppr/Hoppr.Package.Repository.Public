@@ -39,18 +39,4 @@ class NativeEvent {
       
     return result
   }
-  
-  //    func toJSON() -> String {
-  //        var jsonObject: [String: Any] = [:]
-  //        jsonObject["eventType"] = eventType
-  //        jsonObject["adEventType"] = adEventType
-  //        jsonObject["message"] = message
-  //        jsonObject["errorMessage"] = errorMessage
-  //
-  //        if let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted), let jsonString = String(data: data, encoding: .utf8) {
-  //            return jsonString
-  //        } else {
-  //            return "{}"
-  //        }
-  //    }
 }
