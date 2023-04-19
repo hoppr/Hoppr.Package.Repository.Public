@@ -233,7 +233,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     
     let request = IMAAdsRequest(
       adTagUrl: currentAdTag,
-      adDisplayContainer: adDisplayContainer,
+      adDisplayContainer: adDisplayContainer!,
       avPlayerVideoDisplay: IMAAVPlayerVideoDisplay(avPlayer: player!),
       pictureInPictureProxy: IMAPictureInPictureProxy(avPictureInPictureControllerDelegate: self),
       userContext: nil)
