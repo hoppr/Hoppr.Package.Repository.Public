@@ -230,7 +230,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func playAd(){
-    window?.canBecomeKey = true
+//    window?.canBecomeKey = true
     window?.becomeKey()
     window?.makeKeyAndVisible()
     becomeFirstResponder()
