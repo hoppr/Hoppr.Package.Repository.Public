@@ -25,5 +25,5 @@ Pod::Spec.new do |s|
   s.dependency "React-Core"
   # s.dependency 'GoogleAds-IMA-iOS-SDK', '~> 3.18.5'
   s.ios.dependency 'GoogleAds-IMA-iOS-SDK', '~> 3.18.5'
-  s.tvos.dependency 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
+  s.tvos.dependency 'GoogleAds-IMA-tvOS-SDK', '~> 4.8.2'
 end

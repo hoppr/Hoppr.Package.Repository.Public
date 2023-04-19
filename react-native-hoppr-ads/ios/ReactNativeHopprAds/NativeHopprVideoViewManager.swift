@@ -43,7 +43,9 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   private var currentAdTag = ""
   private var currentPpid = ""
   private var currentScaleMode = ""
-  
+  private var adDisplayContainer: IMAAdDisplayContainer?
+  private var adBreakActive = false
+
   @objc var onChange: RCTBubblingEventBlock?
 
   @objc var play: ObjCBool = false {
@@ -166,6 +168,16 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     }
   }
   
+  override var preferredFocusEnvironments: [UIFocusEnvironment] {
+    if adBreakActive, let adFocusEnvironment = adDisplayContainer?.focusEnvironment {
+      // Send focus to the ad display container during an ad break.
+      return [adFocusEnvironment]
+    } else {
+      // Send focus to the content player otherwise.
+      return [playerViewController]
+    }
+  }
+  
   func isReadyToInitalize() -> Bool {
     return !currentPpid.isEmpty && !currentScaleMode.isEmpty && !currentAdTag.isEmpty && isWindowReady
   }
@@ -217,7 +229,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   func requestAds() {
     sendLogEvent(content: "requestAds")
     
-    let adDisplayContainer = IMAAdDisplayContainer(adContainer: self, viewController: adContainerViewController)
+    adDisplayContainer = IMAAdDisplayContainer(adContainer: self, viewController: adContainerViewController)
     
     let request = IMAAdsRequest(
       adTagUrl: currentAdTag,
@@ -234,8 +246,10 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     // window?.becomeKey()
     // window?.makeKeyAndVisible()
     // becomeFirstResponder()
+    adBreakActive = true
     playerViewController.view.isHidden = false
     adsManager.start()
+    setNeedsFocusUpdate()
   }
   
   
@@ -281,6 +295,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     switch(event.type){
     case .LOADED:
       isLoaded = true
+    case .STARTED:
+      setNeedsFocusUpdate()
     case .AD_BREAK_FETCH_ERROR:
       release()
     case .ALL_ADS_COMPLETED:
@@ -340,6 +356,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     isLoaded = false
     isWindowReady = false
     isInit = false
+    adBreakActive = false
+
 //    adBreakReady = false
   }
 }
