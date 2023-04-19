@@ -4490,7 +4490,7 @@ class OverlayComponent extends React.Component {
     if (this.typedContext && this.typedContext.adSlots) {
       this.matchingAdSlots = (_a = JSON.parse(this.typedContext.adSlots)) === null || _a === void 0 ? void 0 : _a.filter(ad => ad.hopprAdUnit === adUnitId);
       if (this.matchingAdSlots && this.matchingAdSlots.length > 0 && this.matchingAdSlots[0].adType == AdType.IMA) {
-        if (this.videoAdUnitId == adUnitId) {
+        if (this.videoAdUnitId == adUnitId || this.state.playVideo) {
           console.log('return');
           return;
         }

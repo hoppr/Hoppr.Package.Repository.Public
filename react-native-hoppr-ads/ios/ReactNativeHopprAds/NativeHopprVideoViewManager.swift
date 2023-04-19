@@ -185,7 +185,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     playerViewController = AVPlayerViewController()
     playerViewController.player = player
     playerViewController.showsPlaybackControls = false
-    
+      playerViewController.resignFirstResponder()
     if(currentScaleMode == "zoom"){
       playerViewController.videoGravity = AVLayerVideoGravity.resizeAspectFill
     }
@@ -319,8 +319,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     
     sendLogEvent(content: "release")
 
-    adsManager?.destroy()
-    adsLoader?.contentComplete()
+      partialRelease()
     player?.pause()
     player = nil
     adsManager = nil
@@ -337,9 +336,6 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
    playerViewController = nil
     adContainerViewController = nil
     
-    currentPpid = ""
-    currentAdTag = ""
-    currentScaleMode = ""
     play = false
     isLoaded = false
     isWindowReady = false
