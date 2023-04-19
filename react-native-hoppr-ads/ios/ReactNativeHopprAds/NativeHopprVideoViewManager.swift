@@ -72,7 +72,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
             tryLoadAd()
           }else if (previousAdTag != adTag && !play.boolValue){
             sendLogEvent(content: "release then init")
-            release()
+            partialRelease()
             
             currentAdTag = adTag
             currentPpid = ppid
@@ -83,6 +83,10 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
        }
      }
    }
+  
+  override var canBecomeFirstResponder: Bool {
+          return true
+      }
   
   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
 //         for press in presses {
@@ -226,6 +230,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func playAd(){
+    becomeFirstResponder()
     playerViewController.view.isHidden = false
     adsManager.start()
   }
@@ -296,7 +301,18 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
 //    sendLogEvent(content: "maxdebug : adsManagerDidRequestContentResume()")
   }
   
+  func partialRelease(){
+    adsManager?.destroy()
+    adsLoader?.contentComplete()
+    
+    currentPpid = ""
+    currentAdTag = ""
+    currentScaleMode = ""
+  }
+  
   func release(){
+    resignFirstResponder()
+    
     sendLogEvent(content: "release")
 
     adsManager?.destroy()
@@ -307,12 +323,12 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     adsLoader = nil
     playerLayer?.removeFromSuperlayer()
     playerLayer = nil
-//     playerViewController?.willMove(toParent:nil)
-//     playerViewController?.view.removeFromSuperview()
-//     playerViewController?.removeFromParent()
-//    adContainerViewController?.willMove(toParent:nil)
-//    adContainerViewController?.view.removeFromSuperview()
-//    adContainerViewController?.removeFromParent()
+     playerViewController?.willMove(toParent:nil)
+     playerViewController?.view.removeFromSuperview()
+     playerViewController?.removeFromParent()
+    adContainerViewController?.willMove(toParent:nil)
+    adContainerViewController?.view.removeFromSuperview()
+    adContainerViewController?.removeFromParent()
     
    playerViewController = nil
     adContainerViewController = nil
