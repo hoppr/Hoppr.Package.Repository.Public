@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
   s.authors      = { "Maxence bourdin" => "max.bourdin@hoppr.com.au" }
   # s.platform     = :ios, "12.4"
-  s.ios.deployment_target = "12.4"
+  s.ios.deployment_target = "14.0"
   s.tvos.deployment_target = "14.0"
   s.source       = { :git => "https://github.com/hoppr/Hoppr.Package.Repository.Public.git", :tag => "#{s.version}" }
 
