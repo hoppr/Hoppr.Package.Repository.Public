@@ -4448,6 +4448,9 @@ class OverlayComponent extends React.Component {
       children: this.getVideoView()
     });
   }
+  calculatePercentage(percentage, total) {
+    return percentage * total / 100;
+  }
   getVideoView() {
     if (this.state.loadVideo) {
       return /*#__PURE__*/jsx(VideoComponent, {
@@ -4459,8 +4462,8 @@ class OverlayComponent extends React.Component {
           display: this.state.playVideo ? 'flex' : 'none',
           // width: Dimensions.get('window').width,
           // height: 400,
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height
+          width: this.calculatePercentage(90, Dimensions.get('window').width),
+          height: this.calculatePercentage(90, Dimensions.get('window').height)
           // width: 711.11,
           // height: 400,
         },

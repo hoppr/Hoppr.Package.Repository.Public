@@ -20,6 +20,7 @@ export declare class OverlayComponent extends React.Component<IOverlayComponentP
     private videoOptions?;
     constructor(props: IOverlayComponentProps | Readonly<IOverlayComponentProps>);
     render(): JSX.Element;
+    calculatePercentage(percentage: number, total: number): number;
     private getVideoView;
     loadVideo(adUnitId: string, videoLoadOptons?: VideoLoadOptions): void;
     playVideo(adUnitId: string, videoOptions: VideoOptions): void;
