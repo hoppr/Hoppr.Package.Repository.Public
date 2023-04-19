@@ -14,9 +14,9 @@ class ClosureBasedViewController: UIViewController {
     var onViewWillDisappear: (() -> Void)?
     var onViewDidDisappear: (() -> Void)?
     
-    override var canBecomeFirstResponder: Bool {
-            return false
-        }
+    // override var canBecomeFirstResponder: Bool {
+    //         return false
+    //     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(animated)

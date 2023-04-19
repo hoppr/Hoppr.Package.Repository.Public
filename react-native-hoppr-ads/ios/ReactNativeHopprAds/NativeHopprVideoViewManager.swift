@@ -38,7 +38,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   private var isWindowReady = false
   private var isLoaded = false
   private var isInit = false
-  private var adBreakReady = false
+//  private var adBreakReady = false
   private var previousAdTag = ""
   private var currentAdTag = ""
   private var currentPpid = ""
@@ -84,31 +84,31 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
      }
    }
   
-  override var canBecomeFirstResponder: Bool {
-          return true
-      }
+//   override var canBecomeFirstResponder: Bool {
+//           return true
+//       }
   
-  override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-//         for press in presses {
-//             if let key = press.key, key == UIKeyCommand.inputEscape {
-//                 nativeHopprVideoViewManager?.releasePlayer()
-//             }
-//         }
-//
+//   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+// //         for press in presses {
+// //             if let key = press.key, key == UIKeyCommand.inputEscape {
+// //                 nativeHopprVideoViewManager?.releasePlayer()
+// //             }
+// //         }
+// //
     
-    sendLogEvent(content: "pressesBegan")
-         super.pressesBegan(presses, with: event)
-     }
+//     sendLogEvent(content: "pressesBegan")
+//          super.pressesBegan(presses, with: event)
+//      }
   
-  override func remoteControlReceived(with uiEvent: UIEvent?) {
-    sendLogEvent(content: "remoteControlReceivedWithEvent")
-    super.remoteControlReceived(with: uiEvent)
-     }
+//   override func remoteControlReceived(with uiEvent: UIEvent?) {
+//     sendLogEvent(content: "remoteControlReceivedWithEvent")
+//     super.remoteControlReceived(with: uiEvent)
+//      }
   
-  override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-      sendLogEvent(content: "motionBegan")
-      super.motionBegan(motion, with: event)
-  }
+//   override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//       sendLogEvent(content: "motionBegan")
+//       super.motionBegan(motion, with: event)
+//   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -231,9 +231,9 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   
   func playAd(){
 //    window?.canBecomeKey = true
-    window?.becomeKey()
-    window?.makeKeyAndVisible()
-    becomeFirstResponder()
+    // window?.becomeKey()
+    // window?.makeKeyAndVisible()
+    // becomeFirstResponder()
     playerViewController.view.isHidden = false
     adsManager.start()
   }
@@ -285,12 +285,12 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
       release()
     case .ALL_ADS_COMPLETED:
       release()
-    case .AD_BREAK_READY:
-      adBreakReady = true
-    case .COMPLETE:
-      if(adBreakReady){ // workaround so I can use google sample ads that contains playback rules (useless in prod)
-        adsLoader.contentComplete()
-      }
+//    case .AD_BREAK_READY:
+//      adBreakReady = true
+//    case .COMPLETE:
+//      if(adBreakReady){ // workaround so I can use google sample ads that contains playback rules (useless in prod)
+//        adsLoader.contentComplete()
+//      }
     @unknown default:
       break
     }
@@ -314,8 +314,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   }
   
   func release(){
-    resignFirstResponder()
-      window?.resignKey()
+    // resignFirstResponder()
+    //   window?.resignKey()
     
     sendLogEvent(content: "release")
 
@@ -340,6 +340,6 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     isLoaded = false
     isWindowReady = false
     isInit = false
-    adBreakReady = false
+//    adBreakReady = false
   }
 }
