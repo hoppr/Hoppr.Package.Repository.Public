@@ -128,12 +128,42 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     sendLogEvent(content: "didMoveToWindow")
     super.didMoveToWindow()
     if window != nil {
+      window?.makeKeyAndVisible()
       sendLogEvent(content: "didMoveToWindow 2")
       isWindowReady = true
       tryLoadAd()
     }else{
       isWindowReady = false
     }
+  }
+  
+  deinit{
+    sendLogEvent(content: "deinit")
+  }
+  
+  override func willMove(toWindow newWindow: UIWindow?) {
+    sendLogEvent(content: "willMove window")
+    super.willMove(toWindow: newWindow)
+  }
+  
+  override func willMove(toSuperview newSuperview: UIView?) {
+    sendLogEvent(content: "willMove newSuperview")
+    super.willMove(toSuperview: newSuperview)
+  }
+  
+  override func willRemoveSubview(_ subview: UIView) {
+    sendLogEvent(content: "willRemoveSubview")
+    super.willRemoveSubview(subview)
+  }
+  
+  override func draw(_ rect: CGRect) {
+    sendLogEvent(content: "draw")
+    super.draw(rect)
+  }
+  
+  override func didMoveToSuperview() {
+    sendLogEvent(content: "didMoveToSuperview")
+    super.didMoveToSuperview()
   }
   
   func tryLoadAd(){
