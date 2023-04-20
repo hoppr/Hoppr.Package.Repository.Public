@@ -275,4 +275,9 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
     currentFocus = null
   }
 
+ override fun onDetachedFromWindow() {
+   release()
+   super.onDetachedFromWindow()
+ }
+
 }

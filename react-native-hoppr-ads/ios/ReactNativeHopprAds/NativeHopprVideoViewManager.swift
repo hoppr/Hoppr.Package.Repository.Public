@@ -174,21 +174,21 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
       adContainerViewController = ClosureBasedViewController()
       adContainerViewController?.view = self
 
-//      adContainerViewController?.onViewWillAppear = {
-//        self.sendLogEvent(content: "onViewWillAppear")
-//      }
-//
-//      adContainerViewController?.onViewDidAppear = {
-//        self.sendLogEvent(content: "onViewDidAppear")
-//      }
-//
-//      adContainerViewController?.onViewWillDisappear = {
-//        self.sendLogEvent(content: "onViewWillDisappear")
-//      }
-//
-//      adContainerViewController?.onViewDidDisappear = {
-//        self.sendLogEvent(content: "onViewDidDisappear")
-//      }
+      // adContainerViewController?.onViewWillAppear = {
+      //  NSLog("maxdebug onViewWillAppear")
+      // }
+
+    //  adContainerViewController?.onViewDidAppear = {
+    //    NSLog("maxdebug onViewDidAppear")
+    //  }
+
+     adContainerViewController?.onViewWillDisappear = {
+       self.release()
+     }
+
+    //  adContainerViewController?.onViewDidDisappear = {
+    //    NSLog("maxdebug onViewDidDisappear")
+    //  }
       
       isInit = true
       previousAdTag = currentAdTag
@@ -328,8 +328,8 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
       isLoaded = true
     // case .STARTED:
       // setNeedsFocusUpdate()
-    case .CLICKED:
-      release() // TODO should not be necessary if we cleanup properly on react native side
+    // case .CLICKED:
+    //   release() // TODO should not be necessary if we cleanup properly on react native side
     case .AD_BREAK_FETCH_ERROR:
       release()
     case .ALL_ADS_COMPLETED:
