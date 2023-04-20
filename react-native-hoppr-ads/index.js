@@ -1,4 +1,4 @@
-import { Platform, UIManager, findNodeHandle, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable, requireNativeComponent } from 'react-native';
+import { Platform, View, Dimensions, Image, AppState, Linking, PixelRatio, Pressable, UIManager, requireNativeComponent } from 'react-native';
 import 'react-native-get-random-values';
 import React, { createRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -4323,28 +4323,20 @@ $$2({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }
 });
 
 class VideoComponent extends React.Component {
+  // private videoViewRef: RefObject<ElementRef<typeof NativeHopprVideoView>>;
   constructor(props) {
     super(props);
-    this.forceClear = () => {
-      console.log('forceClear');
-      UIManager.dispatchViewManagerCommand(findNodeHandle(this.videoViewRef.current),
-      // 1
-      UIManager.getViewManagerConfig('NativeHopprVideoView').Commands.updateFromManager,
-      // 2
-      [3] // 3
-      );
-    };
-
     this.state = {
       play: false
     };
-    this.videoViewRef = /*#__PURE__*/React.createRef();
+    // this.videoViewRef = React.createRef();
     this._onNativeEventReceived = this._onNativeEventReceived.bind(this);
   }
   render() {
     const viewStyle = this.props.style;
-    return /*#__PURE__*/jsx(NativeHopprVideoView, {
-      ref: this.videoViewRef,
+    return /*#__PURE__*/jsx(NativeHopprVideoView
+    // ref={this.videoViewRef}
+    , {
       style: Object.assign({}, viewStyle),
       onChange: this._onNativeEventReceived,
       play: this.state.play,
@@ -4433,12 +4425,21 @@ class VideoComponent extends React.Component {
         }
     }
   }
+  // forceClear = () => {
+  //   console.log('forceClear');
+  //   UIManager.dispatchViewManagerCommand(
+  //     findNodeHandle(this.videoViewRef.current), // 1
+  //     UIManager.getViewManagerConfig('NativeHopprVideoView').Commands
+  //       .updateFromManager, // 2
+  //     [3] // 3
+  //   );
+  // };
   componentDidMount() {
     console.log('componentDidMount VideoComponent');
   }
   componentWillUnmount() {
     console.log('componentWillUnmount VideoComponent');
-    this.forceClear();
+    // this.forceClear();
   }
 }
 
@@ -4472,8 +4473,8 @@ class OverlayComponent extends React.Component {
           position: 'absolute',
           right: 0,
           bottom: 0,
-          left: 0,
-          top: 0,
+          // left: 0,
+          // top: 0,
           display: this.state.playVideo ? 'flex' : 'none',
           // width: Dimensions.get('window').width,
           // height: 400,
@@ -4538,8 +4539,7 @@ class OverlayComponent extends React.Component {
     }
   }
   hideVideo() {
-    var _a;
-    (_a = this.videoComponentRef.current) === null || _a === void 0 ? void 0 : _a.forceClear();
+    // this.videoComponentRef.current?.forceClear();
     this.isVideoAdLoaded = false;
     this.videoAdUnitId = '';
     this.setState({
@@ -5582,6 +5582,7 @@ HopprAnalyticsLogger.assignStandardProperties = eventDetails => {
   return Object.assign(Object.assign(Object.assign({}, record), eventDetails));
 };
 
+// import { ElementRef, ForwardedRef, LegacyRef } from 'react';
 const LINKING_ERROR = `The package 'react-native-hoppr' doesn't seem to be linked. Make sure: \n\n` + Platform.select({
   ios: "- You have run 'pod install'\n",
   default: ''

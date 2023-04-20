@@ -7,24 +7,26 @@ import GoogleInteractiveMediaAds
 @objc(NativeHopprVideoViewManager)
 class NativeHopprVideoViewManager: RCTViewManager {
   
-  var videoView : NativeHopprVideoView? = nil
+  // var videoView : NativeHopprVideoView? = nil
 
   override func view() -> (UIView) {
     NSLog("ViewController()")
-    videoView?.release()
-    videoView = NativeHopprVideoView()
-    return videoView!
+    // videoView?.release()
+    // videoView = NativeHopprVideoView()
+        let viewController = NativeHopprVideoView()
+
+    return viewController
   }
     
   override static func requiresMainQueueSetup() -> Bool {
     return true
   }
   
-    @objc func updateFromManager(_ node: NSNumber, count: String) {
-        DispatchQueue.main.async {
-          self.videoView?.release()
-        }
-      }
+    // @objc func updateFromManager(_ node: NSNumber, count: String) {
+    //     DispatchQueue.main.async {
+    //       self.videoView?.release()
+    //     }
+    //   }
 }
 
 class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate, AVPictureInPictureControllerDelegate {
@@ -43,7 +45,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   private var currentPpid = ""
   private var currentScaleMode = ""
   private var adDisplayContainer: IMAAdDisplayContainer?
-  private var adBreakActive = false
+//  private var adBreakActive = false
 
   @objc var onChange: RCTBubblingEventBlock?
 
@@ -127,7 +129,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     sendLogEvent(content: "didMoveToWindow")
     super.didMoveToWindow()
     if window != nil {
-      window?.makeKeyAndVisible()
+      // window?.makeKeyAndVisible()
       sendLogEvent(content: "didMoveToWindow 2")
       isWindowReady = true
       tryLoadAd()
@@ -136,34 +138,34 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     }
   }
   
-  deinit{
-    sendLogEvent(content: "deinit")
-  }
+  // deinit{
+  //   sendLogEvent(content: "deinit")
+  // }
   
-  override func willMove(toWindow newWindow: UIWindow?) {
-    sendLogEvent(content: "willMove window")
-    super.willMove(toWindow: newWindow)
-  }
+  // override func willMove(toWindow newWindow: UIWindow?) {
+  //   sendLogEvent(content: "willMove window")
+  //   super.willMove(toWindow: newWindow)
+  // }
   
-  override func willMove(toSuperview newSuperview: UIView?) {
-    sendLogEvent(content: "willMove newSuperview")
-    super.willMove(toSuperview: newSuperview)
-  }
+  // override func willMove(toSuperview newSuperview: UIView?) {
+  //   sendLogEvent(content: "willMove newSuperview")
+  //   super.willMove(toSuperview: newSuperview)
+  // }
   
-  override func willRemoveSubview(_ subview: UIView) {
-    sendLogEvent(content: "willRemoveSubview")
-    super.willRemoveSubview(subview)
-  }
+  // override func willRemoveSubview(_ subview: UIView) {
+  //   sendLogEvent(content: "willRemoveSubview")
+  //   super.willRemoveSubview(subview)
+  // }
   
-  override func draw(_ rect: CGRect) {
-    sendLogEvent(content: "draw")
-    super.draw(rect)
-  }
+  // override func draw(_ rect: CGRect) {
+  //   sendLogEvent(content: "draw")
+  //   super.draw(rect)
+  // }
   
-  override func didMoveToSuperview() {
-    sendLogEvent(content: "didMoveToSuperview")
-    super.didMoveToSuperview()
-  }
+  // override func didMoveToSuperview() {
+  //   sendLogEvent(content: "didMoveToSuperview")
+  //   super.didMoveToSuperview()
+  // }
   
   func tryLoadAd(){
     if(isReadyToInitalize()){
@@ -197,15 +199,15 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     }
   }
   
-  override var preferredFocusEnvironments: [UIFocusEnvironment] {
-    if adBreakActive, let adFocusEnvironment = adDisplayContainer?.focusEnvironment {
-      // Send focus to the ad display container during an ad break.
-      return [adFocusEnvironment]
-    } else {
-      // Send focus to the content player otherwise.
-      return [playerViewController]
-    }
-  }
+  // override var preferredFocusEnvironments: [UIFocusEnvironment] {
+  //   if adBreakActive, let adFocusEnvironment = adDisplayContainer?.focusEnvironment {
+  //     // Send focus to the ad display container during an ad break.
+  //     return [adFocusEnvironment]
+  //   } else {
+  //     // Send focus to the content player otherwise.
+  //     return [playerViewController]
+  //   }
+  // }
   
   func isReadyToInitalize() -> Bool {
     return !currentPpid.isEmpty && !currentScaleMode.isEmpty && !currentAdTag.isEmpty && isWindowReady
@@ -275,10 +277,10 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     // window?.becomeKey()
     // window?.makeKeyAndVisible()
     // becomeFirstResponder()
-    adBreakActive = true
+//    adBreakActive = true
     playerViewController.view.isHidden = false
     adsManager.start()
-    setNeedsFocusUpdate()
+    // setNeedsFocusUpdate()
   }
   
   
@@ -325,7 +327,9 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     case .LOADED:
       isLoaded = true
     case .STARTED:
-      setNeedsFocusUpdate()
+      // setNeedsFocusUpdate()
+    case .CLICKED:
+      release() // TODO should not be necessary if we cleanup properly on react native side
     case .AD_BREAK_FETCH_ERROR:
       release()
     case .ALL_ADS_COMPLETED:
@@ -385,7 +389,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     isLoaded = false
     isWindowReady = false
     isInit = false
-    adBreakActive = false
+//    adBreakActive = false
 
 //    adBreakReady = false
   }
