@@ -326,7 +326,7 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     switch(event.type){
     case .LOADED:
       isLoaded = true
-    case .STARTED:
+    // case .STARTED:
       // setNeedsFocusUpdate()
     case .CLICKED:
       release() // TODO should not be necessary if we cleanup properly on react native side
