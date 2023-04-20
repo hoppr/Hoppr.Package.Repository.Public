@@ -14,6 +14,7 @@ export interface IVideoComponentState {
     play: boolean;
 }
 export declare class VideoComponent extends React.Component<IVideoComponentProps, IVideoComponentState> {
+    private videoViewRef;
     constructor(props: IVideoComponentProps | Readonly<IVideoComponentProps>);
     render(): JSX.Element;
     play(): void;
@@ -22,6 +23,7 @@ export declare class VideoComponent extends React.Component<IVideoComponentProps
     private sendAnalyticsEvent;
     private handleAdErrorEvent;
     private handleAdEvent;
+    forceClear: () => void;
     componentDidMount(): void;
     componentWillUnmount(): void;
 }

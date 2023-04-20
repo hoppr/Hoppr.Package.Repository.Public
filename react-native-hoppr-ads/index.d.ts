@@ -1,3 +1,4 @@
+import { ElementRef, ForwardedRef } from 'react';
 import { ViewStyle } from 'react-native';
 export * from './lib/HopprAdProvider';
 export * from './lib/components/HopprBannerAd';
@@ -11,6 +12,7 @@ declare type HopprVdeoProps = {
     scaleMode: string;
     ppid: string;
     properties: VideoProperties;
+    ref?: ForwardedRef<ElementRef<typeof NativeHopprVideoView>>;
 };
 export interface VideoProperties {
     adTag: string;

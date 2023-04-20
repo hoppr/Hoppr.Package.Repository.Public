@@ -7,25 +7,24 @@ import GoogleInteractiveMediaAds
 @objc(NativeHopprVideoViewManager)
 class NativeHopprVideoViewManager: RCTViewManager {
   
+  var videoView : NativeHopprVideoView? = nil
+
   override func view() -> (UIView) {
-    NSLog("maxdebug : ViewController()")
-    
-    let viewController = NativeHopprVideoView()
-    return viewController
+    NSLog("ViewController()")
+    videoView?.release()
+    videoView = NativeHopprVideoView()
+    return videoView!
   }
-  
+    
   override static func requiresMainQueueSetup() -> Bool {
     return true
   }
   
-  //  @objc func updateFromManager(_ node: NSNumber, count: String) {
-  //      DispatchQueue.main.async {
-  //        let component = self.bridge.uiManager.view(
-  //          forReactTag: node
-  //        ) as! VideoPlayerView
-  //        component.update(value: count)
-  //      }
-  //    }
+    @objc func updateFromManager(_ node: NSNumber, count: String) {
+        DispatchQueue.main.async {
+          self.videoView?.release()
+        }
+      }
 }
 
 class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate, AVPictureInPictureControllerDelegate {

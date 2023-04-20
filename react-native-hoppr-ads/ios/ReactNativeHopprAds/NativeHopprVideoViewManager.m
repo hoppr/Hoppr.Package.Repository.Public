@@ -18,5 +18,8 @@
 RCT_EXPORT_VIEW_PROPERTY(properties, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(play, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
-
+RCT_EXTERN_METHOD(
+  updateFromManager:(nonnull NSNumber *)node
+  count:(nonnull NSNumber *)count
+)
 @end
