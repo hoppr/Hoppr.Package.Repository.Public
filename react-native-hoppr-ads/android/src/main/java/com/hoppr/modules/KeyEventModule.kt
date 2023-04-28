@@ -48,7 +48,6 @@ class KeyEventModule(private val reactContext: ReactApplicationContext) : ReactC
 
       return false
     }else{
-      holdedKeyEvents.add(keyEvent)
       keyEvent?.source = 89653
       Handler().postDelayed({
         Thread {
