@@ -1,4 +1,3 @@
-
 import UIKit
 import AVKit
 import AVFoundation
@@ -21,12 +20,6 @@ class NativeHopprVideoViewManager: RCTViewManager {
   override static func requiresMainQueueSetup() -> Bool {
     return true
   }
-  
-    // @objc func updateFromManager(_ node: NSNumber, count: String) {
-    //     DispatchQueue.main.async {
-    //       self.videoView?.release()
-    //     }
-    //   }
 }
 
 class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate, AVPictureInPictureControllerDelegate {
@@ -39,7 +32,6 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
   private var isWindowReady = false
   private var isLoaded = false
   private var isInit = false
-//  private var adBreakReady = false
   private var previousAdTag = ""
   private var currentAdTag = ""
   private var currentPpid = ""
@@ -138,35 +130,6 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     }
   }
   
-  // deinit{
-  //   sendLogEvent(content: "deinit")
-  // }
-  
-  // override func willMove(toWindow newWindow: UIWindow?) {
-  //   sendLogEvent(content: "willMove window")
-  //   super.willMove(toWindow: newWindow)
-  // }
-  
-  // override func willMove(toSuperview newSuperview: UIView?) {
-  //   sendLogEvent(content: "willMove newSuperview")
-  //   super.willMove(toSuperview: newSuperview)
-  // }
-  
-  // override func willRemoveSubview(_ subview: UIView) {
-  //   sendLogEvent(content: "willRemoveSubview")
-  //   super.willRemoveSubview(subview)
-  // }
-  
-  // override func draw(_ rect: CGRect) {
-  //   sendLogEvent(content: "draw")
-  //   super.draw(rect)
-  // }
-  
-  // override func didMoveToSuperview() {
-  //   sendLogEvent(content: "didMoveToSuperview")
-  //   super.didMoveToSuperview()
-  // }
-  
   func tryLoadAd(){
     if(isReadyToInitalize()){
       sendLogEvent(content: "tryLoadAd")
@@ -174,21 +137,9 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
       adContainerViewController = ClosureBasedViewController()
       adContainerViewController?.view = self
 
-      // adContainerViewController?.onViewWillAppear = {
-      //  NSLog("maxdebug onViewWillAppear")
-      // }
-
-    //  adContainerViewController?.onViewDidAppear = {
-    //    NSLog("maxdebug onViewDidAppear")
-    //  }
-
-     adContainerViewController?.onViewWillDisappear = {
-       self.release()
-     }
-
-    //  adContainerViewController?.onViewDidDisappear = {
-    //    NSLog("maxdebug onViewDidDisappear")
-    //  }
+      adContainerViewController?.onViewWillDisappear = {
+        self.release()
+      }
       
       isInit = true
       previousAdTag = currentAdTag
@@ -326,31 +277,21 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     switch(event.type){
     case .LOADED:
       isLoaded = true
-    // case .STARTED:
+//    case .STARTED:
       // setNeedsFocusUpdate()
-    // case .CLICKED:
-    //   release() // TODO should not be necessary if we cleanup properly on react native side
     case .AD_BREAK_FETCH_ERROR:
       release()
     case .ALL_ADS_COMPLETED:
       release()
-//    case .AD_BREAK_READY:
-//      adBreakReady = true
-//    case .COMPLETE:
-//      if(adBreakReady){ // workaround so I can use google sample ads that contains playback rules (useless in prod)
-//        adsLoader.contentComplete()
-//      }
     @unknown default:
       break
     }
   }
   
   func adsManagerDidRequestContentPause(_ adsManager: IMAAdsManager) {
-//    sendLogEvent(content: "maxdebug : adsManagerDidRequestContentPause()")
   }
   
   func adsManagerDidRequestContentResume(_ adsManager: IMAAdsManager) {
-//    sendLogEvent(content: "maxdebug : adsManagerDidRequestContentResume()")
   }
   
   func partialRelease(){
@@ -390,7 +331,5 @@ class NativeHopprVideoView: UIView, IMAAdsLoaderDelegate, IMAAdsManagerDelegate,
     isWindowReady = false
     isInit = false
 //    adBreakActive = false
-
-//    adBreakReady = false
   }
 }

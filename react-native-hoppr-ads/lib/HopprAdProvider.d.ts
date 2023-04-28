@@ -11,11 +11,15 @@ export declare class HopprAdProvider extends React.Component<IHopprAdProviderPro
     private appStateSubscription?;
     private pipComponentRef;
     static overlayComponent: RefObject<OverlayComponent> | null;
+    private hierarchyInterval;
+    safeStringify(obj: any, cache?: Set<unknown>): string;
     constructor(props: IHopprAdProviderProps | Readonly<IHopprAdProviderProps>);
     render(): JSX.Element;
     private getPIPComponent;
     componentDidMount(): void;
     componentWillUnmount(): void;
+    private clearHierarchyInterval;
+    private startHierarchyInterval;
     private setAdSlots;
     private setHopprInternalUserId;
     private tryUpdateState;

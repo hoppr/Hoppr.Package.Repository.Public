@@ -15,6 +15,8 @@ import com.google.ads.interactivemedia.v3.api.ImaSdkFactory
 import com.google.ads.interactivemedia.v3.api.ImaSdkSettings
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.PlaybackException
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
 import com.google.android.exoplayer2.mediacodec.MediaCodecSelector
@@ -35,7 +37,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @SuppressLint("ViewConstructor")
-class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManager: NativeHopprVideoViewManager) :
+class VideoAdPlayerView(
+  context: Context,
+  private val nativeHopprVideoViewManager: NativeHopprVideoViewManager
+) :
   FrameLayout(context) {
   private var exoPlayer: ExoPlayer? = null
   private var adsLoader: ImaAdsLoader? = null
@@ -47,9 +52,9 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
   override fun dispatchKeyEvent(event: KeyEvent): Boolean {
     reactContext?.sendLogEvent("dispatchKeyEvent", id)
 
-    if(event.isPlayKeyDown()){
+    if (event.isPlayKeyDown()) {
       adsLoader?.skipAd()
-    }else if(event.isPowerKeyDown() || event.isPowerKeyUp()){
+    } else if (event.isPowerKeyDown() || event.isPowerKeyUp()) {
       nativeHopprVideoViewManager.releasePlayer()
     }
 
@@ -57,7 +62,12 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
 //    return super.dispatchKeyEvent(event)
   }
 
-  fun init(reactContext: ReactApplicationContext, scaleMode: String?, ppid: String?, adTag: String){
+  fun init(
+    reactContext: ReactApplicationContext,
+    scaleMode: String?,
+    ppid: String?,
+    adTag: String
+  ) {
     this.reactContext = reactContext
     reactContext.sendLogEvent("init", id)
 
@@ -99,7 +109,7 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
     }
   }
 
-  fun play(){
+  fun play() {
     currentFocus = context.getActivity()?.currentFocus
     visibility = View.VISIBLE
     exoPlayer?.play()
@@ -129,6 +139,10 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
           reactContext?.sendAdEvent(adEvent, id)
 
         when (adEvent.type) {
+          AdEvent.AdEventType.LOADED -> {
+            reactContext?.sendLogEvent("creativeId ${adEvent.ad.creativeId}", id)
+            reactContext?.sendLogEvent("contentType ${adEvent.ad.contentType}", id)
+          }
           AdEvent.AdEventType.ALL_ADS_COMPLETED -> {
             nativeHopprVideoViewManager.releasePlayer()
           }
@@ -211,6 +225,17 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
       }
     })
 
+    player.addListener(object : Player.Listener {
+      override fun onPlayerError(error: PlaybackException) {
+        val errorMessage = "${error.errorCode} | ${error.errorCodeName} | ${error.message}"
+        reactContext?.sendAdErrorEvent(errorMessage, id)
+
+        nativeHopprVideoViewManager.releasePlayer()
+
+        super.onPlayerError(error)
+      }
+    })
+
     return player
   }
 
@@ -275,9 +300,9 @@ class VideoAdPlayerView(context: Context, private val nativeHopprVideoViewManage
     currentFocus = null
   }
 
- override fun onDetachedFromWindow() {
-   release()
-   super.onDetachedFromWindow()
- }
+  override fun onDetachedFromWindow() {
+    release()
+    super.onDetachedFromWindow()
+  }
 
 }
