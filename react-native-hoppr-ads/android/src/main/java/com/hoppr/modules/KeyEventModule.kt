@@ -3,8 +3,6 @@ package com.hoppr.modules
 import android.view.KeyEvent
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.hoppr.extensions.isPlayKey
-import com.hoppr.extensions.isPlayKeyDown
 
 
 class KeyEventModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {

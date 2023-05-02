@@ -13,14 +13,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.google.ads.interactivemedia.v3.api.AdEvent
 import com.google.ads.interactivemedia.v3.api.ImaSdkFactory
 import com.google.ads.interactivemedia.v3.api.ImaSdkSettings
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.analytics.AnalyticsListener
+import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
-import com.google.android.exoplayer2.mediacodec.MediaCodecSelector
-import com.google.android.exoplayer2.mediacodec.MediaCodecUtil
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -30,8 +26,10 @@ import com.google.android.exoplayer2.ui.AdViewProvider
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSpec
+import com.google.android.exoplayer2.upstream.DefaultAllocator
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.hoppr.extensions.*
+import com.hoppr.mediacodec.CustomMediaCodecSelector
 import com.hoppr.viewManagers.NativeHopprVideoViewManager
 import java.util.*
 import kotlin.collections.ArrayList
@@ -66,6 +64,7 @@ class VideoAdPlayerView(
     reactContext: ReactApplicationContext,
     scaleMode: String?,
     ppid: String?,
+    useSoftwareDecoder: Boolean?,
     adTag: String
   ) {
     this.reactContext = reactContext
@@ -86,7 +85,7 @@ class VideoAdPlayerView(
     addView(playerView)
 
     adsLoader = getAdsLoader(context, ppid)
-    exoPlayer = getPlayer(context)
+    exoPlayer = getPlayer(context, useSoftwareDecoder)
 
     playerView?.player = exoPlayer
     adsLoader?.setPlayer(exoPlayer)
@@ -162,34 +161,46 @@ class VideoAdPlayerView(
       .build()
   }
 
-  private fun getPlayer(context: Context): ExoPlayer {
+  private fun getPlayer(context: Context, useSoftwareDecoder: Boolean?): ExoPlayer {
     val mediaSourceFactory =
       DefaultMediaSourceFactory(context).setLocalAdInsertionComponents(
         { adsLoader },
         playerView!!
       )
 
-    val codec: String? = null
-    val codecToExcluded = false
-
-    val playerBuilder = if (!codec.isNullOrEmpty()) {
-      val rf = getDefaultRenderersFactory(context, codec, codecToExcluded)
-
-      ExoPlayer.Builder(context, rf)
-        .setMediaSourceFactory(mediaSourceFactory)
+    val playerBuilder = if (useSoftwareDecoder == true) {
+      val defaultRenderersFactory = DefaultRenderersFactory(context)
+      defaultRenderersFactory.setMediaCodecSelector(CustomMediaCodecSelector(useSoftwareDecoder = true))
+      ExoPlayer.Builder(context, defaultRenderersFactory).setMediaSourceFactory(mediaSourceFactory)
     } else {
       ExoPlayer.Builder(context)
         .setMediaSourceFactory(mediaSourceFactory)
     }
 
+    val loadControlBuilder: DefaultLoadControl.Builder = DefaultLoadControl.Builder()
+    val allocator = DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE)
+
+    loadControlBuilder.setAllocator(allocator)
+    loadControlBuilder.setBufferDurationsMs(
+      60000,  // Min buffer duration (ms)
+      60000,  // Max buffer duration (ms)
+      60000,  // Buffer for playback (ms)
+      60000 // Buffer for playback after rebuffer (ms)
+    )
+
+    loadControlBuilder.setPrioritizeTimeOverSizeThresholds(true)
+
+    val customLoadControl = loadControlBuilder.build()
+    playerBuilder.setLoadControl(customLoadControl)
+
     // TODO do we need that?
-//    val audioAttributes: AudioAttributes = AudioAttributes.Builder()
-//      .setUsage(C.USAGE_MEDIA)
-//      .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
-//      .build()
+    val audioAttributes: AudioAttributes = AudioAttributes.Builder()
+      .setUsage(C.USAGE_MEDIA)
+      .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+      .build()
 
     val player = playerBuilder
-//      .setAudioAttributes(audioAttributes, true)
+      .setAudioAttributes(audioAttributes, true)
       .build()
 
     player.addAnalyticsListener(object : AnalyticsListener {
@@ -237,39 +248,6 @@ class VideoAdPlayerView(
     })
 
     return player
-  }
-
-  private fun getDefaultRenderersFactory(
-    context: Context,
-    codecs: String,
-    codecToExcluded: Boolean?,
-  ): DefaultRenderersFactory {
-    val codecsList = codecs.split("|")
-
-    val customCodecSelector =
-      MediaCodecSelector { mimeType, requiresSecureDecoder, requiresTunnelingDecoder ->
-        MediaCodecUtil.getDecoderInfos(
-          mimeType,
-          requiresSecureDecoder,
-          requiresTunnelingDecoder
-        ).toMutableList().filter { mediaCodecInfo ->
-          if (codecToExcluded == true) {
-            codecsList.none { codec ->
-              mediaCodecInfo.name.contains(codec)
-            }
-          } else {
-            codecsList.any { codec ->
-              mediaCodecInfo.name.contains(codec)
-            }
-          }
-        }.toMutableList()
-      }
-
-    val rf = DefaultRenderersFactory(context).apply {
-      setMediaCodecSelector(customCodecSelector)
-    }
-
-    return rf
   }
 
   private fun loadCodecs() {

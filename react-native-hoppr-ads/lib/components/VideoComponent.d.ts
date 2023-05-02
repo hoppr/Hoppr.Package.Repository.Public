@@ -7,6 +7,7 @@ export interface IVideoComponentProps extends ViewProps {
     onAdLoaded: Function;
     adTag: string;
     scaleMode: string;
+    useSoftwareDecoder: boolean;
     ppid: string;
     videoAdUnitId: string;
 }

@@ -2169,6 +2169,7 @@ class AnalyticsUtils {
     const record = AnalyticsUtils.getStandardProperties();
     record['adTag'] = imaAnalytics.adTag;
     record['scaleMode'] = imaAnalytics.scaleMode;
+    record['useSoftwareDecoder'] = imaAnalytics.useSoftwareDecoder;
     record['hopprAdUnitId'] = imaAnalytics.hopprAdUnitId;
     record['width'] = imaAnalytics.width;
     record['height'] = imaAnalytics.height;
@@ -4342,6 +4343,7 @@ class VideoComponent extends React.Component {
       play: this.state.play,
       adTag: this.props.adTag,
       scaleMode: this.props.scaleMode,
+      useSoftwareDecoder: this.props.useSoftwareDecoder,
       ppid: this.props.ppid,
       properties: {
         scaleMode: this.props.scaleMode,
@@ -4392,6 +4394,7 @@ class VideoComponent extends React.Component {
     imaAnalytics.scaleMode = this.props.scaleMode;
     imaAnalytics.adTag = this.props.adTag;
     imaAnalytics.hopprAdUnitId = this.props.videoAdUnitId;
+    imaAnalytics.useSoftwareDecoder = this.props.useSoftwareDecoder;
     HopprAnalytics.logInternalEvent(HopprInternalEvents, AnalyticsUtils.getImaRecord(imaAnalytics));
   }
   handleAdErrorEvent(errorMessage) {
@@ -4497,6 +4500,7 @@ class OverlayComponent extends React.Component {
         },
         adTag: this.state.adTagUrl,
         scaleMode: 'zoom',
+        useSoftwareDecoder: false,
         ppid: this.state.ppid
       });
     } else {

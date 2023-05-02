@@ -16,6 +16,7 @@ class NativeHopprVideoViewManager(
   private var adTag: String? = null
   private var previousAdTag: String? = null
   private var scaleMode: String? = null
+  private var useSoftwareDecoder: Boolean? = null
   private var ppid: String? = null
   private var isInit = false
   private var isPlaying = false
@@ -43,6 +44,12 @@ class NativeHopprVideoViewManager(
   fun setScaleMode(videoAdPlayerView: VideoAdPlayerView, scaleMode: String) {
     callerContext.sendLogEvent("setScaleMode $scaleMode", videoAdPlayerView.id)
     this.scaleMode = scaleMode
+  }
+
+  @ReactProp(name = "useSoftwareDecoder")
+  fun setUseSoftwareDecoder(videoAdPlayerView: VideoAdPlayerView, useSoftwareDecoder: Boolean) {
+    callerContext.sendLogEvent("setUseSoftwareDecoder $useSoftwareDecoder", videoAdPlayerView.id)
+    this.useSoftwareDecoder = useSoftwareDecoder
   }
 
   @ReactProp(name = "play")
@@ -76,7 +83,7 @@ class NativeHopprVideoViewManager(
   private fun initPlayer(){
     adTag?.let {
       isInit = true
-      videoAdPlayerView?.init(callerContext, scaleMode, ppid, it)
+      videoAdPlayerView?.init(callerContext, scaleMode, ppid, useSoftwareDecoder, it)
     }
   }
 

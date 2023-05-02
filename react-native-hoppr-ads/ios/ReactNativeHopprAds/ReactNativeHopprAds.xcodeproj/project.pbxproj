@@ -9,25 +9,28 @@
 /* Begin PBXBuildFile section */
 		5C71BEA929EE52A100CFBDB6 /* ReactNativeHopprAds.docc in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */; };
 		5C71BEAA29EE52A100CFBDB6 /* ReactNativeHopprAds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71BEA729EE52A100CFBDB6 /* ReactNativeHopprAds.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C71BEB129EE530500CFBDB6 /* NativeHopprVideoViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */; };
-		5C71BEB329EE535B00CFBDB6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB229EE535B00CFBDB6 /* Utils.swift */; };
-		5C71BEB529EE537B00CFBDB6 /* NativeHopprVideoViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */; };
-		5C71BEB729EE539A00CFBDB6 /* NativeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */; };
-		5C71BEB929EE53A900CFBDB6 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEB829EE53A900CFBDB6 /* EventType.swift */; };
-		5C71BEBC29EE53EF00CFBDB6 /* ClosureBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5C71BEA429EE52A100CFBDB6 /* ReactNativeHopprAds.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactNativeHopprAds.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C71BEA729EE52A100CFBDB6 /* ReactNativeHopprAds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactNativeHopprAds.h; sourceTree = "<group>"; };
 		5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ReactNativeHopprAds.docc; sourceTree = "<group>"; };
-		5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHopprVideoViewManager.swift; sourceTree = "<group>"; };
-		5C71BEB229EE535B00CFBDB6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeHopprVideoViewManager.m; sourceTree = "<group>"; };
-		5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeEvents.swift; sourceTree = "<group>"; };
-		5C71BEB829EE53A900CFBDB6 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		5C71BEBA29EE53C900CFBDB6 /* ReactNativeHopprAds-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeHopprAds-Bridging-Header.h"; sourceTree = "<group>"; };
-		5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureBasedViewController.swift; sourceTree = "<group>"; };
+		5C85DB2F2A0105D700BC8820 /* ObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjC.h; sourceTree = "<group>"; };
+		5C85DB312A0105D700BC8820 /* HierarchyReaderModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyReaderModule.swift; sourceTree = "<group>"; };
+		5C85DB322A0105D700BC8820 /* HierarchyReaderModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HierarchyReaderModule.m; sourceTree = "<group>"; };
+		5C85DB342A0105D700BC8820 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		5C85DB362A0105D700BC8820 /* NativeHopprVideoViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHopprVideoViewManager.swift; sourceTree = "<group>"; };
+		5C85DB372A0105D700BC8820 /* NativeHopprVideoViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeHopprVideoViewManager.m; sourceTree = "<group>"; };
+		5C85DB392A0105D700BC8820 /* NativeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeEvent.swift; sourceTree = "<group>"; };
+		5C85DB3A2A0105D700BC8820 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		5C85DB3B2A0105D700BC8820 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		5C85DB3D2A0105D700BC8820 /* ClosureBasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureBasedViewController.swift; sourceTree = "<group>"; };
+		5C85DB3E2A0105D700BC8820 /* ObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjC.m; sourceTree = "<group>"; };
+		5C85DB402A0105D700BC8820 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		5C85DB412A0105D700BC8820 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		5C85DB422A0105D700BC8820 /* NSTextStorageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextStorageExtensions.swift; sourceTree = "<group>"; };
+		5C85DB432A0105D700BC8820 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,13 +47,15 @@
 		5C71BE9A29EE52A100CFBDB6 = {
 			isa = PBXGroup;
 			children = (
-				5C71BEBB29EE53EF00CFBDB6 /* ClosureBasedViewController.swift */,
+				5C85DB3F2A0105D700BC8820 /* Extensions */,
+				5C85DB382A0105D700BC8820 /* Models */,
+				5C85DB302A0105D700BC8820 /* Modules */,
+				5C85DB2F2A0105D700BC8820 /* ObjC.h */,
+				5C85DB3E2A0105D700BC8820 /* ObjC.m */,
+				5C85DB332A0105D700BC8820 /* Utils */,
+				5C85DB3C2A0105D700BC8820 /* ViewControllers */,
+				5C85DB352A0105D700BC8820 /* ViewManagers */,
 				5C71BEBA29EE53C900CFBDB6 /* ReactNativeHopprAds-Bridging-Header.h */,
-				5C71BEB829EE53A900CFBDB6 /* EventType.swift */,
-				5C71BEB629EE539A00CFBDB6 /* NativeEvents.swift */,
-				5C71BEB429EE537B00CFBDB6 /* NativeHopprVideoViewManager.m */,
-				5C71BEB229EE535B00CFBDB6 /* Utils.swift */,
-				5C71BEB029EE530500CFBDB6 /* NativeHopprVideoViewManager.swift */,
 				5C71BEA629EE52A100CFBDB6 /* ReactNativeHopprAds */,
 				5C71BEA529EE52A100CFBDB6 /* Products */,
 			);
@@ -71,6 +76,61 @@
 				5C71BEA829EE52A100CFBDB6 /* ReactNativeHopprAds.docc */,
 			);
 			path = ReactNativeHopprAds;
+			sourceTree = "<group>";
+		};
+		5C85DB302A0105D700BC8820 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB312A0105D700BC8820 /* HierarchyReaderModule.swift */,
+				5C85DB322A0105D700BC8820 /* HierarchyReaderModule.m */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		5C85DB332A0105D700BC8820 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB342A0105D700BC8820 /* Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5C85DB352A0105D700BC8820 /* ViewManagers */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB362A0105D700BC8820 /* NativeHopprVideoViewManager.swift */,
+				5C85DB372A0105D700BC8820 /* NativeHopprVideoViewManager.m */,
+			);
+			path = ViewManagers;
+			sourceTree = "<group>";
+		};
+		5C85DB382A0105D700BC8820 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB392A0105D700BC8820 /* NativeEvent.swift */,
+				5C85DB3A2A0105D700BC8820 /* EventType.swift */,
+				5C85DB3B2A0105D700BC8820 /* Node.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5C85DB3C2A0105D700BC8820 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB3D2A0105D700BC8820 /* ClosureBasedViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5C85DB3F2A0105D700BC8820 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5C85DB402A0105D700BC8820 /* StringExtensions.swift */,
+				5C85DB412A0105D700BC8820 /* UIViewExtensions.swift */,
+				5C85DB422A0105D700BC8820 /* NSTextStorageExtensions.swift */,
+				5C85DB432A0105D700BC8820 /* UIColorExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,12 +214,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C71BEA929EE52A100CFBDB6 /* ReactNativeHopprAds.docc in Sources */,
-				5C71BEB729EE539A00CFBDB6 /* NativeEvents.swift in Sources */,
-				5C71BEB529EE537B00CFBDB6 /* NativeHopprVideoViewManager.m in Sources */,
-				5C71BEB129EE530500CFBDB6 /* NativeHopprVideoViewManager.swift in Sources */,
-				5C71BEBC29EE53EF00CFBDB6 /* ClosureBasedViewController.swift in Sources */,
-				5C71BEB929EE53A900CFBDB6 /* EventType.swift in Sources */,
-				5C71BEB329EE535B00CFBDB6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

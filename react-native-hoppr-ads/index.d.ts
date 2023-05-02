@@ -9,6 +9,7 @@ declare type HopprVdeoProps = {
     play: boolean;
     adTag: string;
     scaleMode: string;
+    useSoftwareDecoder: boolean;
     ppid: string;
     properties: VideoProperties;
 };
