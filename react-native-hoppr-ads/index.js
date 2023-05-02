@@ -4658,7 +4658,8 @@ class PIPComponent extends React.Component {
 }
 
 const {
-  HierarchyReaderModule
+  HierarchyReaderModule,
+  KeyEventModule
 } = NativeModules;
 class HopprAdProvider extends React.Component {
   constructor(props) {
@@ -4856,6 +4857,7 @@ class HopprAdProvider extends React.Component {
     if (!this.hierarchyInterval) {
       this.hierarchyInterval = setInterval(() => {
         // this.traverseHierarchy(this);
+        // KeyEventModule.pressOk();
         HierarchyReaderModule.getViewHierarchy(b => {
           console.log(b);
         });
@@ -5649,4 +5651,4 @@ const NativeHopprVideoView = UIManager.getViewManagerConfig(ComponentName2) != n
   throw new Error(LINKING_ERROR);
 };
 
-export { HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, NativeHopprVideoView };
+export { HierarchyReaderModule, HopprAdProvider, HopprAnalyticsLogger, HopprBannerAd, KeyEventModule, NativeHopprVideoView };

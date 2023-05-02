@@ -1,12 +1,10 @@
 package com.hoppr.modules
 
-import android.app.Instrumentation
-import android.os.Handler
-import android.util.Log
 import android.view.KeyEvent
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
-import java.util.*
+import com.hoppr.extensions.isPlayKey
+import com.hoppr.extensions.isPlayKeyDown
 
 
 class KeyEventModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -34,35 +32,16 @@ class KeyEventModule(private val reactContext: ReactApplicationContext) : ReactC
       return false
     }
 
-    Log.d("maxdebug",  "dispatchKeyEvent source " + keyEvent?.source)
+    // if(keyEvent?.isPlayKey() == true){
+    //   if(keyEvent.isPlayKeyDown() == true){
+    //     currentActivity?.currentFocus?.performClick() // todo works but not yet ready for production
+    //   }
 
-    if(keyEvent?.source == 89653){
-      return false
-    }
+    //   return true
+    // }else{
+    //   return false
+    // }
 
-    var shouldExecuteKey = false
-    Log.d("maxdebug", "shouldExecuteKey $shouldExecuteKey ${keyEvent.hashCode()}")
-
-    if(shouldExecuteKey){
-      Log.d("maxdebug", "B")
-
-      return false
-    }else{
-      keyEvent?.source = 89653
-      Handler().postDelayed({
-        Thread {
-          // might require this permission at a system level or inject key in other apps: android.permission.INJECT_EVENTS
-          var ins = Instrumentation()
-          ins.sendKeySync(keyEvent)
-        }.start()
-      }, 2000)
-
-      Log.d("maxdebug", "C $currentActivity")
-
-      return true
-    }
+    return false
   }
 }
-
-
-

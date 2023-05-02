@@ -3,6 +3,7 @@ import React, { RefObject } from 'react';
 import { IHopprAdProviderProps, VideoLoadOptions, VideoOptions } from '../types';
 import { IHopprAdProviderState } from './interfaces/IHopprAdProviderState';
 import { OverlayComponent } from './components/OverlayComponent';
+export declare const HierarchyReaderModule: any, KeyEventModule: any;
 export declare class HopprAdProvider extends React.Component<IHopprAdProviderProps, IHopprAdProviderState> {
     private isInternalUserIdReady;
     private isAdSlotsReady;
